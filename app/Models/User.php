@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Account;
+use App\Models\Operation;
+use App\Models\Loan;
+use App\Models\Profile;
+use App\Models\EmployeeType;
 
 class User extends Authenticatable
 {
@@ -18,6 +23,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'profiles_id',
+        'type_employe_id',
         'name',
         'email',
         'password',
@@ -42,4 +49,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function Account(){
+        return $this->hasMany(Account::class);
+    }
+
+    public function Operation(){
+        return $this->hasMany(Operation::class);
+    }
+
+    public function Loan(){
+        return $this->hasMany(Loan::class);
+    }
+
+
+    public function Profile(){
+        return $this->belongsTo(Profile::class);
+    }
+
+    public function EmployeeType(){
+        return $this->belongsTo(EmployeeType::class);
+    }
 }

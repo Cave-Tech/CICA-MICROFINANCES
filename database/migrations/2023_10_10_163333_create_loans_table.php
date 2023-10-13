@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
+            $table->foreign('id_emprunteur')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_agent')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_type_pret')->references('id')->on('loan_types')->onDelete('cascade');
+            $table->double('montant_pret');
+            $table->double('taux_interet');
+            $table->int('frequence_paiement');
+            $table->string('status');
+            $table->date('date_pret');
+            $table->date('date_echeance');
             $table->timestamps();
         });
     }

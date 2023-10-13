@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('operation_types', function (Blueprint $table) {
             $table->id();
+            $table->string('designation');
+            $table->string('description');
             $table->timestamps();
         });
     }

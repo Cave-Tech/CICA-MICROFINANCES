@@ -15,7 +15,7 @@ class OperationType extends Model
     ];
 
 
-    public function Operation(){
-        return $this->hasOne(Operation::class);
+    public function operation(){
+        return $this->hasMany(Operation::class);
     }
 }

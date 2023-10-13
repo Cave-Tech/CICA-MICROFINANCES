@@ -15,7 +15,7 @@ class LoanType extends Model
     ];
 
 
-    public function Loan(){
-        return $this->hasOne(Loan::class);
+    public function loan(){
+        return $this->hasMany(Loan::class);
     }
 }

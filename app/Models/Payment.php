@@ -10,16 +10,16 @@ class Payment extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_pret',
-        'montant_payement',
+        'loan_id',
+        'payment_amount',
         'status',
-        'canal_transaction',
-        'date_payement'
+        'transaction_channel',
+        'payment_date',
     ];
 
 
 
-    public function Loan(){
+    public function loan(){
         return $this->belongsTo(Loan::class);
     }
 }

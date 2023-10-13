@@ -16,7 +16,7 @@ class EmployeeType extends Model
     ];
 
 
-    public function User(){
+    public function user(){
         return $this->hasMany(User::class);
     }
 }

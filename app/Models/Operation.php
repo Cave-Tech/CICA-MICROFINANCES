@@ -12,18 +12,25 @@ class Operation extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'users_id',
-        'idagent',
-        'OperationType_id',
-        'montant_retrait',
-        'moyen_de_retrait',
-        'date_retrait',
+        'user_id',
+        'agent_id',
+        'operation_type_id',
+        'withdrawal_amount',
+        'withdrawal_method',
+        'withdrawal_date',
     ];
-    public function User(){
-        return $this->belongsTo(User::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function OperationType(){
-        return $this->belongsTo(OperationType::class);
+    public function agent()
+    {
+        return $this->belongsTo(User::class, 'agent_id');
+    }
+
+    public function operationType()
+    {
+        return $this->belongsTo(OperationType::class, 'operation_type_id');
     }
 }

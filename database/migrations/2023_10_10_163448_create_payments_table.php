@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreign('id_pret')->references('id')->on('loan')->onDelete('cascade');
-            $table->double('montant_payement');
+            $table->foreign('loan_id')->references('id')->on('loans')->onDelete('cascade');
+            $table->double('payment_amount');
             $table->string('status');
-            $table->string('canal_transaction');
-            $table->date('date_payement');
+            $table->string('transaction_channel');
+            $table->date('payment_date');
             $table->timestamps();
         });
     }

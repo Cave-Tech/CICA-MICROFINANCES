@@ -13,7 +13,7 @@ class Profile extends Model
         'designation',
     ];
 
-    public function User(){
+    public function user(){
         return $this->hasMany(User::class);
     }
 }

@@ -10,19 +10,20 @@ use App\Models\AccountType;
 class Account extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'users_id',
-        'solde',
+        'balance',
         'account_types_id',
-        'taux_interet',
-        'date_ouverture'
+        'interest_rate',
+        'opening_date'
     ];
 
-    public function User(){
+    public function user(){
         return $this->belongsTo(User::class);
     }
 
-    public function AccountType(){
+    public function accountType(){
         return $this->belongsTo(AccountType::class);
     }
 }

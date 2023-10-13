@@ -50,24 +50,24 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function Account(){
+    public function account(){
         return $this->hasMany(Account::class);
     }
 
-    public function Operation(){
+    public function operation(){
         return $this->hasMany(Operation::class);
     }
 
-    public function Loan(){
+    public function loan(){
         return $this->hasMany(Loan::class);
     }
 
 
-    public function Profile(){
+    public function profile(){
         return $this->belongsTo(Profile::class);
     }
 
-    public function EmployeeType(){
+    public function employeeType(){
         return $this->belongsTo(EmployeeType::class);
     }
 }

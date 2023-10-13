@@ -15,10 +15,10 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
-            $table->double('solde');
+            $table->double('balance');
             $table->foreign('account_types_id')->references('id')->on('account_types')->onDelete('cascade');
-            $table->double('taux_interet');
-            $table->date('date_ouverture');
+            $table->double('interest_rate');
+            $table->date('opening_date');
             $table->timestamps();
         });
     }

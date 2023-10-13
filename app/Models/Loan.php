@@ -12,27 +12,35 @@ class Loan extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_emprunteur',
-        'id_agent',
-        'id_type_pret',
-        'montant_pret',
-        'taux_interet',
-        'frequence_paiement',
+        'borrower_id',
+        'agent_id',
+        'loan_type_id',
+        'loan_amount',
+        'interest_rate',
+        'payment_frequency',
         'status',
-        'date_pret',
-        'date_echeance',
+        'loan_date',
+        'due_date',
     ];
 
-    public function User(){
-        return $this->belongsTo(User::class);
-    }
 
-    public function Payment(){
+    public function payment(){
         return $this->hasMany(Payment::class);
     }
 
-    public function LoanType(){
-        return $this->belongsTo(LoanType::class);
+    public function borrower()
+    {
+        return $this->belongsTo(User::class, 'borrower_id');
+    }
+
+    public function agent()
+    {
+        return $this->belongsTo(User::class, 'agent_id');
+    }
+
+    public function loanType()
+    {
+        return $this->belongsTo(LoanType::class, 'loan_type_id');
     }
 
 }

@@ -70,4 +70,15 @@ class User extends Authenticatable
     public function employeeType(){
         return $this->belongsTo(EmployeeType::class);
     }
+
+
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function useragent(){
+        return $this->hasOne(User::class);
+    }
 }
+

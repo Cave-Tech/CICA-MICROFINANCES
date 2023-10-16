@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreign('profiles_id')->references('id')->on('profiles')->onDelete('cascade');
             $table->foreign('type_employe_id')->references('id')->on('employee_types')->onDelete('cascade')->nullable();
+            //$table->foreign('type_agent')->references('id')->on('users')->onDelete('cascade')->nullable();
+            $table->foreignId('id_agent')->constrained()->OnDelete('cascade');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

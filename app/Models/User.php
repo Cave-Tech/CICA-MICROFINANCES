@@ -25,9 +25,11 @@ class User extends Authenticatable
     protected $fillable = [
         'profiles_id',
         'type_employe_id',
+        'agent_id',
         'name',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -73,12 +75,21 @@ class User extends Authenticatable
 
 
 
+<<<<<<< HEAD
 
     public function users(){
         return $this->belongsTo(User::class);
     }
 
     public function agent(){
+=======
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function useragent(){
+>>>>>>> 6f98568311a6207d878b5dbd78c0a4d184518580
         return $this->hasOne(User::class);
     }
 }
+

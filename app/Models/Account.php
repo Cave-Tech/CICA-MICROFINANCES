@@ -16,7 +16,8 @@ class Account extends Model
         'balance',
         'account_types_id',
         'interest_rate',
-        'opening_date'
+        'opening_date',
+        'status'
     ];
 
     public function user(){

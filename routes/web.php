@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\DashboardComponent;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,12 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('livewire.dashboard-component');
-})->name('dashboard');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> 6f98568311a6207d878b5dbd78c0a4d184518580
 Route::get('/client-dashboard', function () {
     return view('client.dashboard');
 })->name('client.dashboard');
@@ -28,14 +31,21 @@ Route::get('/client-profile', function () {
     return view('client.profile');
 })->name('client.profile');
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6f98568311a6207d878b5dbd78c0a4d184518580
 Route::get('/client-loan-request', function () {
     return view('client.loan-request');
 })->name('client.loan-request');
 
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> 6f98568311a6207d878b5dbd78c0a4d184518580
 Route::get('/employe-dashboard', function () {
     return view('employe.dashboard');
 })->name('employe.dashboard');
@@ -58,4 +68,7 @@ Route::get('/dashboard', function () {
 // });
 
 require __DIR__.'/auth.php';
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> 6f98568311a6207d878b5dbd78c0a4d184518580

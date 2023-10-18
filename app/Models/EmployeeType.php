@@ -12,7 +12,6 @@ class EmployeeType extends Model
     protected $fillable = [
         'designation',
         'description',
-        'permission',
     ];
 
 

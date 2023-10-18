@@ -7,6 +7,8 @@ namespace Database\Seeders;
 use App\Models\AccountType;
 use App\Models\EmployeeType;
 use App\Models\Loan;
+use App\Models\LoanType;
+use App\Models\OperationType;
 use App\Models\Profile;
 use Illuminate\Database\Seeder;
 
@@ -31,8 +33,13 @@ class DatabaseSeeder extends Seeder
         EmployeeType::create(['designation' => 'directeur', 'description' => 'Directeur']);
         EmployeeType::create(['designation' => 'charger_client', 'description' => 'Le charger de la clientele']);
 
-        Loan::create(['designation' => 'pret_automobile', 'description' => 'pret automobile']);
-        Loan::create(['designation' => 'pret_immobilier', 'description' => 'pret immobilier']);
+        LoanType::create(['designation' => 'pret_automobile', 'description' => 'pret automobile']);
+        LoanType::create(['designation' => 'pret_immobilier', 'description' => 'pret immobilier']);
+
+        OperationType::create(['designation' => 'depot', 'description' => 'depot']);
+        OperationType::create(['designation' => 'retrait', 'description' => 'retrait']);
+        OperationType::create(['designation' => 'virement', 'description' => 'virement']);
+
         
 
         // \App\Models\User::factory(10)->create();

@@ -13,13 +13,17 @@ return new class extends Migration
     {
         Schema::create('operations', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');            
-            $table->unsignedBigInteger('agent_id');
-            $table->foreign('operation_type_id')->references('id')->on('operation_types')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('operation_type_id');
             $table->double('withdrawal_amount');
             $table->string('withdrawal_method');
+            $table->string('transaction_key')->unique();
             $table->date('withdrawal_date');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');   
+            $table->foreign('operation_type_id')->references('id')->on('operation_types')->onDelete('cascade');
+
         });
     }
 

@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('profiles_id');
-            $table->unsignedBigInteger('type_employe_id');
+            $table->unsignedBigInteger('type_employe_id')->nullable();
             $table->unsignedBigInteger('agent_id')->nullable();         
             $table->string('name');
-            $table->string('profile_picture');
+            $table->string('profile_picture')->default('default-profile-icon.png');
             $table->string('status');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

@@ -54,19 +54,58 @@
                 </a>
             </li><!-- End Contact Page Nav -->
         @endif
+    
 
         <!-- Section réservée aux Employés -->
         @if(auth()->check() && auth()->user()->profile->designation === 'employe')
             <!-- Section pour le directeur -->
             @if(auth()->user()->employee_type_id == 4)
                 <li class="nav-item">
-                    <!-- Lien ou sous-menu pour les Directeurs -->
-
-                    <a class="nav-link" href="directeur-dashboard.html">
-                        <i class="bi bi-person"></i>
-                        <span>Dashboard Directeur</span>
+                    <a class="nav-link " href="index.html">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard Directeur</span>
                     </a>
-                </li>
+                </li><!-- End Dashboard Nav -->
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>Clientèle</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="components-alerts.html">
+                        <i class="bi bi-circle"></i><span>Liste des clients </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="components-accordion.html">
+                        <i class="bi bi-circle"></i><span>Demande de pret</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="components-badges.html">
+                        <i class="bi bi-circle"></i><span>Liste des paiements</span>
+                        </a>
+                    </li>
+
+
+                    </ul>
+                </li><!-- End Components Nav -->
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-journal-text"></i><span>Employés</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="forms-elements.html">
+                        <i class="bi bi-circle"></i><span>Liste des employés</span>
+                        </a>
+                    </li>
+
+                    </ul>
+                </li><!-- End Forms Nav -->
+
             @endif
 
             <!-- Section pour les Agents à la Caisse -->
@@ -85,6 +124,7 @@
             @if(auth()->user()->employee_type_id == 3)
                 <li class="nav-item">
                     <!-- Lien ou sous-menu pour les Agents de Terrain -->
+
 
                     <a class="nav-link" href="agent-terrain-dashboard.html">
                         <i class="bi bi-person"></i>
@@ -136,4 +176,7 @@
 
 
     </ul>
+
+
+
 </aside><!-- End Sidebar-->

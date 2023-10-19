@@ -49,11 +49,28 @@ Route::get('/employe-profile', function () {
     return view('employe.profile');
 })->name('employe.profile');
 
+Route::get('/customer-list', function () {
+    return view('employe.customer-list');
+})->name('employe.customer-list');
+
+Route::get('/employee-list', function () {
+    return view('employe.employee-list');
+})->name('employe.employee-list');
+
+Route::get('/loan-request', function () {
+    return view('employe.loan-request');
+})->name('employe.loan-request');
+
+Route::get('/paiement-list', function () {
+    return view('employe.paiement-list');
+})->name('employe.paiement-list');
 
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

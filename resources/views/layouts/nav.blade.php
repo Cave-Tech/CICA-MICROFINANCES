@@ -1,11 +1,9 @@
-
 <!-- ======= Sidebar ======= -->
-
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <!-- Section réservée aux Superadmins -->
-        @if(auth()->check() && auth()->user()->profile_id === 1)
+        @if(auth()->check() && auth()->user()->profile->designation === 'superadmin')
             <li class="nav-item">
             
                 <a class="nav-link" href="superadmin-dashboard.html">
@@ -16,7 +14,7 @@
         @endif
 
         <!-- Section réservée aux Admins -->
-        @if(auth()->check() && auth()->user()->profile_id === 2)
+        @if(auth()->check() && auth()->user()->profile->designation === 'admin')
             <li class="nav-item">
                 <!-- Lien ou sous-menu pour les Admins -->
                 <a class="nav-link" href="admin-dashboard.html">
@@ -27,7 +25,7 @@
         @endif
 
         <!-- Section réservée aux Clients -->
-        @if(auth()->check() && auth()->user()->profile_id === 3)
+        @if(auth()->check() && auth()->user()->profile->designation === 'client')
             <li class="nav-item">
                 <!-- Lien ou sous-menu pour les Clients -->
                 <a class="nav-link" href="client-dashboard.html">
@@ -38,8 +36,8 @@
         @endif
 
         <!-- Section réservée aux Employés -->
-        @if(auth()->check() && auth()->user()->profile_id == 4)
-       
+        @if(auth()->check() && auth()->user()->profile->designation === 'employe')
+            <!-- Section pour le directeur -->
             @if(auth()->user()->employee_type_id == 4)
                 <li class="nav-item">
                     <!-- Lien ou sous-menu pour les Directeurs -->

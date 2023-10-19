@@ -43,15 +43,15 @@ class DatabaseSeeder extends Seeder
         OperationType::create(['designation' => 'retrait', 'description' => 'retrait']);
         OperationType::create(['designation' => 'virement', 'description' => 'virement']);
 
-        User::create(['email' => 'admin@gmail.com', 'name' => 'Joa Do1', 'profiles_id' => 2, 'password' => Hash::make('admin'), 'status' => 'activated']);
-        User::create(['email' => 'superadmin@gmail.com', 'name' => 'Joa Do2', 'profiles_id' => 1, 'password' => Hash::make('admin'), 'status' => 'activated']);
-        User::create(['email' => 'client@gmail.com', 'name' => 'Joa Do3', 'profiles_id' => 3, 'password' => Hash::make('admin'), 'status' => 'activated']);
-        User::create(['email' => 'directeur@gmail.com', 'name' => 'Joa Do4', 'profiles_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'type_employe_id' => 4]);
-        User::create(['email' => 'caissier@gmail.com', 'name' => 'Joa Do5', 'profiles_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'type_employe_id' => 1]);
-        User::create(['email' => 'agent_terrain@gmail.com', 'name' => 'Joa Do6', 'profiles_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'type_employe_id' => 3]);
-        User::create(['email' => 'comptable@gmail.com', 'name' => 'Joa Do7', 'profiles_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'type_employe_id' => 2]);
-        User::create(['email' => 'agent_rh@gmail.com', 'name' => 'Joa Do8', 'profiles_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'type_employe_id' => 6]);
-        User::create(['email' => 'charger_client@gmail.com', 'name' => 'Joa Do9', 'profiles_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'type_employe_id' => 5]);
+        User::create(['email' => 'admin@gmail.com', 'name' => 'Joa Do1', 'profile_id' => 2, 'password' => Hash::make('admin'), 'status' => 'activated']);
+        User::create(['email' => 'superadmin@gmail.com', 'name' => 'Joa Do2', 'profile_id' => 1, 'password' => Hash::make('admin'), 'status' => 'activated']);
+        User::create(['email' => 'client@gmail.com', 'name' => 'Joa Do3', 'profile_id' => 3, 'password' => Hash::make('admin'), 'status' => 'activated']);
+        User::create(['email' => 'directeur@gmail.com', 'name' => 'Joa Do4', 'profile_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'employee_type_id' => 4]);
+        User::create(['email' => 'caissier@gmail.com', 'name' => 'Joa Do5', 'profile_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'employee_type_id' => 1]);
+        User::create(['email' => 'agent_terrain@gmail.com', 'name' => 'Joa Do6', 'profile_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'employee_type_id' => 3]);
+        User::create(['email' => 'comptable@gmail.com', 'name' => 'Joa Do7', 'profile_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'employee_type_id' => 2]);
+        User::create(['email' => 'agent_rh@gmail.com', 'name' => 'Joa Do8', 'profile_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'employee_type_id' => 6]);
+        User::create(['email' => 'charger_client@gmail.com', 'name' => 'Joa Do9', 'profile_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'employee_type_id' => 5]);
         
 
        

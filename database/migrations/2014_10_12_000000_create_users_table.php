@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('profiles_id');
-            $table->unsignedBigInteger('type_employe_id')->nullable();
+            $table->unsignedBigInteger('profile_id');
+            $table->unsignedBigInteger('employee_type_id')->nullable();
             $table->unsignedBigInteger('agent_id')->nullable();         
             $table->string('name');
             $table->string('profile_picture')->default('default-profile-icon.png');
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('profiles_id')->references('id')->on('profiles')->onDelete('cascade');
-            $table->foreign('type_employe_id')->references('id')->on('employee_types')->onDelete('cascade');
+            $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('cascade');
+            $table->foreign('employee_type_id')->references('id')->on('employee_types')->onDelete('cascade');
             $table->foreign('agent_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

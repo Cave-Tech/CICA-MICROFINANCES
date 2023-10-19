@@ -23,8 +23,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'profiles_id',
-        'type_employe_id',
+        'profile_id',
+        'employee_type_id',
         'agent_id',
         'name',
         'email',
@@ -69,9 +69,11 @@ class User extends Authenticatable
         return $this->belongsTo(Profile::class);
     }
 
-    public function employeeType(){
+    public function employeType(){
         return $this->belongsTo(EmployeeType::class);
     }
+
+    
 
 
 

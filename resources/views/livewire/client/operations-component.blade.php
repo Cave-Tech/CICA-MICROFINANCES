@@ -25,7 +25,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title">Vertically Centered</h5>
+                      <h5 class="modal-title">REMPLISSEZ LES CHAMPS</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -33,21 +33,35 @@
       <form action="forms/contact.php" method="post" class="php-email-form">
         <div class="row gy-4">
 
-          <div class="col-md-6">
+          <!--<div class="col-md-6">
             <input type="text" name="name" class="form-control" placeholder="Your Name" required>
           </div>
 
           <div class="col-md-6 ">
             <input type="email" class="form-control" name="email" placeholder="Your Email" required>
-          </div>
+          </div>-->
 
           <div class="col-md-12">
-            <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+            <input type="text" class="form-control" name="" placeholder="Entrer le montant" required>
           </div>
 
+                  <!--<label class="col-sm-2 col-form-label">Select</label>-->
+                  <div class="col-md-12">
+                    <select class="form-select" aria-label="Default select example">
+                      <option selected>Choisissez le type d'operation</option>
+                      <option value="1">Dépôt</option>
+                      <option value="2">Retrait</option>
+                    </select>
+                  </div>
+
           <div class="col-md-12">
+            <input type="date" class="form-control" name="" placeholder="Subject" required>
+          </div>
+
+
+          <!--<div class="col-md-12">
             <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-          </div>
+          </div> -->
         </div>
         </div>
         <div class="modal-footer">

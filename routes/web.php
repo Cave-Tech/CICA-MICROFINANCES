@@ -27,9 +27,18 @@ Route::get('/client-profile', function () {
 })->name('client.profile');
 
 
+Route::get('/client-operations', function () {
+    return view('client.operations');
+})->name('client.operations');
+
+
 Route::get('/client-loan-request', function () {
     return view('client.loan-request');
 })->name('client.loan-request');
+
+
+
+
 
 Route::get('/employe-dashboard', function () {
     return view('employe.dashboard');

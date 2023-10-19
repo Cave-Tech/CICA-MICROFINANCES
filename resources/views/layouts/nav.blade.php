@@ -27,12 +27,32 @@
         <!-- Section réservée aux Clients -->
         @if(auth()->check() && auth()->user()->profile->designation === 'client')
             <li class="nav-item">
-                <!-- Lien ou sous-menu pour les Clients -->
-                <a class="nav-link" href="client-dashboard.html">
-                    <i class="bi bi-person"></i>
-                    <span>Dashboard Client</span>
+                <a class="nav-link " href="{{ url('/client-dashboard')}}">
+                    <i class="bi bi-grid"></i>
+                    <span>Tableau de bord</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ url('/client-operations')}}">
+                    <i class="bi bi-journal-text"></i>
+                    <span>Gérer mes operations</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#">
+                    <i class="bi bi-journal-text"></i>
+                    <span>Gérer mes prêts</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#">
+                    <i class="bi bi-envelope"></i>
+                    <span>Demande d'assistance</span>
+                </a>
+            </li><!-- End Contact Page Nav -->
         @endif
 
         <!-- Section réservée aux Employés -->
@@ -110,6 +130,10 @@
                 </li>
             @endif
         @endif <!-- Fin de la section réservée aux Employés -->
+    
+
+    
+
 
     </ul>
 </aside><!-- End Sidebar-->

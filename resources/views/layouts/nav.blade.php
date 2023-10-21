@@ -5,7 +5,7 @@
         <!-- Section réservée aux Superadmins -->
         @if(auth()->check() && auth()->user()->profile->designation === 'superadmin')
             <li class="nav-item">
-            
+
                 <a class="nav-link" href="superadmin-dashboard.html">
                     <i class="bi bi-person"></i>
                     <span>Dashboard Superadmin</span>
@@ -54,18 +54,19 @@
                 </a>
             </li><!-- End Contact Page Nav -->
         @endif
-    
+
 
         <!-- Section réservée aux Employés -->
         @if(auth()->check() && auth()->user()->profile->designation === 'employe')
             <!-- Section pour le directeur -->
             @if(auth()->user()->employee_type_id == 4)
                 <li class="nav-item">
-                    <a class="nav-link " href="index.html">
+                    <a class="nav-link " href="{{ url('/employe-dashboard')}}">
                     <i class="bi bi-grid"></i>
-                    <span>Dashboard Directeur</span>
+                    <span>Dashboard</span>
                     </a>
                 </li><!-- End Dashboard Nav -->
+
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
@@ -73,17 +74,17 @@
                     </a>
                     <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="components-alerts.html">
+                        <a href="{{ url('/customer-list')}}">
                         <i class="bi bi-circle"></i><span>Liste des clients </span>
                         </a>
                     </li>
                     <li>
-                        <a href="components-accordion.html">
+                        <a href="{{ url('/loan-request')}}">
                         <i class="bi bi-circle"></i><span>Demande de pret</span>
                         </a>
                     </li>
                     <li>
-                        <a href="components-badges.html">
+                        <a href="{{ url('/paiement-list')}}">
                         <i class="bi bi-circle"></i><span>Liste des paiements</span>
                         </a>
                     </li>
@@ -98,7 +99,7 @@
                     </a>
                     <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="forms-elements.html">
+                        <a href="{{ url('/employee-list')}}">
                         <i class="bi bi-circle"></i><span>Liste des employés</span>
                         </a>
                     </li>
@@ -170,9 +171,9 @@
                 </li>
             @endif
         @endif <!-- Fin de la section réservée aux Employés -->
-    
 
-    
+
+
 
 
     </ul>

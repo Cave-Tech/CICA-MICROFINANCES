@@ -12,20 +12,27 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title"></h5>
-              
+
 
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>
                   <tr>
-                    <th scope="col">Numéro</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Prenom</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Date</th>
+                    <th scope="col">id</th>
+                    <th scope="col">Nom et Prenom</th>
+                    <th scope="col">email</th>
                   </tr>
                 </thead>
                 <tbody>
+
+                    @foreach ($customerLists as $customerList)
+                    <tr>
+                        <th scope="row">{{$customerList->id}}</th>
+                        <td>{{$customerList->name}}</td>
+                        <td>{{$customerList->email}}</td>
+                    </tr>
+                   @endforeach
+
                   <tr>
                     <th scope="row">1</th>
                     <td>Brandon Jacob</td>

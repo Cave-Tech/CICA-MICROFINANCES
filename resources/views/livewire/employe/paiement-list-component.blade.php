@@ -16,14 +16,22 @@
               <table class="table datatable">
                 <thead>
                   <tr>
-                    <th scope="col">Numéro</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Prénom</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Date</th>
+                    <th scope="col">id</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Moyen de transaction</th>
+                    <th scope="col">Date Paiement</th>
                   </tr>
                 </thead>
                 <tbody>
+
+                    @foreach ($paiementLists as $paiementList)
+                    <tr>
+                        <th scope="row">{{$paiementList->id}}</th>
+                        <td>{{$paiementList->statut}}</td>
+                        <td>{{$paiementList->moyen transaction}}</td>
+                    </tr>
+                   @endforeach
+
                   <tr>
                     <th scope="row">1</th>
                     <td>Brandon Jacob</td>
@@ -31,6 +39,7 @@
                     <td>28</td>
                     <td>2016-05-25</td>
                   </tr>
+
                   <tr>
                     <th scope="row">2</th>
                     <td>Bridie Kessler</td>

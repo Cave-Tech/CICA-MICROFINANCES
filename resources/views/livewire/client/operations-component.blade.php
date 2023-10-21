@@ -2,6 +2,11 @@
 
     <div class="pagetitle">
       <h1>GESTION DES OPERATIONS </h1>
+
+    <div>
+      
+    <!-- Ajoutez d'autres informations du profil ici -->
+    </div>
     <!--<nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -11,6 +16,25 @@
       </nav>-->
     </div><!-- End Page Title -->
 
+    
+    @if($message = Session::get('success'))
+    <div class="alert alert-success">
+        <p>{{$message}}</p>
+    </div>
+    @endif
+
+    @if($message = Session::get('fail'))
+    <div class="alert alert-danger">
+        <p>{{$message}}</p>
+    </div>
+    @endif
+
+    
+    <!--<div>
+    <p>Résultat de la génération aléatoire : {{ $randomString }}</p>
+    </div>
+
+    <button wire:click="generateRandomString">Générer une chaîne aléatoire</button>-->
 
 
     <div class="card">
@@ -25,34 +49,49 @@
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title">Vertically Centered</h5>
+                      <h5 class="modal-title">REMPLISSEZ LES CHAMPS</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
 
-      <form action="forms/contact.php" method="post" class="php-email-form">
+      <form wire:submit.prevent="saveOperation" class="php-email-form">
         <div class="row gy-4">
 
-          <div class="col-md-6">
+          <!--<div class="col-md-6">
             <input type="text" name="name" class="form-control" placeholder="Your Name" required>
           </div>
 
           <div class="col-md-6 ">
             <input type="email" class="form-control" name="email" placeholder="Your Email" required>
-          </div>
+          </div>-->
 
           <div class="col-md-12">
-            <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+            <input type="text" class="form-control" wire:model="montant" placeholder="Entrer le montant" required>
           </div>
 
+                  <!--<label class="col-sm-2 col-form-label">Select</label>-->
+                  <div class="col-md-12">
+                    <select wire:model="typeOperation" class="form-select" aria-label="Default select example">
+                      <option selected>Choisissez le type d'operation</option>
+                      <option value="1">Dépôt</option>
+                      <option value="2">Retrait</option>
+                      <option value="3">Virement</option>
+                    </select>
+                  </div>
+
           <div class="col-md-12">
+            <input type="date" wire:model="date" class="form-control" required>
+          </div>
+
+
+          <!--<div class="col-md-12">
             <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-          </div>
+          </div> -->
         </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-            <button type="button" class="btn btn-primary">Envoyez la demande</button>
+            <button type="submit" class="btn btn-primary">Envoyez la demande</button>
         </div>
         </div>
     </div>
@@ -74,22 +113,43 @@
               <table class="table datatable">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
+                    <th scope="col">#Code unique</th>
+                    <th scope="col">Montant</th>
+                    <th scope="col">Type d'opération</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
+                @foreach($operations as $operation)
                   <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
+                    <th scope="row">{{ $operation->transaction_key }}</th>
+                    <td>{{ $operation->withdrawal_amount }}</td>
+                    <td>
+                    
+                    <?php 
+                    $typetranslation = $operation->operation_type_id;
+                    if($typetranslation==1){
+                      echo "Depot";
+                    }elseif($typetranslation==2){
+                      echo "Retrait";
+                    }else{
+                      echo "Virement";
+                    }
+                    ?></td>
+                    <td>{{ $operation->status }}</td> 
+                  <td><?php 
+                    $status = $operation->status;
+                    if($status!="achever"){
+                      echo "<button class='btn btn-primary'><i class='bi bi-pencil'></i></button>
+                      <button class='btn btn-danger'><i class='bi bi-trash'></i></button>";
+                    }else{
+                      echo "<button class='btn btn-success'><i class='bi bi-x'></i></button>";
+                    }
+                    ?></td>
                   </tr>
-                  <tr>
+                @endforeach
+                  <!--<tr>
                     <th scope="row">2</th>
                     <td>Bridie Kessler</td>
                     <td>Developer</td>
@@ -116,7 +176,7 @@
                     <td>Dynamic Division Officer</td>
                     <td>47</td>
                     <td>2011-04-19</td>
-                  </tr>
+                  </tr>-->
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->

@@ -15,7 +15,7 @@ class ChargeClienteleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->profile->designation === 'employe' && auth()->user()->employeeType->designation === 'charger_client') {
+        if (auth()->check() && auth()->user()->profile->designation === 'employe' && auth()->user()->employee_type_id == 5) {
             return $next($request);
         }
 

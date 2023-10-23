@@ -38,7 +38,11 @@ class OperationsComponent extends Component
     public $method = "neutre";
     //public $id_employe = "id_employe";
     public $status = "en cours";
-    //public $codeUnique;
+
+    public $beneficiaire;
+    public $compte_de_destination;
+    public $motif;
+
     public $date;
 
     public function saveOperation()
@@ -52,6 +56,9 @@ class OperationsComponent extends Component
         //$operation->id_employe = $this->id_employe;
         $operation->transaction_key = $this->randomString = Str::random(10);
         $operation->status = $this->status;
+        $operation->beneficiaire = $this->beneficiaire;
+        $operation->compte_destination = $this->compte_de_destination;
+        $operation->motif = $this->motif;
         $operation->withdrawal_date = $this->date;
         $operation->save();
 

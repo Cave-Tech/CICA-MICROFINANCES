@@ -24,14 +24,6 @@
                 </thead>
                 <tbody>
 
-                    @foreach ($paiementLists as $paiementList)
-                    <tr>
-                        <th scope="row">{{$paiementList->id}}</th>
-                        <td>{{$paiementList->statut}}</td>
-                        <td>{{$paiementList->moyen transaction}}</td>
-                    </tr>
-                   @endforeach
-
                   <tr>
                     <th scope="row">1</th>
                     <td>Brandon Jacob</td>

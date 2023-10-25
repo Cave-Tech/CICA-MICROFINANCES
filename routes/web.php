@@ -65,6 +65,14 @@ Route::get('/paiement-list', function () {
     return view('employe.paiement-list');
 })->name('employe.paiement-list');
 
+Route::get('/details', function () {
+    return view('employe.details');
+})->name('employe.details');
+
+Route::get('/details_pret', function () {
+    return view('employe.details-pret');
+})->name('employe.details-pret');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -71,13 +71,32 @@
 
                   <!--<label class="col-sm-2 col-form-label">Select</label>-->
                   <div class="col-md-12">
-                    <select wire:model="typeOperation" class="form-select" aria-label="Default select example">
-                      <option selected>Choisissez le type d'operation</option>
+                  <select id="typeOperation" wire:model="typeOperation" class="form-select" aria-label="Default select example">
+                      <option selected>Choisissez le type d'opération</option>
                       <option value="1">Dépôt</option>
                       <option value="2">Retrait</option>
                       <option value="3">Virement</option>
-                    </select>
-                  </div>
+                  </select>
+              </div>
+
+<div class="col-md-12" id="champsSupplementaires" style="display: none;">
+    <input id="beneficiaire" wire:model="beneficiaire"  class="form-control" type="text" placeholder="Bénéficiaire"><br>
+    <input id="compteDestination" wire:model="compte_de_destination"  class="form-control" type="text" placeholder="Compte de destination"><br>
+    <input id="motif" wire:model="motif"  class="form-control" type="text" placeholder="Motif">
+</div>
+
+<script>
+    const typeOperationSelect = document.getElementById("typeOperation");
+    const champsSupplementaires = document.getElementById("champsSupplementaires");
+
+    typeOperationSelect.addEventListener("change", function () {
+        if (typeOperationSelect.value === "3") {
+            champsSupplementaires.style.display = "block";
+        } else {
+            champsSupplementaires.style.display = "none";
+        }
+    });
+</script>
 
           <div class="col-md-12">
             <input type="date" wire:model="date" class="form-control" required>
@@ -117,6 +136,7 @@
                     <th scope="col">Montant</th>
                     <th scope="col">Type d'opération</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Date</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
@@ -125,8 +145,8 @@
                   <tr>
                     <th scope="row">{{ $operation->transaction_key }}</th>
                     <td>{{ $operation->withdrawal_amount }}</td>
-                    <td>
                     
+                    <td>
                     <?php 
                     $typetranslation = $operation->operation_type_id;
                     if($typetranslation==1){
@@ -137,16 +157,34 @@
                       echo "Virement";
                     }
                     ?></td>
-                    <td>{{ $operation->status }}</td> 
-                  <td><?php 
-                    $status = $operation->status;
-                    if($status!="achever"){
-                      echo "<button class='btn btn-primary'><i class='bi bi-pencil'></i></button>
-                      <button class='btn btn-danger'><i class='bi bi-trash'></i></button>";
+
+
+                    <td>
+                    <?php 
+                    $statuss = $operation->status;
+                    if($statuss =="achever"){
+                      echo "<span class='badge bg-success'>Terminé</span>";
+                    }elseif($statuss =="en cours"){
+                      echo "<span class='badge bg-warning'>En cours</span>";
                     }else{
-                      echo "<button class='btn btn-success'><i class='bi bi-x'></i></button>";
+                      echo"<span class='badge bg-danger'>En instance</span>";
                     }
-                    ?></td>
+                    ?>
+                    </td>
+
+                    <td>{{ strftime('%d %B %Y', strtotime($operation->withdrawal_date)) }}</td>
+
+                    <td>
+                      <?php 
+                      $status = $operation->status;
+                      if($status!="achever"){
+                        echo "<span class='btn btn-primary'><i class='bi bi-pencil'></i></span>
+                        <span class='btn btn-danger'><i class='bi bi-trash'></i></span>";
+                      }else{
+                        echo "<span class='btn btn-success'><i class='bi bi-x'></i></span>";
+                      }
+                      ?>
+                    </td>
                   </tr>
                 @endforeach
                   <!--<tr>

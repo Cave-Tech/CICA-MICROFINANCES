@@ -17,6 +17,9 @@ class Operation extends Model
         'operation_type_id',
         'withdrawal_amount',
         'withdrawal_method',
+        'id_employe',
+        'transaction_key',
+        'status',
         'withdrawal_date',
     ];
     public function user()

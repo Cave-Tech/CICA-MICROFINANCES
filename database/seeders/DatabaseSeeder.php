@@ -11,6 +11,7 @@ use App\Models\LoanType;
 use App\Models\OperationType;
 use App\Models\Profile;
 use App\Models\User;
+use Faker\Provider\UserAgent;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -54,6 +55,12 @@ class DatabaseSeeder extends Seeder
         User::create(['email' => 'charger_client@gmail.com', 'name' => 'Joa Do9', 'profile_id' => 4, 'password' => Hash::make('admin'), 'status' => 'activated', 'employee_type_id' => 5]);
         
 
+        $this->call(UserSeeder::class);
+        $this->call(AccountSeeder::class);
+        $this->call(OperationSeeder::class);
+        $this->call(LoanSeeder::class);
+        $this->call(PaymentSeeder::class);
+        
        
          
 

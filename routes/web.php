@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+//Route pour les clients
 Route::get('/client-dashboard', function () {
     return view('client.dashboard');
 })->name('client.dashboard');

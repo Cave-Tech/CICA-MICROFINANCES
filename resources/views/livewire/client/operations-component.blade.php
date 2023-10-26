@@ -57,20 +57,20 @@
       <form wire:submit.prevent="saveOperation" class="php-email-form">
         <div class="row gy-4">
 
-          <!--<div class="col-md-6">
-            <input type="text" name="name" class="form-control" placeholder="Your Name" required>
-          </div>
+              <!--<div class="col-md-6">
+                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+              </div>
 
-          <div class="col-md-6 ">
-            <input type="email" class="form-control" name="email" placeholder="Your Email" required>
-          </div>-->
+              <div class="col-md-6 ">
+                <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+              </div>-->
 
-          <div class="col-md-12">
-            <input type="text" class="form-control" wire:model="montant" placeholder="Entrer le montant" required>
-          </div>
+              <div class="col-md-12">
+                <input type="text" class="form-control" wire:model="montant" placeholder="Entrer le montant" required>
+              </div>
 
-                  <!--<label class="col-sm-2 col-form-label">Select</label>-->
-                  <div class="col-md-12">
+                      <!--<label class="col-sm-2 col-form-label">Select</label>-->
+              <div class="col-md-12">
                   <select id="typeOperation" wire:model="typeOperation" class="form-select" aria-label="Default select example">
                       <option selected>Choisissez le type d'opération</option>
                       <option value="1">Dépôt</option>
@@ -79,43 +79,43 @@
                   </select>
               </div>
 
-<div class="col-md-12" id="champsSupplementaires" style="display: none;">
-    <input id="beneficiaire" wire:model="beneficiaire"  class="form-control" type="text" placeholder="Bénéficiaire"><br>
-    <input id="compteDestination" wire:model="compte_de_destination"  class="form-control" type="text" placeholder="Compte de destination"><br>
-    <input id="motif" wire:model="motif"  class="form-control" type="text" placeholder="Motif">
-</div>
+              <div class="col-md-12" id="champsSupplementaires" style="display: none;">
+                  <input id="beneficiaire" wire:model="beneficiaire"  class="form-control" type="text" placeholder="Bénéficiaire"><br>
+                  <input id="compteDestination" wire:model="compte_de_destination"  class="form-control" type="text" placeholder="Compte de destination"><br>
+                  <input id="motif" wire:model="motif"  class="form-control" type="text" placeholder="Motif">
+              </div>
 
-<script>
-    const typeOperationSelect = document.getElementById("typeOperation");
-    const champsSupplementaires = document.getElementById("champsSupplementaires");
+              <script>
+                  const typeOperationSelect = document.getElementById("typeOperation");
+                  const champsSupplementaires = document.getElementById("champsSupplementaires");
 
-    typeOperationSelect.addEventListener("change", function () {
-        if (typeOperationSelect.value === "3") {
-            champsSupplementaires.style.display = "block";
-        } else {
-            champsSupplementaires.style.display = "none";
-        }
-    });
-</script>
+                  typeOperationSelect.addEventListener("change", function () {
+                      if (typeOperationSelect.value === "3") {
+                          champsSupplementaires.style.display = "block";
+                      } else {
+                          champsSupplementaires.style.display = "none";
+                      }
+                  });
+              </script>
 
-          <div class="col-md-12">
-            <input type="date" wire:model="date" class="form-control" required>
-          </div>
+              <div class="col-md-12">
+                <input type="date" wire:model="date" class="form-control" required>
+              </div>
 
 
-          <!--<div class="col-md-12">
-            <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-          </div> -->
-        </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-            <button type="submit" class="btn btn-primary">Envoyez la demande</button>
-        </div>
-        </div>
-    </div>
-    </div><!-- End Vertically centered Modal-->
-    </form>
+                  <!--<div class="col-md-12">
+                    <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
+                  </div> -->
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Envoyez la demande</button>
+                </div>
+                </div>
+            </div>
+            </div><!-- End Vertically centered Modal-->
+        </form>
 </div>
 </div>
 
@@ -172,49 +172,96 @@
                     ?>
                     </td>
 
-                    <td>{{ strftime('%d %B %Y', strtotime($operation->withdrawal_date)) }}</td>
-
+                      <td>
+                        {{ strftime('%d %B %Y', strtotime($operation->withdrawal_date)) }}
+                      </td>
+                      
                     <td>
-                      <?php 
-                      $status = $operation->status;
-                      if($status!="achever"){
-                        echo "<span class='btn btn-primary'><i class='bi bi-pencil'></i></span>
-                        <span class='btn btn-danger'><i class='bi bi-trash'></i></span>";
-                      }else{
-                        echo "<span class='btn btn-success'><i class='bi bi-x'></i></span>";
-                      }
-                      ?>
-                    </td>
-                  </tr>
+                    <div class="btn-group" role="group">
+                      @if ($operation->status !== "achever")
+                          <button wire:click="showEdit({{ $operation->id }})" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal1{{ $operation->id }}" class="btn btn-primary"><i class='bi bi-pencil'></i></button>&nbsp
+                          <button wire:click="confirmDelete({{ $operation->id }})" class='btn btn-danger' data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ $operation->id }}"><i class='bi bi-trash'></i></button>
+                      @else
+                          <button class='btn btn-success'><i class='bi bi-x'></i></button>
+                      @endif
+                  </div>
+                  </td>
+                </tr>
                 @endforeach
-                  <!--<tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>-->
+
+                @foreach($operations as $operation)
+                  <div class="modal fade" wire:ignore.self id="confirmDeleteModal{{ $operation->id }}" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel{{ $operation->id }}" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="modal-title" id="confirmDeleteModalLabel{{ $operation->id }}">Confirmation de suppression</h5>
+                                  <button type="button"  class="close" data-bs-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>
+                              <div class="modal-body">
+                                  Êtes-vous sûr de vouloir supprimer cette opération ?
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                  <button wire:click="deleteOperation" class="btn btn-danger">Confirmer la suppression</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              @endforeach
+
+
+              @foreach($operations as $operation)
+<div class="modal fade" wire:ignore.self id="confirmDeleteModal1{{ $operation->id }}" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel{{ $operation->id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel{{ $operation->id }}">Détails de l'opération</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form wire:submit.prevent="editOperation" class="php-email-form">
+                    <div class="row gy-4">
+                        <div class="col-md-12">
+                            <input type="text" class="form-control"  wire:model="montant" value="{{$operation->withdrawal_amount}}">
+                        </div>
+                        <div class="col-md-12">
+                              <select wire:model="operation.typeOperation2" class="form-select" aria-label="Type d'opération">
+                                  <option value="1">Dépôt</option>
+                                  <option value="2">Retrait</option>
+                                  <option value="3">Virement</option>
+                              </select>
+                          </div>
+                          @if($operation->typeOperation == 3)
+                          <div class="col-md-12">
+                              <input class="form-control" type="text" wire:model="beneficiaire">
+                          </div>
+                          <div class="col-md-12">
+                              <input class="form-control" type="text" wire:model="compte_de_destination">
+                          </div>
+                          <div class="col-md-12">
+                              <input type="text" class="form-control" wire:model="motif">
+                          </div>
+                          @endif
+                        <div class="col-md-12">
+                            <input type="date" class="form-control" wire:model="date">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
+
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->

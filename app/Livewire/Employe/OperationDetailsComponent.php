@@ -8,14 +8,22 @@ use Livewire\Component;
 class OperationDetailsComponent extends Component
 {
     public $operationId;
-    public $operation;
 
-    protected $listeners = ['showOperationDetail' => 'loadOperation'];
+    public $operations, $operation, $name, $id_type, $id_number, $withdrawal_amount, $withdrawal_method, $transaction_key, $status, $withdrawal_date, $operation_type;
 
-    public function loadOperation($operationId)
+    public $showModal = false;
+
+    protected $listeners = ['showModal' => 'openModal'];
+
+    public function openModal($operationId)
     {
-        $this->operationId = $operationId;
-        $this->operation = Operation::find($this->operationId);
+        $this->operation = Operation::with(['user', 'agent', 'operationType'])->find($operationId);
+        $this->showModal = true;
+    }
+
+    public function closeModal()
+    {
+        $this->showModal = false;
     }
 
     public function completeOperation()

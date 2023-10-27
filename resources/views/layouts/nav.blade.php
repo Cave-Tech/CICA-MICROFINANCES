@@ -69,10 +69,10 @@
 
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                    <a class="nav-link collapsed" data-bs-target="#clientele-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-menu-button-wide"></i><span>Clientèle</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
-                    <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <ul id="clientele-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="{{ url('/customer-list')}}">
                         <i class="bi bi-circle"></i><span>Liste des clients </span>
@@ -94,10 +94,10 @@
                 </li><!-- End Components Nav -->
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                    <a class="nav-link collapsed" data-bs-target="#employe-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-journal-text"></i><span>Employés</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
-                    <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <ul id="employe-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="{{ url('/employee-list')}}">
                         <i class="bi bi-circle"></i><span>Liste des employés</span>
@@ -112,13 +112,30 @@
             <!-- Section pour les Agents à la Caisse -->
             @if(auth()->user()->employee_type_id == 1)
                 <li class="nav-item">
-                    <!-- Lien ou sous-menu pour les Agents à la Caisse -->
-
                     <a class="nav-link" href="agent-caisse-dashboard.html">
                         <i class="bi bi-person"></i>
-                        <span>Dashboard Agent à la Caisse</span>
+                        <span>Dashboard</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#operation-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-menu-button-wide"></i><span>Gestion des Opérations</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="operation-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="{{ url('/operation-list')}}">
+                            <i class="bi bi-circle"></i><span>Liste des operations </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/create-operartion')}}">
+                            <i class="bi bi-circle"></i><span>Enregistrer une operation</span>
+                            </a>
+                        </li>
+                       
+                    </ul>
+                </li><!-- End Components Nav -->
             @endif
 
             <!-- Section pour les Agents de Terrain -->

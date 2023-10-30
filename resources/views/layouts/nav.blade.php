@@ -5,7 +5,7 @@
         <!-- Section réservée aux Superadmins -->
         @if(auth()->check() && auth()->user()->profile->designation === 'superadmin')
             <li class="nav-item">
-            
+
                 <a class="nav-link" href="superadmin-dashboard.html">
                     <i class="bi bi-person"></i>
                     <span>Dashboard Superadmin</span>
@@ -54,36 +54,37 @@
                 </a>
             </li><!-- End Contact Page Nav -->
         @endif
-    
+
 
         <!-- Section réservée aux Employés -->
         @if(auth()->check() && auth()->user()->profile->designation === 'employe')
             <!-- Section pour le directeur -->
             @if(auth()->user()->employee_type_id == 4)
                 <li class="nav-item">
-                    <a class="nav-link " href="index.html">
+                    <a class="nav-link " href="{{ url('/employe-dashboard')}}">
                     <i class="bi bi-grid"></i>
-                    <span>Dashboard Directeur</span>
+                    <span>Dashboard</span>
                     </a>
                 </li><!-- End Dashboard Nav -->
 
+
                 <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                    <a class="nav-link collapsed" data-bs-target="#clientele-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-menu-button-wide"></i><span>Clientèle</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
-                    <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <ul id="clientele-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="components-alerts.html">
+                        <a href="{{ url('/customer-list')}}">
                         <i class="bi bi-circle"></i><span>Liste des clients </span>
                         </a>
                     </li>
                     <li>
-                        <a href="components-accordion.html">
+                        <a href="{{ url('/loan-request')}}">
                         <i class="bi bi-circle"></i><span>Demande de pret</span>
                         </a>
                     </li>
                     <li>
-                        <a href="components-badges.html">
+                        <a href="{{ url('/paiement-list')}}">
                         <i class="bi bi-circle"></i><span>Liste des paiements</span>
                         </a>
                     </li>
@@ -93,12 +94,12 @@
                 </li><!-- End Components Nav -->
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                    <a class="nav-link collapsed" data-bs-target="#employe-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-journal-text"></i><span>Employés</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
-                    <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <ul id="employe-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="forms-elements.html">
+                        <a href="{{ url('/employee-list')}}">
                         <i class="bi bi-circle"></i><span>Liste des employés</span>
                         </a>
                     </li>
@@ -111,13 +112,30 @@
             <!-- Section pour les Agents à la Caisse -->
             @if(auth()->user()->employee_type_id == 1)
                 <li class="nav-item">
-                    <!-- Lien ou sous-menu pour les Agents à la Caisse -->
-
                     <a class="nav-link" href="agent-caisse-dashboard.html">
                         <i class="bi bi-person"></i>
-                        <span>Dashboard Agent à la Caisse</span>
+                        <span>Dashboard</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#operation-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-menu-button-wide"></i><span>Gestion des Opérations</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="operation-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="{{ url('/operation-list')}}">
+                            <i class="bi bi-circle"></i><span>Liste des operations </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/create-operartion')}}">
+                            <i class="bi bi-circle"></i><span>Enregistrer une operation</span>
+                            </a>
+                        </li>
+                       
+                    </ul>
+                </li><!-- End Components Nav -->
             @endif
 
             <!-- Section pour les Agents de Terrain -->
@@ -170,9 +188,9 @@
                 </li>
             @endif
         @endif <!-- Fin de la section réservée aux Employés -->
-    
 
-    
+
+
 
 
     </ul>

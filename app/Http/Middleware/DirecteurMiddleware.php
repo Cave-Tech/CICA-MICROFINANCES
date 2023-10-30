@@ -15,7 +15,7 @@ class DirecteurMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->profile->designation === 'employe' && auth()->user()->employeeType->designation === 'directeur') {
+        if (auth()->check() && auth()->user()->profile->designation === 'employe' && auth()->user()->employee_type_id == 4) {
             return $next($request);
         }
 

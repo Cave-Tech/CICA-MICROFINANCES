@@ -15,7 +15,7 @@ class ComptableMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->profile->designation === 'employe' && auth()->user()->employeeType->designation === 'comptable') {
+        if (auth()->check() && auth()->user()->profile->designation === 'employe' && auth()->user()->employee_type_id == 2) {
             return $next($request);
         }
 

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+//Route pour les clients
 Route::get('/client-dashboard', function () {
     return view('client.dashboard');
 })->name('client.dashboard');
@@ -64,6 +65,10 @@ Route::get('/loan-request', function () {
 Route::get('/paiement-list', function () {
     return view('employe.paiement-list');
 })->name('employe.paiement-list');
+
+Route::get('/operation-list', function () {
+    return view('employe.operation-list');
+})->name('employe.operartion-list');
 
 
 Route::get('/dashboard', function () {

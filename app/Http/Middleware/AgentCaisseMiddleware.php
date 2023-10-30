@@ -15,7 +15,7 @@ class AgentCaisseMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->profile->designation === 'employe' && auth()->user()->employeeType->designation === 'agent_terrain') {
+        if (auth()->check() && auth()->user()->profile->designation === 'employe' && auth()->user()->employee_type_id == 1) {
             return $next($request);
         }
 

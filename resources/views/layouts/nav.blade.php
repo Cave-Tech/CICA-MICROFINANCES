@@ -41,7 +41,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#">
+                <a class="nav-link collapsed" href="{{ url('/client-loan-request')}}">
                     <i class="bi bi-journal-text"></i>
                     <span>Gérer mes prêts</span>
                 </a>

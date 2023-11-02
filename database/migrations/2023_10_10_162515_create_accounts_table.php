@@ -14,16 +14,16 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('users_id');
-            $table->unsignedBigInteger('account_types_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('account_type_id');
             $table->double('balance');
             $table->double('interest_rate');
             $table->date('opening_date');
             $table->string('status');
             $table->timestamps();
 
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('account_types_id')->references('id')->on('account_types')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('account_type_id')->references('id')->on('account_types')->onDelete('cascade');
         });
     }
 

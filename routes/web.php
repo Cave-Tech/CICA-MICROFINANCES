@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Employe\DetailCustomerComponent;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -73,6 +75,9 @@ Route::get('/details', function () {
 Route::get('/details_pret', function () {
     return view('employe.details-pret');
 })->name('employe.details-pret');
+
+
+Route::get('/customer/{customerId}', DetailCustomerComponent::class)->name('customer.detail');
 
 
 Route::get('/dashboard', function () {

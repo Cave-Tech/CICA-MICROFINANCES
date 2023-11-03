@@ -23,25 +23,6 @@
             {{$message}}
         </div>
         @endif
-
-
-        <style>
-          .alertt {
-              padding: 20px;
-              background-color: #4CAF50; /* Couleur de l'alerte de succès (vert) */
-              color: white;
-              margin-bottom: 15px;
-              position: relative;
-          }
-
-          .closebtn {
-              position: absolute;
-              top: 0;
-              right: 0;
-              padding: 10px;
-              cursor: pointer;
-          }
-        </style>
         
 
         <!--Fin Message de succes ou d'erreur -->
@@ -51,25 +32,6 @@
             {{$message}}
         </div>
         @endif
-
-        <style>
-          .alert {
-              padding: 20px;
-              background-color: #f44336; /* Couleur de l'alerte (rouge) */
-              color: white;
-              margin-bottom: 15px;
-              position: relative;
-          }
-
-          .closebtn {
-              position: absolute;
-              top: 0;
-              right: 0;
-              padding: 10px;
-              cursor: pointer;
-          }
-        </style>
-
 
 <!--<div>
 <p>Résultat de la génération aléatoire : {{ $randomString }}</p>

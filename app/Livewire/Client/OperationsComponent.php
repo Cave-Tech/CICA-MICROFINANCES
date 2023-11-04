@@ -23,6 +23,7 @@ class OperationsComponent extends Component
     public $compte_de_destination;
     public $motif;
     public $date;
+    public $userId;
 
     public function saveOperation()
     {

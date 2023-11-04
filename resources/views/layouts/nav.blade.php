@@ -129,7 +129,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/create-operartion')}}">
+                            <a href="{{ url('/save-operation')}}">
                             <i class="bi bi-circle"></i><span>Enregistrer une operation</span>
                             </a>
                         </li>

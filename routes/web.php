@@ -70,6 +70,10 @@ Route::get('/operation-list', function () {
     return view('employe.operation-list');
 })->name('employe.operartion-list');
 
+Route::get('/save-operation', function () {
+    return view('employe.save-operation');
+})->name('employe.save-operation');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

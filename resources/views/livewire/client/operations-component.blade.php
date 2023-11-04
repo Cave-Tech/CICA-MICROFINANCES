@@ -1,8 +1,8 @@
 <main id="main" class="main">
 
-<div class="pagetitle">
+<!--<div class="pagetitle">
   <h1>GESTION DES OPERATIONS </h1>
-<div>
+<div>-->
   
 <!-- Ajoutez d'autres informations du profil ici -->
 </div>
@@ -18,17 +18,20 @@
 
         <!-- Message de succes ou d'erreur -->
         @if($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{$message}}</p>
+        <div class="alertt">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{$message}}
         </div>
         @endif
+        
 
+        <!--Fin Message de succes ou d'erreur -->
         @if($message = Session::get('fail'))
-        <div class="alert alert-danger">
-            <p>{{$message}}</p>
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{$message}}
         </div>
         @endif
-        <!--Fin Message de succes ou d'erreur -->
 
 <!--<div>
 <p>Résultat de la génération aléatoire : {{ $randomString }}</p>
@@ -36,90 +39,126 @@
 
 <button wire:click="generateRandomString">Générer une chaîne aléatoire</button>-->
 
-
-<div class="card">
-    <div class="card-body"><br>
-        <!-- Vertically centered Modal -->
-        <div style="float: left;">
-        <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
-          Faites un depôt ou un retrait
-        </button>
-        </div>
-        <div class="modal fade" id="verticalycentered" tabindex="-1">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">REMPLISSEZ LES CHAMPS</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <form wire:submit.prevent="saveOperation" class="php-email-form">
-                    <div class="row gy-4">
-
-                    <!--<div class="col-md-6">
-                      <input type="text" name="name" class="form-control" placeholder="Your Name" required>
-                    </div>
-
-                    <div class="col-md-6 ">
-                      <input type="email" class="form-control" name="email" placeholder="Your Email" required>
-                    </div>-->
-
-                    <div class="col-md-12">
-                      <input type="number" class="form-control" wire:model="montant" placeholder="Entrer le montant" required>
-                    </div>
-
-                    <!--<label class="col-sm-2 col-form-label">Select</label>-->
-                    <div class="col-md-12">
-                        <select id="typeOperation" wire:model="typeOperation" class="form-select" aria-label="Default select example">
-                            <option selected>Choisissez le type d'opération</option>
-                            <option value="1">Dépôt</option>
-                            <option value="2">Retrait</option>
-                            <option value="3">Virement</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-12" id="champsSupplementaires" style="display: none;">
-                        <input id="beneficiaire" wire:model="beneficiaire"  class="form-control" type="text" placeholder="Bénéficiaire"><br>
-                        <input id="compteDestination" wire:model="compte_de_destination"  class="form-control" type="number" placeholder="Compte de destination"><br>
-                        <input id="motif" wire:model="motif"  class="form-control" type="text" placeholder="Motif">
-                    </div>
-
-                    <!-- Code pour afficher les champs supplémentaires quant on selectionne Virement -->
-                    <script>
-                        const typeOperationSelect = document.getElementById("typeOperation");
-                        const champsSupplementaires = document.getElementById("champsSupplementaires");
-
-                        typeOperationSelect.addEventListener("change", function () {
-                            if (typeOperationSelect.value === "3") {
-                                champsSupplementaires.style.display = "block";
-                            } else {
-                                champsSupplementaires.style.display = "none";
-                            }
-                        });
-                    </script>
-                    <!-- Fin code pour afficher les champs supplémentaires quant on selectionne Virement -->
-
-                    <div class="col-md-12">
-                      <input type="date" wire:model="date" class="form-control" required>
-                    </div>
-
-
-                      <!--<div class="col-md-12">
-                        <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-                      </div> -->
-                    </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button type="submit" class="btn btn-primary">Envoyez la demande</button>
-                    </div>
-                    </div>
+      <div class="container">
+          <!-- Vertically centered Modal -->
+          <div class="left-align">
+          <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+            Faites un depôt ou un retrait
+          </button>
+          </div>
+          <div class="modal fade" id="verticalycentered" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">REMPLISSEZ LES CHAMPS</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                </div><!-- End Vertically centered Modal-->
-            </form>
-      </div>
-</div>
+                <div class="modal-body">
+                  <form wire:submit.prevent="saveOperation" class="php-email-form">
+                      <div class="row gy-4">
 
+                      <!--<div class="col-md-6">
+                        <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                      </div>
+
+                      <div class="col-md-6 ">
+                        <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                      </div>-->
+
+                      <div class="col-md-12">
+                        <input type="number" class="form-control" wire:model="montant" placeholder="Entrer le montant" required>
+                      </div>
+
+                      <!--<label class="col-sm-2 col-form-label">Select</label>-->
+                      <div class="col-md-12">
+                          <select id="typeOperation" wire:model="typeOperation" class="form-select" aria-label="Default select example">
+                              <option selected>Choisissez le type d'opération</option>
+                              <option value="1">Dépôt</option>
+                              <option value="2">Retrait</option>
+                              <option value="3">Virement</option>
+                          </select>
+                      </div>
+
+                      <div class="col-md-12" id="champsSupplementaires" style="display: none;">
+                          <input id="beneficiaire" wire:model="beneficiaire"  class="form-control" type="text" placeholder="Bénéficiaire"><br>
+                          <input id="compteDestination" wire:model="compte_de_destination"  class="form-control" type="number" placeholder="Compte de destination"><br>
+                          <input id="motif" wire:model="motif"  class="form-control" type="text" placeholder="Motif">
+                      </div>
+                      @foreach ($user->account as $account)
+                      @if ($account->account_types_id === 1)
+                      <div class="col-md-12">
+                          <select wire:model="typeAccount" class="form-select" aria-label="Default select example">
+                              <option value="1">De mon compte épagne</option>
+                          </select>
+                      </div>
+                      @elseif($account->account_types_id === 2)
+                      <div class="col-md-12">
+                          <select wire:model="typeAccount" class="form-select" aria-label="Default select example">
+                              <option value="1">De mon compte épagne</option>
+                          </select>
+                      </div>
+                      @else
+                      <div class="col-md-12">
+                          <select wire:model="typeAccount" class="form-select" aria-label="Default select example">
+                              <option value="1">De mon compte épagne</option>
+                              <option value="1">De mon compte courant</option>
+                          </select>
+                      </div>
+                      @endif
+                      @endforeach
+
+                      <!-- Code pour afficher les champs supplémentaires quant on selectionne Virement -->
+                      <script>
+                          const typeOperationSelect = document.getElementById("typeOperation");
+                          const champsSupplementaires = document.getElementById("champsSupplementaires");
+
+                          typeOperationSelect.addEventListener("change", function () {
+                              if (typeOperationSelect.value === "3") {
+                                  champsSupplementaires.style.display = "block";
+                              } else {
+                                  champsSupplementaires.style.display = "none";
+                              }
+                          });
+                      </script>
+                      <!-- Fin code pour afficher les champs supplémentaires quant on selectionne Virement -->
+
+                      <div class="col-md-12">
+                        <input type="date" wire:model="date" class="form-control" required>
+                      </div>
+
+
+                        <!--<div class="col-md-12">
+                          <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
+                        </div> -->
+                      </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                          <button type="submit" class="btn btn-primary">Envoyez la demande</button>
+                      </div>
+                      </div>
+                  </div>
+                  </div><!-- End Vertically centered Modal-->
+              </form>
+      </div><br>
+            <!--<div class="container-fluid">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <div class="card">
+                          <div class="card-body">
+                              <h4 class="card-title">Additional content</h4>
+                              <div class="card-content">
+                                  <div class="alert alert-success">
+                                      <h4 class="alert-heading">Well done!</h4>
+                                      <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+                                      <hr>
+                                      <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+            </div>-->
 <section class="section">
   <div class="row">
     <div class="col-lg-12">
@@ -251,6 +290,30 @@
                                           <input type="text" class="form-control" wire:model="motif">
                                       </div>
                                       @endif
+
+                                      @foreach ($user->account as $account)
+                                        @if ($account->account_types_id === 1)
+                                        <div class="col-md-12">
+                                            <select wire:model="typeAccount" class="form-select" aria-label="Default select example">
+                                                <option value="1">De mon compte épagne</option>
+                                            </select>
+                                        </div>
+                                        @elseif($account->account_types_id === 2)
+                                        <div class="col-md-12">
+                                            <select wire:model="typeAccount" class="form-select" aria-label="Default select example">
+                                                <option value="2">De mon compte épagne</option>
+                                            </select>
+                                        </div>
+                                        @else
+                                        <div class="col-md-12">
+                                            <select wire:model="typeAccount" class="form-select" aria-label="Default select example">
+                                                <option value="1">De mon compte épagne</option>
+                                                <option value="2">De mon compte courant</option>
+                                            </select>
+                                        </div>
+                                        @endif
+                                      @endforeach
+
                                       <div class="col-md-12">
                                           <input type="date" class="form-control" wire:model="date">
                                       </div>

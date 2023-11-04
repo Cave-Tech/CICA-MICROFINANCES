@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\OperationType;
+use App\Models\AccountType;
 
 
 class Operation extends Model
@@ -35,5 +36,10 @@ class Operation extends Model
     public function operationType()
     {
         return $this->belongsTo(OperationType::class, 'operation_type_id');
+    }
+
+    public function accountType()
+    {
+        return $this->belongsTo(AccountType::class, 'account_types_id');
     }
 }

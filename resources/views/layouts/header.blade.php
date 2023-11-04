@@ -1,6 +1,45 @@
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
+<style>
+    .left-align {
+        text-align: right;
+    }
+</style>
 
+<style>
+    .alert {
+        padding: 20px;
+        background-color: #f44336; /* Couleur de l'alerte (rouge) */
+        color: white;
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    .closebtn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 10px;
+        cursor: pointer;
+    }
+</style>
+<style>
+    .alertt {
+        padding: 20px;
+        background-color: #4CAF50; /* Couleur de l'alerte de succès (vert) */
+        color: white;
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    .closebtn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 10px;
+        cursor: pointer;
+    }
+</style>
     <div class="d-flex align-items-center justify-content-between">
     <a href="index.html" class="logo d-flex align-items-center">
         <img src="assets/img/logo.png" alt="">

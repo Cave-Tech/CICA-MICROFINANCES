@@ -21,6 +21,16 @@ class Loan extends Model
         'status',
         'loan_date',
         'due_date',
+        'type_warranty',
+        'value_warranty',
+        'details_warranty',
+        'purpose_warranty',
+        'removals_plan',
+        'name_warrantor',
+        'address_warrantor',
+        'number_warrantor',
+        'relation_warrantor',
+        'doc_files',
     ];
 
 

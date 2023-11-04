@@ -18,7 +18,7 @@ class AccountSeeder extends Seeder
 
         foreach ($clientUsers as $client) {
             Account::create([
-                'users_id' => $client->id,
+                'user_id' => $client->id,
                 'account_types_id' => rand(1, 2), // Pour varier entre compte courant et épargne
                 'balance' => rand(1000, 10000),  // Solde entre 1000 et 10000
                 'interest_rate' => rand(1, 5),   // Taux d'intérêt entre 1% et 5%

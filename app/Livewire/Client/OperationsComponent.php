@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Operation;
+use App\Models\Account;
+use App\Models\Loan;
 
 
 class OperationsComponent extends Component
@@ -16,6 +18,7 @@ class OperationsComponent extends Component
     //Enregistrement de l'operation
     public $operationId;
     public $typeOperation;
+    public $typeAccount;
     public $montant;
     public $method = "neutre";
     public $status = "en cours";
@@ -28,26 +31,56 @@ class OperationsComponent extends Component
     public function saveOperation()
     {
         $user = Auth::user();
-        $operation = new Operation();
-        $operation->user_id = $this->userId = $user->id;
-        $operation->operation_type_id = $this->typeOperation;
-        $operation->withdrawal_amount = $this->montant;
-        $operation->withdrawal_method = $this->method;
-        $operation->transaction_key = $this->randomString = Str::random(10);
-        $operation->status = $this->status;
-        $operation->beneficiaire = $this->beneficiaire;
-        $operation->compte_destination = $this->compte_de_destination;
-        $operation->motif = $this->motif;
-        $operation->withdrawal_date = $this->date;
-        $operation->save();
+        $userId = $user->id;
+        $user = User::with('account')->find($userId);
+        //dd($user->account->balance);
+        $montant = $this->montant;
+        $typeOperation = $this->typeOperation;
 
-        $this->reset(); // Réinitialiser les champs du formulaire après l'ajout
+        if ($typeOperation == 2) { 
+            $solde = $user->account->first()->balance;
+                if ($solde < $montant or $montant == 0) {
+                    return redirect('/client-operations')->with("fail", "Retrait impossible.");
+                }else{
+                    $operation = new Operation();
+                    $operation->user_id = $this->userId = $user->id;
+                    $operation->operation_type_id = $this->typeOperation;
+                    $operation->withdrawal_amount = $this->montant;
+                    $operation->withdrawal_method = $this->method;
+                    $operation->transaction_key = $this->randomString = Str::random(10);
+                    $operation->status = $this->status;
+                    $operation->beneficiaire = $this->beneficiaire;
+                    $operation->compte_destination = $this->compte_de_destination;
+                    $operation->motif = $this->motif;
+                    $operation->account_types_id = $this->typeAccount;
+                    $operation->withdrawal_date = $this->date;
+                    $operation->save();
 
-        if($operation){
-            return redirect('/client-operations')->with("success", "Demande envoyée aec succes !");
-        }else{
-            return redirect('/client-operations')->with("fail", "Demande envoyée aec succes");
-        }
+                    $this->reset(); // Réinitialiser les champs du formulaire après l'ajout
+
+                    return redirect('/client-operations')->with("success", "Demande envoyée avec succes !");
+                }
+            }elseif($montant == 0){
+                return redirect('/client-operations')->with("fail", "transaction impossible.");
+            }else{
+                $operation = new Operation();
+                $operation->user_id = $this->userId = $user->id;
+                $operation->operation_type_id = $this->typeOperation;
+                $operation->withdrawal_amount = $this->montant;
+                $operation->withdrawal_method = $this->method;
+                $operation->transaction_key = $this->randomString = Str::random(10);
+                $operation->status = $this->status;
+                $operation->beneficiaire = $this->beneficiaire;
+                $operation->compte_destination = $this->compte_de_destination;
+                $operation->motif = $this->motif;
+                $operation->account_types_id = $this->typeAccount;
+                $operation->withdrawal_date = $this->date;
+                $operation->save();
+
+                $this->reset(); // Réinitialiser les champs du formulaire après l'ajout
+
+                return redirect('/client-operations')->with("success", "Demande envoyée aec succes");
+            }
     }
 
 
@@ -98,6 +131,7 @@ class OperationsComponent extends Component
                 $operationToEdit->beneficiaire = $this->beneficiaire;
                 $operationToEdit->compte_destination = $this->compte_de_destination;
                 $operationToEdit->motif = $this->motif;
+                $operationToEdit->account_types_id = $this->typeAccount;
                 $operationToEdit->withdrawal_date = $this->date;
                 
                 // Enregistre les modifications dans la base de données
@@ -116,9 +150,12 @@ class OperationsComponent extends Component
 
     //Show opperation
     public $operations;
+    public $user;
     public function render()
     {
+        $userid = Auth::user()->id;
         $this->operations = Operation::orderBy('id', 'desc')->get();
+        $this->user = User::with('account', 'operation', 'loan')->find($userid);
         return view('livewire.client.operations-component');
     }
     //Fin Show opperation

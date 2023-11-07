@@ -35,6 +35,11 @@ Route::get('/client-loan-request', function () {
     return view('client.loan-request');
 })->name('client.loan-request');
 
+Route::get('/client-details-loan/{loanId}', function ($loanId) {
+    return view('client.details-loan', compact('loanId'));
+})->name('client.details-loan');
+
+
 
 
 

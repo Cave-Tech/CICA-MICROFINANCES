@@ -26,8 +26,13 @@
             <div class="card">
                 <div class="card-body">
                 <h5 class="card-title">Mes opérations</h5>
+
+                <!-- Before your table, add this search input -->
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Rechercher" wire:model.live="search">
+                </div>
                 
-                <table class="table datatable">
+                <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">#Code unique</th>
@@ -55,7 +60,7 @@
                                 @elseif ($operation->status == "pending")
                                     <span class='badge bg-warning'>En cours</span>
                                 @else
-                                    <span class='badge bg-danger'>En instance</span>
+                                    <span class='badge bg-danger'>Annuler</span>
                                 @endif
                                 
                             </td>
@@ -79,43 +84,51 @@
             
 
             <!-- Modal -->
-            <div class="modal fade" id="operationModal" tabindex="-1" wire:ignore>
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Détail de l'opération</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal fade" id="operationModal" tabindex="-1" aria-labelledby="operationModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    @if($detailsOperation)
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="operationModalLabel">Détails de l'opération</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                
+                                    <div class="card">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item"><strong>Code unique:</strong> {{ $detailsOperation->transaction_key }}</li>
+                                            <li class="list-group-item"><strong>Nom et Prénom:</strong> {{ $detailsOperation->user->name }}</li>
+                                            <li class="list-group-item"><strong>Email:</strong> {{ $detailsOperation->user->email }}</li>
+                                            <li class="list-group-item"><strong>Montant:</strong> {{ $detailsOperation->withdrawal_amount }}<br></li>
+                                            <li class="list-group-item"><strong>Type d'opération:</strong> {{ $detailsOperation->operationType->designation }}<br></li>
+                                            <li class="list-group-item">
+                                                <strong>Status:</strong>
+                                                @if ($detailsOperation->status == "completed")
+                                                    <span class='badge bg-success'>Terminé</span>
+                                                @elseif ($detailsOperation->status == "pending")
+                                                    <span class='badge bg-warning'>En cours</span>
+                                                @else
+                                                    <span class='badge bg-danger'>Annuler</span>
+                                                @endif
+                                            </li>
+                                            <li class="list-group-item"><strong>Date:</strong> {{ strftime('%d %B %Y', strtotime($detailsOperation->withdrawal_date)) }}</li>
+                                        </ul>
+                                    </div>
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                
+                                @if($detailsOperation->status != "completed" && $detailsOperation->status != "canceled")
+                                    <button type="button" class="btn btn-success" wire:click="setCompleted({{$detailsOperation->id}})">Valider</button>
+                                    <button type="button" class="btn btn-danger" wire:click="setCancelled({{$detailsOperation->id}})">Annuler</button>
+                                @endif
+                            </div>
+
                         </div>
-                        <div class="modal-body">
-                            {{$detailsOperation}}
-                            @if($detailsOperation)
-                                <p><strong>Code unique:</strong> {{ $detailsOperation->transaction_key }}</p>
-                                <p><strong>Montant:</strong> {{ $detailsOperation->withdrawal_amount }}</p>
-                                <p><strong>Nom et Prénom:</strong> {{ $detailsOperation->user->name }}</p>
-                                <p><strong>Email:</strong> {{ $detailsOperation->user->email }}</p>
-                                <p><strong>Type d'opération:</strong> {{ $detailsOperation->operationType->designation }}</p>
-                                <p><strong>Status:</strong> 
-                                    @if ($detailsOperation->status == "completed")
-                                        <span class='badge bg-success'>Terminé</span>
-                                    @elseif ($detailsOperation->status == "pending")
-                                        <span class='badge bg-warning'>En cours</span>
-                                    @else
-                                        <span class='badge bg-danger'>En instance</span>
-                                    @endif
-                                </p>
-                                <p><strong>Date:</strong> {{ strftime('%d %B %Y', strtotime($detailsOperation->withdrawal_date)) }}</p>
-                            @endif
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" wire:click="setCancelled({{ $detailsOperation->id }})" class="btn btn-danger">Annuler</button>
-                            <button type="button" wire:click="setCompleted({{ $detailsOperation->id }})" class="btn btn-success">Valider</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
-
-        
 
            
 
@@ -128,12 +141,31 @@
 
 
 
+
 </main>
 
 
 <script>
-    window.livewire.on('alert', params => {
-        // Utilisez votre logique d'affichage d'alerte ici. Par exemple, si vous utilisez Toasts ou une autre bibliothèque pour afficher des messages.
-        alert(params.message);
+document.addEventListener('DOMContentLoaded', () => {
+    let modalEl = document.getElementById('operationModal');
+    let modal = new bootstrap.Modal(modalEl);
+
+    window.addEventListener('show-operation-modal', (event) => {
+        modal.show();
     });
+
+    window.addEventListener('close-operation-modal', () => {
+        modal.hide();
+    });
+
+    modalEl.addEventListener('hidden.bs.modal', () => {
+        // Cette fonction est appelée après que le modal est complètement fermé
+        window.livewire.emit('resetListener');
+    });
+
+   
+});
 </script>
+
+
+

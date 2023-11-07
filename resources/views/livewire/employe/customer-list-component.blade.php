@@ -1,82 +1,89 @@
-<main id="main" class="main">
+
+
+
+
+  <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>LISTE DES CLIENTS</h1>
-
+      <h1>LISTE DES CLIENTS </h1>
     </div><!-- End Page Title -->
 
-    <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
 
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title"></h5>
+    @if($message = Session::get('success'))
+    <div class="alert alert-success">
+        <p>{{$message}}</p>
+    </div>
+    @endif
+
+    @if($message = Session::get('fail'))
+    <div class="alert alert-danger">
+        <p>{{$message}}</p>
+    </div>
+    @endif
 
 
-              <!-- Table with stripped rows -->
-              <table class="table datatable">
-                <thead>
-                  <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">Nom et Prenom</th>
-                    <th scope="col">email</th>
-                  </tr>
-                </thead>
-                <tbody>
+    <div class="card">
+      <div class="card-body"><br>
+        <section class="section">
+          <div class="row">
+            <div class="col-lg-12">
 
-                    @foreach ($customerLists as $customerList)
-                    <tr>
-                        <th scope="row">{{$customerList->id}}</th>
-                        <td>{{$customerList->name}}</td>
-                        <td>{{$customerList->email}}</td>
-                    </tr>
-                   @endforeach
+                <div class="card">
+                    <div class="card-body">
+              
+                    <br>
+                    <!-- Before your table, add this search input -->
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Rechercher" wire:model.live="search">
+                    </div>
+                    
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Nom et Prenom</th>
+                            <th scope="col">genre</th>
+                            <th scope="col">Nationnalité</th>
+                            <th scope="col">Email</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($customerLists as $customer)
+                            <tr>
+                                <td >{{ $customer->id }}</td>
+                                <td >{{ $customer->name }}</td>
+                                <td >{{ $customer->gender }}</td>
+                                <td >{{ $customer->nationality }}</td>
+                                <td >{{ $customer->email }}</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a type="button" href="{{ route('customer.detail', ['customerId' => $customer->id]) }}" class="btn btn-primary"><i class='bi bi-eye'></i></a>        
+                                    </div>
+                                </td>  
+                                
+                              
+                            </tr>
+                        @endforeach
+                        
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                
 
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Table with stripped rows -->
+              
+              
 
             </div>
           </div>
-
-        </div>
+        </section>
       </div>
-    </section>
+    </div>
+
+
+
+
+    
 
   </main><!-- End #main -->

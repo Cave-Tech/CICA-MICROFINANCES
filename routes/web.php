@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Employe\DetailCustomerComponent;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,6 +74,21 @@ Route::get('/paiement-list', function () {
 Route::get('/operation-list', function () {
     return view('employe.operation-list');
 })->name('employe.operartion-list');
+
+Route::get('/save-operation', function () {
+    return view('employe.save-operation');
+})->name('employe.save-operation');
+
+Route::get('/details', function () {
+    return view('employe.details');
+})->name('employe.details');
+
+Route::get('/details_pret', function () {
+    return view('employe.details-pret');
+})->name('employe.details-pret');
+
+
+Route::get('/customer/{customerId}', DetailCustomerComponent::class)->name('customer.detail');
 
 
 Route::get('/dashboard', function () {

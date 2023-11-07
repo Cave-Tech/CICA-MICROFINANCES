@@ -22,7 +22,7 @@
 
           <div class="card">
             <div class="card-body pt-3">
-              <!-- Bordered Tabs -->
+              
               <ul class="nav nav-tabs nav-tabs-bordered">
 
                 <li class="nav-item">
@@ -44,8 +44,17 @@
               </ul>
               <div class="tab-content pt-2">
 
+           
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                  <h5 class="card-title">Information sur le client</h5>
+                  <div class="pagetitle">
+                    <h1>Information sur le client</h1>
+                  </div>
+                  
+
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Statut</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->status }}</div>
+                  </div>
 
                   <div class="row">
                       <div class="col-lg-3 col-md-4 label">Nom</div>
@@ -62,9 +71,12 @@
                       <div class="col-lg-9 col-md-8">{{ $customer->phone }}</div>
                   </div>
 
-                  <!-- Ajoutez des lignes similaires pour email, téléphone, etc. -->
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Adresse</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->address }}</div>
+                  </div>
 
-                  <!-- Informations démographiques -->
+                  
                   <div class="row">
                       <div class="col-lg-3 col-md-4 label">Genre</div>
                       <div class="col-lg-9 col-md-8">{{ $customer->gender }}</div>
@@ -75,18 +87,21 @@
                       <div class="col-lg-9 col-md-8">{{ $customer->birth_date }}</div>
                   </div>
 
-                  <!-- ... Autres informations démographiques ... -->
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Nationalité</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->nationality }}</div>
+                  </div>
 
-                  <!-- Informations d'emploi si applicable -->
+                  
                   @if($customer->employee_type_id)
                   <div class="row">
                       <div class="col-lg-3 col-md-4 label">Type d'Employé</div>
                       <div class="col-lg-9 col-md-8">{{ $customer->employeeType->name }}</div>
                   </div>
-                  <!-- ... Autres informations d'emploi ... -->
+               
                   @endif
 
-                  <!-- Informations sur le client -->
+               
                   <div class="row">
                       <div class="col-lg-3 col-md-4 label">Statut Marital</div>
                       <div class="col-lg-9 col-md-8">{{ $customer->marital_status }}</div>
@@ -97,19 +112,13 @@
                       <div class="col-lg-9 col-md-8">{{ $customer->occupation }}</div>
                   </div>
 
-                  <!-- ... Autres informations sur le client ... -->
-
-                  <!-- Informations financières du client -->
-                  <div class="row">
+                  
+                  <!-- <div class="row">
                       <div class="col-lg-3 col-md-4 label">Informations Financières</div>
                       <div class="col-lg-9 col-md-8">{{ $customer->financial_information }}</div>
-                  </div>
+                  </div> -->
 
-                  <!-- ... Autres informations financières ... -->
-
-                  <!-- Informations de contact d'urgence pour les employés -->
-
-
+                 
                   @if($customer->emergency_contact_name)
                   <div class="row">
                       <div class="col-lg-3 col-md-4 label">Contact d'Urgence</div>
@@ -117,9 +126,7 @@
                   </div>
                   @endif
 
-                  <!-- ... Suite des informations financières du client ... -->
-
-                  <!-- Informations complémentaires sur le client -->
+                 
                   <div class="row">
                       <div class="col-lg-3 col-md-4 label">Nombre de Personnes à Charge</div>
                       <div class="col-lg-9 col-md-8">{{ $customer->number_of_dependents }}</div>
@@ -130,10 +137,10 @@
                       <div class="col-lg-9 col-md-8">{{ $customer->source_of_income }}</div>
                   </div>
 
-                  <div class="row">
+                  <!-- <div class="row">
                       <div class="col-lg-3 col-md-4 label">Référence</div>
                       <div class="col-lg-9 col-md-8">{{ $customer->referral }}</div>
-                  </div>
+                  </div> -->
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Client Depuis</div>
@@ -143,10 +150,10 @@
                 </div>
 
 
-                  <div class="row">
+                  <!-- <div class="row">
                       <div class="col-lg-3 col-md-4 label">Détails des Prêts Précédents</div>
                       <div class="col-lg-9 col-md-8">{{ $customer->previous_loan_details }}</div>
-                  </div>
+                  </div> -->
 
                   <div class="row">
                       <div class="col-lg-3 col-md-4 label">Type de Client</div>
@@ -158,7 +165,7 @@
                       <div class="col-lg-9 col-md-8">{{ number_format($customer->average_monthly_income, 2, ',', ' ') }} €</div>
                   </div>
 
-                  <!-- Informations d'identification -->
+                 
                   <div class="row">
                       <div class="col-lg-3 col-md-4 label">Type de Pièce d'Identité</div>
                       <div class="col-lg-9 col-md-8">{{ $customer->id_type }}</div>
@@ -169,30 +176,25 @@
                       <div class="col-lg-9 col-md-8">{{ $customer->id_number }}</div>
                   </div>
 
-                  <!-- Informations de profil -->
-                  <div class="row">
+                
+                  <!-- <div class="row">
                       <div class="col-lg-3 col-md-4 label">Photo de Profil</div>
                       <div class="col-lg-9 col-md-8">
                           <img src="{{ asset('storage/profile_pictures/' . $customer->profile_picture) }}" alt="Photo de Profil" style="width: 100px; height: 100px;">
                       </div>
-                  </div>
+                  </div> -->
 
-                  <div class="row">
-                      <div class="col-lg-3 col-md-4 label">Statut</div>
-                      <div class="col-lg-9 col-md-8">{{ $customer->status }}</div>
-                  </div>
+                  
 
 
                 </div>
 
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-                  <!-- Profile Edit Form -->
-                  <!-- forumlaire demande debut -->
+                 
                   <div class="pagetitle">
-                    <h1>Liste de demande de pret</h1>
-
-                  </div><!-- End Page Title -->
+                    <h1>Historique des prets</h1>
+                  </div>
 
                   <section class="section">
                     <div class="row">
@@ -205,12 +207,12 @@
                             <table class="table datatable">
                               <thead>
                                 <tr>
-                                  <th scope="col">Numero</th>
-                                  <th scope="col">Nom</th>
-                                  <th scope="col">Prenom</th>
-                                  <th scope="col">Agent</th>
-                                  <th scope="col">Date pret</th>
+                                  <th scope="col">Id</th>
+                                  <th scope="col">Type de pret</th>
+                                  <th scope="col">Montant</th>
+                                  <th scope="col">Agent</th> 
                                   <th scope="col">Statut pret</th>
+                                  <th scope="col">Date pret</th>
                                 </tr>
                               </thead>
                               <tbody>

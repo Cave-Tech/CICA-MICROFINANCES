@@ -10,7 +10,7 @@ class DetailCustomerComponent extends Component
     public $customer;
     public function mount($customerId)
     {
-        $this->customer = User::with(['account', 'operation', 'loan', 'profile', 'employeeType'])
+        $this->customer = User::with(['account', 'operation', 'loan', 'profile', 'employeType'])
             ->find($customerId);
 
         // dd($this->customer);

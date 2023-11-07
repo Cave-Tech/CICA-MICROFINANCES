@@ -1,25 +1,24 @@
 <main id="main" class="main">
-
     <div class="pagetitle">
       <h1>Profil Client</h1>
     </div><!-- End Page Title -->
 
     <section class="section profile">
       <div class="row">
-        <div class="col-xl-4">
+        <div class="col-xl-3">
 
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-              <h2>Kevin Anderson</h2>
-              <h3>Web Designer</h3>
+            <img src="{{ $customer->profile->profile_picture }}" alt="Profile" class="rounded-circle">
+            <h2>{{ $customer->name }}</h2>
+            <h3>{{ $customer->occupation }}</h3> 
             </div>
           </div>
 
         </div>
 
-        <div class="col-xl-8">
+        <div class="col-xl-9">
 
           <div class="card">
             <div class="card-body pt-3">
@@ -46,37 +45,143 @@
               <div class="tab-content pt-2">
 
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                  <h5 class="card-title">Details Pret</h5>
+                  <h5 class="card-title">Information sur le client</h5>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label ">Montant</div>
-                    <div class="col-lg-9 col-md-8"></div>
+                      <div class="col-lg-3 col-md-4 label">Nom</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->name }}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Statut</div>
-                    <div class="col-lg-9 col-md-8"></div>
+                      <div class="col-lg-3 col-md-4 label">Adresse Mail</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->email }}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Ville </div>
-                    <div class="col-lg-9 col-md-8"></div>
+                      <div class="col-lg-3 col-md-4 label">Telephone</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->phone }}</div>
+                  </div>
+
+                  <!-- Ajoutez des lignes similaires pour email, téléphone, etc. -->
+
+                  <!-- Informations démographiques -->
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Genre</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->gender }}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Addresse</div>
-                    <div class="col-lg-9 col-md-8"></div>
+                      <div class="col-lg-3 col-md-4 label">Date de Naissance</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->birth_date }}</div>
+                  </div>
+
+                  <!-- ... Autres informations démographiques ... -->
+
+                  <!-- Informations d'emploi si applicable -->
+                  @if($customer->employee_type_id)
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Type d'Employé</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->employeeType->name }}</div>
+                  </div>
+                  <!-- ... Autres informations d'emploi ... -->
+                  @endif
+
+                  <!-- Informations sur le client -->
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Statut Marital</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->marital_status }}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Telephone</div>
-                    <div class="col-lg-9 col-md-8"></div>
+                      <div class="col-lg-3 col-md-4 label">Occupation</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->occupation }}</div>
+                  </div>
+
+                  <!-- ... Autres informations sur le client ... -->
+
+                  <!-- Informations financières du client -->
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Informations Financières</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->financial_information }}</div>
+                  </div>
+
+                  <!-- ... Autres informations financières ... -->
+
+                  <!-- Informations de contact d'urgence pour les employés -->
+
+
+                  @if($customer->emergency_contact_name)
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Contact d'Urgence</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->emergency_contact_name }} ({{ $customer->emergency_contact_relation }}) - {{ $customer->emergency_contact_phone }}</div>
+                  </div>
+                  @endif
+
+                  <!-- ... Suite des informations financières du client ... -->
+
+                  <!-- Informations complémentaires sur le client -->
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Nombre de Personnes à Charge</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->number_of_dependents }}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Email</div>
-                    <div class="col-lg-9 col-md-8"></div>
+                      <div class="col-lg-3 col-md-4 label">Source de Revenu</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->source_of_income }}</div>
                   </div>
+
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Référence</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->referral }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Client Depuis</div>
+                    <div class="col-lg-9 col-md-8">
+                        {{ $customer->client_since ? \Carbon\Carbon::parse($customer->client_since)->toDateString() : 'Non Disponible' }}
+                    </div>
+                </div>
+
+
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Détails des Prêts Précédents</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->previous_loan_details }}</div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Type de Client</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->client_type }}</div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Revenu Mensuel Moyen</div>
+                      <div class="col-lg-9 col-md-8">{{ number_format($customer->average_monthly_income, 2, ',', ' ') }} €</div>
+                  </div>
+
+                  <!-- Informations d'identification -->
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Type de Pièce d'Identité</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->id_type }}</div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Numéro de Pièce d'Identité</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->id_number }}</div>
+                  </div>
+
+                  <!-- Informations de profil -->
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Photo de Profil</div>
+                      <div class="col-lg-9 col-md-8">
+                          <img src="{{ asset('storage/profile_pictures/' . $customer->profile_picture) }}" alt="Photo de Profil" style="width: 100px; height: 100px;">
+                      </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Statut</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->status }}</div>
+                  </div>
+
 
                 </div>
 
@@ -287,4 +392,4 @@
       </div>
     </section>
 
-  </main><!-- End #main -->
+</main><!-- End #main -->

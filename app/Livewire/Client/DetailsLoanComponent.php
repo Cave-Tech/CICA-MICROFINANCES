@@ -11,10 +11,10 @@ use App\Models\Loan;
 class DetailsLoanComponent extends Component
 {
     public $loan;
-    public function showLoanDetails($loanId)
+    public function mount($loanId)
     {
-        $this->loan = Loan::find($loanId); 
-        return view('livewire.client.details-loan-component');
+        $this->loan = Loan::with(['borrower', 'agent', 'payment'])
+        ->find($loanId);
     }
 
     public function render()

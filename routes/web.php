@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Employe\DetailCustomerComponent;
+use App\Livewire\Client\DetailsLoanComponent;
 
 use Illuminate\Support\Facades\Route;
 
@@ -37,9 +38,7 @@ Route::get('/client-loan-request', function () {
     return view('client.loan-request');
 })->name('client.loan-request');
 
-Route::get('/client-details-loan/{loanId}', function ($loanId) {
-    return view('client.details-loan', compact('loanId'));
-})->name('client.details-loan');
+Route::get('client-details-loan/{loanId}', DetailsLoanComponent::class)->name('client.details-loan');
 
 
 

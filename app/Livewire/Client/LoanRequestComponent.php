@@ -20,6 +20,8 @@ class LoanRequestComponent extends Component
         return view('livewire.client.loan-request-component');
     }
 
+    
+    public $loanId;
 
     public $amount;
     public $typeloan;
@@ -88,5 +90,16 @@ class LoanRequestComponent extends Component
         }
     
     }
+
+
+    //ShowEdit Loan
+    public function showEditLoan($loanId)
+    {
+        $loan = Operation::find($loanId);
+        $this->montant = $loan->loan_amount;
+        $this->type_warranty = $loan->type_warranty;
+        $this->value_warranty = $loan->value_warranty;
+    }
+    //Fin ShowEdit Loan
 
 }

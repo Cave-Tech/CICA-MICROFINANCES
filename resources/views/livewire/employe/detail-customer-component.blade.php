@@ -53,7 +53,14 @@
 
                   <div class="row">
                       <div class="col-lg-3 col-md-4 label">Statut</div>
-                      <div class="col-lg-9 col-md-8">{{ $customer->status }}</div>
+                      <div class="col-lg-9 col-md-8">
+                        @if ($customer->status == "blocked")
+                            <span class='badge bg-danger'>Bloquer</span>
+                        @else($customer->status == "validated")
+                            <span class='badge bg-success'>Actif</span>
+                        @endif
+                      </div>
+                      
                   </div>
 
                   <div class="row">
@@ -204,54 +211,43 @@
                           <div class="card-body">
 
                             <!-- Table with stripped rows -->
-                            <table class="table datatable">
+                            <table class="table">
                               <thead>
                                 <tr>
-                                  <th scope="col">Id</th>
-                                  <th scope="col">Type de pret</th>
+                                  <th scope="col">Type du prêt</th>
                                   <th scope="col">Montant</th>
-                                  <th scope="col">Agent</th> 
-                                  <th scope="col">Statut pret</th>
-                                  <th scope="col">Date pret</th>
+                                  <th scope="col">Status</th>
+                                  <th scope="col">Date</th>
+                                  <th></th>
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr>
-                                  <th scope="row">1</th>
-                                  <td>Brandon Jacob</td>
-                                  <td>Designer</td>
-                                  <td>28</td>
-                                  <td>2016-05-25</td>
-                                  <td>2016-05-25</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">2</th>
-                                  <td>Bridie Kessler</td>
-                                  <td>Developer</td>
-                                  <td>35</td>
-                                  <td>2014-12-05</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">3</th>
-                                  <td>Ashleigh Langosh</td>
-                                  <td>Finance</td>
-                                  <td>45</td>
-                                  <td>2011-08-12</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">4</th>
-                                  <td>Angus Grady</td>
-                                  <td>HR</td>
-                                  <td>34</td>
-                                  <td>2012-06-11</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">5</th>
-                                  <td>Raheem Lehner</td>
-                                  <td>Dynamic Division Officer</td>
-                                  <td>47</td>
-                                  <td>2011-04-19</td>
-                                </tr>
+                                @foreach($customer->loan as $loan)
+                                  <tr>
+                                    <td>
+                                        @if ($loan->loan_type_id == 1)
+                                            <span class='badge bg-success'>pret automobile</span>
+                                        @elseif ($loan->loan_type_id == 2)
+                                            <span class='badge bg-warning'>pret immobilier</span>
+                                        @endif
+                                        
+                                    </td>
+                                    <td>{{ number_format($loan->loan_amount, 2, ',', ' ') }} FCFA</td>
+                                    <td>
+                                        @if ($loan->status == "rejected")
+                                            <span class='badge bg-danger'>Rejeter</span>
+                                        @elseif ($loan->status == "pending")
+                                            <span class='badge bg-warning'>En attente</span>
+                                        @else($loan->status == "validated")
+                                            <span class='badge bg-success'>Valider</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $loan->created_at->toDateString() }}</td>
+                                    <td>
+                                      <a href="{{ route('client.details-loan', ['loanId' => $loan->id]) }}"><button  class="btn btn-primary"><i class='bi bi-eye'></i></button></a>
+                                    </td>
+                                  </tr>
+                                @endforeach
                               </tbody>
                             </table>
                             <!-- End Table with stripped rows -->
@@ -292,54 +288,49 @@
                                 <!--<p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>-->
 
                                 <!-- Table with stripped rows -->
-                                <table class="table datatable">
+                                <table class="table">
                                   <thead>
-                                    <tr>
-                                      <th scope="col">Numéro</th>
-                                      <th scope="col">Type opération</th>
-                                      <th scope="col">Méthode transaction</th>
-                                      <th scope="col">Montant opération</th>
-                                      <th scope="col">Date opération</th>
-                                    </tr>
+                                      <tr>
+                                          <th scope="col">#Code unique</th>
+                                          <th scope="col">Montant</th>
+                                          <th scope="col">Type d'opération</th>
+                                          <th scope="col">Status</th>
+                                          <th scope="col">Date</th>
+                                          <th scope="col">Action</th>
+                                      </tr>
                                   </thead>
                                   <tbody>
-                                    <tr>
-                                      <th scope="row">1</th>
-                                      <td>Brandon Jacob</td>
-                                      <td>Designer</td>
-                                      <td>28</td>
-                                      <td>2016-05-25</td>
-                                    </tr>
-                                    <tr>
-                                      <th scope="row">2</th>
-                                      <td>Bridie Kessler</td>
-                                      <td>Developer</td>
-                                      <td>35</td>
-                                      <td>2014-12-05</td>
-                                    </tr>
-                                    <tr>
-                                      <th scope="row">3</th>
-                                      <td>Ashleigh Langosh</td>
-                                      <td>Finance</td>
-                                      <td>45</td>
-                                      <td>2011-08-12</td>
-                                    </tr>
-                                    <tr>
-                                      <th scope="row">4</th>
-                                      <td>Angus Grady</td>
-                                      <td>HR</td>
-                                      <td>34</td>
-                                      <td>2012-06-11</td>
-                                    </tr>
-                                    <tr>
-                                      <th scope="row">5</th>
-                                      <td>Raheem Lehner</td>
-                                      <td>Dynamic Division Officer</td>
-                                      <td>47</td>
-                                      <td>2011-04-19</td>
-                                    </tr>
+                                  @foreach($customer->operation as $operation)
+                                      <tr>
+                                        <th scope="row">{{ $operation->transaction_key }}</th>
+                                        <td>{{ $operation->withdrawal_amount }}</td>
+                                        <td>{{ $operation->operationType->designation }}</td>
+
+                                        <td>
+                                            @if ($operation->status == "completed")
+                                                <span class='badge bg-success'>Terminé</span>
+                                            @elseif ($operation->status == "pending")
+                                                <span class='badge bg-warning'>En cours</span>
+                                            @else
+                                                <span class='badge bg-danger'>Annuler</span>
+                                            @endif
+                                            
+                                        </td>
+
+                                        <td>{{ strftime('%d %B %Y', strtotime($operation->withdrawal_date)) }}</td>
+
+                                        <!-- <td>
+                                            <div class="btn-group" role="group">
+                                                <button wire:click="showDetails({{ $operation->id }})" data-bs-toggle="modal" data-bs-target="#operationModal" class="btn btn-primary"><i class='bi bi-eye'></i></button>        
+                                            </div>
+                                        </td>   -->
+                                          
+                                        
+                                      </tr>
+                                  @endforeach
+                                  
                                   </tbody>
-                                </table>
+                              </table>
                                 <!-- End Table with stripped rows -->
 
                               </div>

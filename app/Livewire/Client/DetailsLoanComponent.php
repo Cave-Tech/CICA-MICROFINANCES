@@ -15,6 +15,7 @@ class DetailsLoanComponent extends Component
     {
         $this->loan = Loan::with(['borrower', 'agent', 'payment'])
         ->find($loanId);
+        // dd($this->loan);
     }
 
     public function render()

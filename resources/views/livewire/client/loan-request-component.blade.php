@@ -102,8 +102,6 @@
                                         <option >Choisissez le type de prêt</option>
                                         <option value="1">Prêt hypothécaire</option>
                                         <option value="2">Prêt étudiant</option>
-                                        <option value="3">Prêt personnel</option>
-                                        <option value="4">Autre</option>
                                     </select>
                                 </div><br>
                                 <div class="col-md-12">
@@ -224,10 +222,11 @@
               </table>
               <!-- End Table with stripped rows -->
             </div>
+                @foreach($user->loan as $loan)
                 <!-- Moadal Show loan -->
                 <div class="modal fade" wire:ignore.self id="confirmDeleteModal1{{ $loan->id }}" tabindex="-1" aria-labelledby="confirmDeleteModalLabel{{ $loan->id }}" role="dialog" aria-labelledby="loanModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
-                        <form wire:submit.prevent="saveLoan" enctype="multipart/form-data">
+                        <form wire:submit.prevent="EditLoan" enctype="multipart/form-data">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="confirmDeleteModalLabel{{ $loan->id }}">Formulaire de Prêt</h5>
@@ -236,20 +235,18 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
+                                            <!--<input type="" wire:model="idloan" value="{{$loan->id}}" class="form-control" id="loanAmount">-->
                                         <div class="form-group">
-                                            <input type="number" wire:model="montant" value="{{$loan->montant}}" class="form-control" id="loanAmount">
+                                            <input type="number" wire:model="amount" value="{{$loan->loan_amount}}" class="form-control" id="loanAmount">
                                         </div><br>
                                         <div class="col-md-12">
-                                            <select wire:model="typeloan" class="form-select" aria-label="Type d'opération" required>
-                                                <option >Choisissez le type de prêt</option>
+                                            <select wire:model="typeloan" class="form-select" value="{{$loan->loan_type_id}}" aria-label="Type d'opération" required>
                                                 <option value="1">Prêt hypothécaire</option>
                                                 <option value="2">Prêt étudiant</option>
-                                                <option value="3">Prêt personnel</option>
-                                                <option value="4">Autre</option>
                                             </select>
                                         </div><br>
                                         <div class="col-md-12">
-                                            <select wire:model="typeWarranty" class="form-select" aria-label="Type d'opération" required>
+                                            <select wire:model="typeWarranty" value="{{$loan->type_warranty}}" class="form-select" aria-label="Type d'opération" required>
                                                 <option >Type de garantie</option>
                                                 <option value="1">Bien immobilier</option>
                                                 <option value="2">Autre bien</option>
@@ -257,35 +254,36 @@
                                         </div><br>
 
                                         <div class="form-group">
-                                            <input type="number" class="form-control" wire:model="valueWarranty" placeholder="Valeur du garantie en FCFA" id="interestRate">
+                                            <input type="number" class="form-control" wire:model="valueWarranty" value="{{$loan->value_warranty}}" id="interestRate">
                                         </div><br>
 
                                         <div class="form-group">
-                                            <textarea class="form-control" wire:model="detailsWarranty" placeholder="Details du garantie" style="height: 100px"></textarea>
+                                            <textarea class="form-control" wire:model="detailsWarranty" value="{{$loan->details_warranty}}" style="height: 100px"></textarea>
                                         </div><br>
 
                                         <div class="form-group">
-                                            <textarea class="form-control" wire:model="purposeWarranty" placeholder="Plan de remboussement" style="height: 100px"></textarea>
+                                            <textarea class="form-control" wire:model="purposeWarranty" value="{{$loan->purpose_warranty}}"  style="height: 100px"></textarea>
                                         </div><br>
 
                                         <div class="form-group">
-                                            <input type="text" class="form-control" wire:model="nameWarrantor" placeholder="Nom & Prénom du temoins" id="interestRate">
+                                            <input type="text" class="form-control" wire:model="nameWarrantor" value="{{$loan->name_warrantor}}" id="interestRate">
                                         </div><br>
 
                                         <div class="form-group">
-                                            <input type="number" class="form-control" wire:model="numWarrantor" placeholder="Numéro du temoins" id="interestRate">
+                                            <input type="number" class="form-control"  wire:model="numWarrantor" value="{{$loan->number_warrantor}}" id="interestRate">
                                         </div><br>
 
                                         <div class="form-group">
-                                            <input type="text" class="form-control" wire:model="addressWarrantor" placeholder="Address du témoins" id="interestRate">
+                                            <input type="text" class="form-control" wire:model="addressWarrantor" value="{{$loan->address_warrantor}}" id="interestRate">
                                         </div>
 
                                         <div class="col-md-12">
                                         <label for="interestRate"></label>
-                                            <select wire:model="relationWarrantor" class="form-select" aria-label="Type d'opération" required>
-                                                <option >Relation du temoins</option>
-                                                <option value="1">Bien immobilier</option>
-                                                <option value="2">Autres biens</option>
+                                            <select wire:model="relationWarrantor" value="{{$loan->relation_warrantor}}" class="form-select" aria-label="Type d'opération" required>
+                                                <!--<option value="{{$loan->relation_warrantor}}">{{$loan->relation_warrantor}}</option>-->
+                                                <option value="Parent">Bien immobilier</option>
+                                                <option value="Amis">Autres biens</option>
+                                                <option value="Autre">Autres biens</option>
                                             </select>
                                         </div><br>
 
@@ -302,6 +300,7 @@
                         </form>
                     </div>
                 </div>
+                @endforeach
                 <!-- End Moadal Show loan -->
             </div>
           </div>

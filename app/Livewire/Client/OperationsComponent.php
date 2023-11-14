@@ -160,7 +160,7 @@ class OperationsComponent extends Component
     }
     //Fin Show opperation
 
-
+    public $loans;
     //ShowEdit opperation
     public function showEdit($operationId)
     {

@@ -50,6 +50,57 @@
         </div>
     </div>
 
+
+        @if($loan->status === 'pending')
+            <form wire:submit.prevent="EditLoanDoc" enctype="multipart/form-data">
+            
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Informations du Prêt</h5>
+                                    <!--<input type="hidden" wire:model="id" value="{{$loan->id}}">-->
+                                    
+                                    <div class="form-group">
+                                            @if($loan->doc_files)
+                                                <label for="loan_document">Document pour le prêt :</label>
+                                                <a href="{{ asset('storage/' . $loan->doc_files) }}" target="_blank">Voir le document PDF</a>
+                                            @else
+                                                <p>Mettez un document</p>
+                                            @endif
+                                        <input type="file" class="form-control" value="{{$loan->doc_files}}" wire:model="doc_files" accept=".pdf, .doc, .docx">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Détails du Garant</h5>
+                                    <div class="form-group"> 
+                                            @if($loan->doc_files)
+                                                <label for="loan_document">Document pour le prêt :</label>
+                                                <a href="{{ asset('storage/' . $loan->doc_files_warrantor) }}" target="_blank">Voir le document PDF</a>
+                                            @else
+                                                <p>Mettez un document</p>
+                                            @endif
+                                        <input type="file" class="form-control" value=" {{$loan->doc_files_warrantor}}" wire:model="doc_files_warrantor" accept=".pdf, .doc, .docx">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Envoyer les fichiers</button>
+                </div>
+            </form>
+        @endif
+
+
     <div class="pagetitle">
         <h1>Historique des paiements</h1>
     </div>
@@ -105,42 +156,5 @@
         </div>
     </div>
 
-
-    @if($loan->status === 'pending')
-    <form enctype="multipart/form-data">
-    @csrf
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Informations du Prêt</h5>
-                        <div class="form-group">
-                            <label for="loan_document">Document pour le prêt :</label>
-                            <input type="file" class="form-control" id="loan_document" name="loan_document" accept=".pdf, .doc, .docx">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Détails du Garant</h5>
-                        <div class="form-group">
-                            <label for="guarantor_document">Document pour le garant :</label>
-                            <input type="file" class="form-control" id="guarantor_document" name="guarantor_document" accept=".pdf, .doc, .docx">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="text-center mt-3">
-        <button type="submit" class="btn btn-primary">Envoyer les fichiers</button>
-    </div>
-</form>
-@endif
 
 </main><!-- End #main -->

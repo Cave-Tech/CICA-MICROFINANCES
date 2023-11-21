@@ -82,6 +82,10 @@ Route::get('/details', function () {
     return view('employe.details');
 })->name('employe.details');
 
+Route::get('/inscription-employer', function () {
+    return view('inscription.inscription');
+})->name('inscription');
+
 Route::get('/details_pret', function () {
     return view('employe.details-pret');
 })->name('employe.details-pret');

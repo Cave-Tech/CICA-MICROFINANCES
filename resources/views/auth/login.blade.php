@@ -95,9 +95,12 @@
                                     <button class="btn btn-primary w-100" type="submit">Connexion</button>
                                 </div>
 
-                                <!-- <div class="col-12">
-                                    <p class="small mb-0">Don't have an account? <a href="pages-register.html">Create an account</a></p>
-                                </div> -->
+                                <div class="col-12">
+                                    <p class="small mb-0">Vous n'avez pas un compte ? <a href="{{ url ('/register')}}">Créer un compte</a></p>
+                                </div>
+                                <div class="col-12">
+                                    <p class="small mb-0">Mot de passe oublié ? <a href="{{ url ('/forgot-password')}}">Récupérer le mot de passe </a></p>
+                                </div>
                             </form>
 
 

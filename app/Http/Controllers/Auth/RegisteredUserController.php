@@ -37,6 +37,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
+            'profile_id' => 3,
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -44,8 +45,9 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        //Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect('/login');
+        //return redirect(RouteServiceProvider::HOME);
     }
 }

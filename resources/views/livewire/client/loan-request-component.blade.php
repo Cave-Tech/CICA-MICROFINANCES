@@ -58,14 +58,14 @@
         @endif
         
 
-        <!--Fin Message de succes ou d'erreur -->
+       
         @if($message = Session::get('fail'))
         <div class="alert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             {{$message}}
         </div>
         @endif
-
+ <!--Fin Message de succes ou d'erreur -->
 
      
 <div class="container">

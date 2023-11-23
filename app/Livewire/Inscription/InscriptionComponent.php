@@ -43,6 +43,8 @@ class InscriptionComponent extends Component
             'password' => Hash::make($temporaryPassword),
         ]);
 
+        // Envoyer le mot de passe temporaire par e-mail
+        Mail::to($user->email)->send(new TemporaryPasswordMail($temporaryPassword));
         // Optionally, you can log in the user after registration
         // auth()->login($user);
         

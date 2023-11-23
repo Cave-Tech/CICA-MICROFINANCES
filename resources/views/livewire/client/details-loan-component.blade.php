@@ -61,8 +61,6 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Informations du Prêt</h5>
-                                    <!--<input type="hidden" wire:model="id" value="{{$loan->id}}">-->
-                                    
                                     <div class="form-group">
                                             @if($loan->doc_files)
                                                 <label for="loan_document">Document pour le prêt :</label>

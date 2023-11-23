@@ -186,6 +186,13 @@
                         <span>Dashboard Chargé des Ressources Humaines</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{{ url('/inscription-employer')}}">
+                        <i class="bi bi-journal-text"></i>
+                        <span>Gérer mes operations</span>
+                    </a>
+                </li>
             @endif
         @endif <!-- Fin de la section réservée aux Employés -->
 

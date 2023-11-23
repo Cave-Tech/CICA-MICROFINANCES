@@ -26,6 +26,8 @@
                         <th scope="col">Id</th>
                         <th scope="col">Nom et Prenom</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Type d'employés</th>
+
                         <th></th>
                       </tr>
                     </thead>
@@ -36,8 +38,26 @@
                                 <td>{{$employeeList->name}}</td>
                                 <td>{{$employeeList->email}}</td>
                                 <td>
+                                  @if ($employeeList->employee_type_id == 1)
+                                      caissier
+                                  @elseif ($employeeList->employee_type_id == 2)
+                                      comptable
+                                  @elseif ($employeeList->employee_type_id == 3)
+                                      agent_terrain
+                                  @elseif ($employeeList->employee_type_id == 4)  
+                                      directeur
+                                  @elseif ($employeeList->employee_type_id == 5)
+                                      charger_client
+                                  @elseif ($employeeList->employee_type_id == 6)
+                                      charger_rh
+                                  @else
+                                      <span class="badge badge-danger">Aucun type d'employé</span> 
+                                  @endif  
+                                </td>
+                                
+                                <td>
                                     <div class="btn-group" role="group">
-                                        <button class="btn btn-primary"><i class='bi bi-eye'></i></button>        
+                                        <a type="button" href="{{ route('employe.detail', ['employeId' => $employeeList->id]) }}" class="btn btn-primary"><i class='bi bi-eye'></i></a>        
                                     </div>
                                 </td>  
                             </tr>

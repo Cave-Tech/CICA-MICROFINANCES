@@ -34,6 +34,7 @@ class LoanRequestComponent extends Component
     public $numWarrantor;
     public $relationWarrantor;
     public $docFiles;
+    
 
     public function saveLoan()
     {

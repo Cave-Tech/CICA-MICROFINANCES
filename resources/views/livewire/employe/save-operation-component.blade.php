@@ -32,20 +32,20 @@
             <form wire:submit.prevent="saveOperation" class="php-email-form">
                 <div class="row gy-4">
 
-                <div class="col-md-12">
-                    <input type="text" class="form-control" wire:model.live="name" placeholder="Entrez le nom" autocomplete="off">
-                    <div>
-                        @if(!empty($name))
-                            <div class="list-group">
-                                @foreach($filteredUsers as $user)
-                                    <a href="#" wire:click.prevent="selectUser({{ $user->id }})" class="list-group-item list-group-item-action">
-                                        {{ $user->name }}
-                                    </a>
-                                @endforeach
-                            </div>
-                        @endif
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" wire:model.live="name" placeholder="Entrez le nom" autocomplete="off">
+                        <div>
+                            @if(!empty($name))
+                                <div class="list-group">
+                                    @foreach($filteredUsers as $user)
+                                        <a href="#" wire:click.prevent="selectUser({{ $user->id }})" class="list-group-item list-group-item-action">
+                                            {{ $user->name }}
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
                     </div>
-                </div>
 
 
                     <div class="col-md-12">

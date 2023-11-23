@@ -14,6 +14,7 @@ class Account extends Model
     protected $fillable = [
         'user_id',
         'agent_id',
+        'account_number',
         'balance',
         'account_types_id',
         'interest_rate',
@@ -22,6 +23,10 @@ class Account extends Model
     ];
 
     public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function agent(){
         return $this->belongsTo(User::class);
     }
 

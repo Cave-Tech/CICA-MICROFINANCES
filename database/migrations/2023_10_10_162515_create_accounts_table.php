@@ -17,8 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('agent_id');
             $table->unsignedBigInteger('account_types_id');
+            $table->string('account_number')->unique();
             $table->double('balance');
-            $table->double('interest_rate');
+            $table->double('interest_rate')->nullable();
             $table->date('opening_date');
             $table->string('status');
             $table->timestamps();

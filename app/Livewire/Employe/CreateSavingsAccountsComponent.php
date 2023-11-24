@@ -7,7 +7,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class CreateCurrentAccountsComponent extends Component
+class CreateSavingsAccountsComponent extends Component
 {
     use WithFileUploads;
 
@@ -39,16 +39,15 @@ class CreateCurrentAccountsComponent extends Component
          $this->filteredUsers = []; // Efface les résultats de la recherche
      }
 
-     public function createCurrentAccount()
+     public function createSavingsAccount()
     {
-         // Vérifier si l'utilisateur a déjà un compte courant
         $existingAccount = Account::where('user_id', $this->selectedUserId)
-        ->where('account_types_id', 1)
+        ->where('account_types_id', 2)
         ->first();
 
         // Si un compte courant existe déjà, afficher un message d'erreur
         if ($existingAccount) {
-            session()->flash('fail', 'Cet utilisateur a déjà un compte courant.');
+            session()->flash('fail', 'Cet utilisateur a déjà un compte epargne.');
             return redirect()->route('employe.current-accounts');
         }
 
@@ -59,7 +58,7 @@ class CreateCurrentAccountsComponent extends Component
             'ifu' => $this->ifu,
             'agent_id' => auth()->user()->id,
             'account_number' => $this->generateAccountNumber(),
-            'account_types_id' => 1,
+            'account_types_id' => 2,
             'interest_rate' => 0,
             'opening_date' => now(),
             'status' => 'activated',
@@ -85,7 +84,7 @@ class CreateCurrentAccountsComponent extends Component
         // Émettre un message de succès
         session()->flash('success', 'Le compte courant a été enregistré avec succès.');
 
-        return redirect()->route('employe.current-accounts');
+        return redirect()->route('employe.savings-accounts');
     }
 
     /**
@@ -111,6 +110,6 @@ class CreateCurrentAccountsComponent extends Component
 
     public function render()
     {
-        return view('livewire.employe.create-current-accounts-component');
+        return view('livewire.employe.create-savings-accounts-component');
     }
 }

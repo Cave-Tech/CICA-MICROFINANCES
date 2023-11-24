@@ -6,9 +6,9 @@ use App\Models\Account;
 use App\Models\User;
 use Livewire\Component;
 
-class CurrentAccountsComponent extends Component
+class SavingsAccountsComponent extends Component
 {
-    public $currentAccounts, $currentAccountId, $detailsCurrentAccount, $email, $account_number, $balance, $interest_rate, $opening_date, $status, $account_type;
+    public $savingsAccounts, $savingsAccountId, $detailsSavingsAccount, $email, $account_number, $balance, $interest_rate, $opening_date, $status, $account_type;
     
     public $search = '';
     public $name = ''; // Nom entré par l'utilisateur
@@ -40,15 +40,15 @@ class CurrentAccountsComponent extends Component
 
     public function resetListener()
     {
-        $this->reset('detailsCurrentAccount'); // Réinitialisez les propriétés que vous souhaitez remettre à zéro.
+        $this->reset('detailsSavingsAccount'); // Réinitialisez les propriétés que vous souhaitez remettre à zéro.
     }
 
 
-    public function setActivated($currentAccountId)
+    public function setActivated($savingsAccountId)
     {
-        $currentAccount = Account::findOrFail($currentAccountId);
-        $currentAccount->status = "activated";
-        $currentAccount->save();
+        $savingsAccount = Account::findOrFail($savingsAccountId);
+        $savingsAccount->status = "activated";
+        $savingsAccount->save();
 
         // Émettre l'événement
         $this->dispatch('close-current-account-modall');
@@ -56,22 +56,22 @@ class CurrentAccountsComponent extends Component
         // Ici, vous pouvez ajouter une session flash ou d'autres actions selon vos besoins
     }
 
-    public function setBlocked($currentAccountId)
+    public function setBlocked($savingsAccountId)
     {
-        $currentAccount = Account::findOrFail($currentAccountId);
-        $currentAccount->status = "blocked";
-        $currentAccount->save();
+        $savingsAccount = Account::findOrFail($savingsAccountId);
+        $savingsAccount->status = "blocked";
+        $savingsAccount->save();
 
         $this->dispatch('close-current-account-modall');
     }
 
-    // public function showDetails($currentAccountId)
+    // public function showDetails($savingsAccountId)
     // {
-    //     $this->detailsCurrentAccount = currentAccount::with(['user', 'agent', 'currentAccountType'])->find($currentAccountId);
+    //     $this->detailsSavingsAccount = savingsAccount::with(['user', 'agent', 'savingsAccountType'])->find($savingsAccountId);
     // }
 
-    public function showDetails($currentAccountId) {
-        $this->detailsCurrentAccount = Account::findOrFail($currentAccountId);
+    public function showDetails($savingsAccountId) {
+        $this->detailsSavingsAccount = Account::findOrFail($savingsAccountId);
         $this->dispatch('show-current-account-modal'); // Ouvrez le modal avec JS
     }
     
@@ -80,21 +80,22 @@ class CurrentAccountsComponent extends Component
     }
 
 
-  
+
 
     public function render()
     {
-        $this->currentAccounts = Account::with(['user', 'agent'])
-                ->where('account_types_id', 1)
-                ->where(function($query) {
-                    $query->where('account_number', 'like', '%' . $this->search . '%')
-                        ->orWhereHas('user', function($nestedQuery) {
-                            $nestedQuery->where('name', 'like', '%' . $this->search . '%')
-                                        ->orWhere('email', 'like', '%' . $this->search . '%');
-                        });
-                })
-                ->latest()
-                ->get();
-        return view('livewire.employe.current-accounts-component');
+        $this->savingsAccounts = Account::with(['user', 'agent'])
+            ->where('account_types_id', 2)
+            ->where(function($query) {
+                $query->where('account_number', 'like', '%' . $this->search . '%')
+                    ->orWhereHas('user', function($nestedQuery) {
+                        $nestedQuery->where('name', 'like', '%' . $this->search . '%')
+                                    ->orWhere('email', 'like', '%' . $this->search . '%');
+                    });
+            })
+            ->latest()
+            ->get();
+
+        return view('livewire.employe.savings-accounts-component');
     }
 }

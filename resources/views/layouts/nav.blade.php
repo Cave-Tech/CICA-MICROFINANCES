@@ -174,11 +174,7 @@
                         <i class="bi bi-menu-button-wide"></i><span>Gestion des Comptes client</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="compte-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                        <li>
-                            <a href="{{ url('/create-account')}}">
-                            <i class="bi bi-circle"></i><span>Creer un Compte</span>
-                            </a>
-                        </li>
+                       
                         <li>
                             <a href="{{ url('/current-accounts')}}">
                             <i class="bi bi-circle"></i><span>Comptes Courants</span>

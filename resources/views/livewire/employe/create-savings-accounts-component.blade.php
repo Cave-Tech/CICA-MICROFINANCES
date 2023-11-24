@@ -1,7 +1,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>CREATION DE COMPTE COURANTS </h1>
+        <h1>CREATION DE COMPTE Epargne </h1>
     <div>
 
     <br>
@@ -27,7 +27,7 @@
             <div style="float: left;">
             
             </div>
-            <form wire:submit.prevent="createCurrentAccount" class="php-email-form" enctype="multipart/form-data">
+            <form wire:submit.prevent="createSavingsAccount" class="php-email-form" enctype="multipart/form-data">
                 <div class="row gy-4">
 
                     <div class="col-md-12">

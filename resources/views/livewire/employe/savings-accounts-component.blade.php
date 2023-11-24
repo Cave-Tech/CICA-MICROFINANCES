@@ -33,7 +33,7 @@
                         </div>
 
                         <div class="left-align">
-                            <a href="{{ url('/create-current-account')}}" type="button" class="btn btn-primary" >
+                            <a href="{{ url('/create-savings-account')}}" type="button" class="btn btn-primary" >
                                 Ajouter un nouveau compte
                             </a>
                         </div>
@@ -53,20 +53,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($currentAccounts as $currentAccount)
+                                @foreach($savingsAccounts as $savingsAccount)
                                     <tr>
-                                        <th scope="row">{{ $currentAccount->account_number }}</th>
-                                        <td>{{ $currentAccount->user->name }}</td>
-                                        <td>{{ $currentAccount->user->email }}</td>
-                                        <td>{{ $currentAccount->user->phone }}</td>
-                                        <td>{{ $currentAccount->balance }} FCFA</td>
+                                        <th scope="row">{{ $savingsAccount->account_number }}</th>
+                                        <td>{{ $savingsAccount->user->name }}</td>
+                                        <td>{{ $savingsAccount->user->email }}</td>
+                                        <td>{{ $savingsAccount->user->phone }}</td>
+                                        <td>{{ $savingsAccount->balance }} FCFA</td>
                                        
                                         <td>
-                                            @if ($currentAccount->status == "activated")
+                                            @if ($savingsAccount->status == "activated")
                                                 <span class='badge bg-success'>Activer</span>
-                                            @elseif ($currentAccount->status == "blocked")
+                                            @elseif ($savingsAccount->status == "blocked")
                                                 <span class='badge bg-danger'>Bloquer</span>
-                                            @elseif ($currentAccount->status == "pending")
+                                            @elseif ($savingsAccount->status == "pending")
                                                 <span class='badge bg-warning'>En attente</span>
                                             @endif
                                             
@@ -76,7 +76,7 @@
 
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <button wire:click="showDetails({{ $currentAccount->id }})" data-bs-toggle="modal" data-bs-target="#currentAccountModal" class="btn btn-primary"><i class='bi bi-eye'></i></button>        
+                                                <button wire:click="showDetails({{ $savingsAccount->id }})" data-bs-toggle="modal" data-bs-target="#savingsAccountModal" class="btn btn-primary"><i class='bi bi-eye'></i></button>        
                                             </div>
                                         </td>  
                                     </tr>
@@ -87,38 +87,38 @@
                     </div>
  
                     <!-- Modal -->
-                    <div class="modal fade" id="currentAccountModal" tabindex="-1" aria-labelledby="currentAccountModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="savingsAccountModal" tabindex="-1" aria-labelledby="savingsAccountModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
-                            @if($detailsCurrentAccount)
+                            @if($detailsSavingsAccount)
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="currentAccountModalLabel">Détails du compte</h5>
+                                        <h5 class="modal-title" id="savingsAccountModalLabel">Détails du compte</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="card">
                                             <ul class="list-group list-group-flush">
-                                                <li class="list-group-item"><strong>Numéro de compte:</strong> {{ $detailsCurrentAccount->account_number }}</li>
-                                                <li class="list-group-item"><strong>Nom et Prénom:</strong> {{ $detailsCurrentAccount->user->name }}</li>
-                                                <li class="list-group-item"><strong>Email:</strong> {{ $detailsCurrentAccount->user->email }}</li>
-                                                <li class="list-group-item"><strong>Solde:</strong> {{ $detailsCurrentAccount->balance }} FCFA<br></li>
+                                                <li class="list-group-item"><strong>Numéro de compte:</strong> {{ $detailsSavingsAccount->account_number }}</li>
+                                                <li class="list-group-item"><strong>Nom et Prénom:</strong> {{ $detailsSavingsAccount->user->name }}</li>
+                                                <li class="list-group-item"><strong>Email:</strong> {{ $detailsSavingsAccount->user->email }}</li>
+                                                <li class="list-group-item"><strong>Solde:</strong> {{ $detailsSavingsAccount->balance }} FCFA<br></li>
                                                 <li class="list-group-item">
                                                     <strong>Status:</strong>
-                                                    @if ($detailsCurrentAccount->status == "activated")
+                                                    @if ($detailsSavingsAccount->status == "activated")
                                                         <span class='badge bg-success'>Activer</span>
-                                                    @elseif ($detailsCurrentAccount->status == "blocked")
+                                                    @elseif ($detailsSavingsAccount->status == "blocked")
                                                         <span class='badge bg-danger'>Bloquer</span>
-                                                    @elseif ($detailsCurrentAccount->status == "pending")
+                                                    @elseif ($detailsSavingsAccount->status == "pending")
                                                         <span class='badge bg-warning'>En attente</span>
                                                     @endif
                                                 </li>
-                                                <li class="list-group-item"><strong>Date de creation:</strong> {{ strftime('%d %B %Y', strtotime($detailsCurrentAccount->opening_date)) }}</li>
+                                                <li class="list-group-item"><strong>Date de creation:</strong> {{ strftime('%d %B %Y', strtotime($detailsSavingsAccount->opening_date)) }}</li>
 
                                                 <!-- Afficher le document PDF pour la pièce d'identité -->
                                                 <li class="list-group-item">
                                                     <strong>Pièce d'identité:</strong>
-                                                    @if($detailsCurrentAccount->user->identity_piece)
-                                                        <embed src="{{ Storage::url($detailsCurrentAccount->user->identity_piece) }}" type="application/pdf" width="100%" height="600px" />
+                                                    @if($detailsSavingsAccount->user->identity_piece)
+                                                        <embed src="{{ Storage::url($detailsSavingsAccount->user->identity_piece) }}" type="application/pdf" width="100%" height="600px" />
                                                         
                                                     @else
                                                         Aucun document
@@ -129,8 +129,8 @@
                                                 <li class="list-group-item">
                                                     <strong>Justificatif de domicile:</strong>
                                                     
-                                                    @if($detailsCurrentAccount->user->proof_of_address)
-                                                        <embed src="{{ Storage::url($detailsCurrentAccount->user->proof_of_address) }}" type="application/pdf" width="100%" height="600px" />
+                                                    @if($detailsSavingsAccount->user->proof_of_address)
+                                                        <embed src="{{ Storage::url($detailsSavingsAccount->user->proof_of_address) }}" type="application/pdf" width="100%" height="600px" />
                                                     @else
                                                         Aucun document
                                                     @endif
@@ -142,16 +142,16 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                                         
-                                        @if($detailsCurrentAccount->status == "pending")
-                                            <button type="button" class="btn btn-danger" wire:click="setBlocked({{$detailsCurrentAccount->id}})">Bloquer</button>
-                                            <button type="button" class="btn btn-success" wire:click="setActivated({{$detailsCurrentAccount->id}})">Activer</button>
+                                        @if($detailsSavingsAccount->status == "pending")
+                                            <button type="button" class="btn btn-danger" wire:click="setBlocked({{$detailsSavingsAccount->id}})">Bloquer</button>
+                                            <button type="button" class="btn btn-success" wire:click="setActivated({{$detailsSavingsAccount->id}})">Activer</button>
                                         @endif
 
-                                        @if($detailsCurrentAccount->status == "activated")
-                                                <button type="button" class="btn btn-danger" wire:click="setBlocked({{$detailsCurrentAccount->id}})">Bloquer</button>
+                                        @if($detailsSavingsAccount->status == "activated")
+                                                <button type="button" class="btn btn-danger" wire:click="setBlocked({{$detailsSavingsAccount->id}})">Bloquer</button>
                                         @endif
-                                        @if($detailsCurrentAccount->status == "blocked")
-                                            <button type="button" class="btn btn-success" wire:click="setActivated({{$detailsCurrentAccount->id}})">Activer</button>
+                                        @if($detailsSavingsAccount->status == "blocked")
+                                            <button type="button" class="btn btn-success" wire:click="setActivated({{$detailsSavingsAccount->id}})">Activer</button>
                                         @endif
                                     </div>
 
@@ -170,14 +170,14 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        let modalEl = document.getElementById('currentAccountModal');
+        let modalEl = document.getElementById('savingsAccountModal');
         let modal = new bootstrap.Modal(modalEl);
 
-        window.addEventListener('show-current-account-modal', (event) => {
+        window.addEventListener('show-savings-account-modal', (event) => {
             modal.show();
         });
 
-        window.addEventListener('close-current-account-modal', () => {
+        window.addEventListener('close-savings-account-modal', () => {
             console.log('Fermeture du modal');
             modal.hide();
         });

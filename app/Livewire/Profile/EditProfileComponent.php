@@ -11,8 +11,8 @@ class EditProfileComponent extends Component
     use WithFileUploads;
 
     public $newProfileImage;
-    public $fullName;
-    public $birthDate;
+    public $name;
+    public $birth_date;
     public $nationality;
     public $gender;
     public $address;
@@ -22,12 +22,18 @@ class EditProfileComponent extends Component
     public $newPassword;
     public $renewPassword;
 
-    public $customer;
+    public $profile;
     public function render()
     {
         $userId = auth()->user()->id; // ou tout autre moyen de récupérer l'ID de l'utilisateur connecté
-        $this->customer = User::with(['account', 'operation', 'loan', 'profile', 'employeType'])
+        $this->profile = User::with(['account', 'operation', 'loan', 'profile', 'employeType'])
                             ->find($userId);
+        $this->name = $this->profile->name;                     
+        $this->nationality = $this->profile->nationality;
+        $this->birth_date = $this->profile->birth_date;
+        $this->gender = $this->profile->gender; 
+        $this->address = $this->profile->address;
+        $this->phone = $this->profile->phone;      
         return view('livewire.profile.edit-profile-component');
     }
 
@@ -57,26 +63,35 @@ class EditProfileComponent extends Component
 
     public function updateProfile()
     {
-        $this->validate([
-            'fullName' => 'required|string',
-            'birthDate' => 'required|date',
-            'nationality' => 'required|string',
-            'gender' => 'required|in:male,female',
-            'address' => 'required|string',
-            'phone' => 'required|string',
-        ]);
-
-        // Mise à jour des autres informations du profil
-        auth()->user()->update([
-            'name' => $this->fullName,
-            'birth_date' => $this->birthDate,
-            'nationality' => $this->nationality,
-            'gender' => $this->gender,
-            'address' => $this->address,
-            'phone' => $this->phone,
-        ]);
+        try {
+            //code...
+            $this->validate([
+                'name' => 'required|string',
+                'birth_date' => 'required|date',
+                'nationality' => 'required|string',
+                'gender' => 'required|in:male,female',
+                'address' => 'required|string',
+                'phone' => 'required|string',
+            ]);
+    
+            // Mise à jour des autres informations du profil
+            auth()->user()->update([
+                'name' => $this->name,
+                'birth_date' => $this->birth_date,
+                'nationality' => $this->nationality,
+                'gender' => $this->gender,
+                'address' => $this->address,
+                'phone' => $this->phone,
+            ]);
+    
+        }catch (\Exception $e) {
+                // Ajoutez des messages de débogage
+                dd($e->getMessage());
+        }
 
         return redirect('/profile')->with("success", "Informations mise à jours avec succès !.");
+        
+        
     }
 
     public function updateProfileImage()
@@ -93,10 +108,10 @@ class EditProfileComponent extends Component
             'profile_picture' => $path,
         ]);
 
-        return redirect('/profile')->with("success", "Photo mise à jours avec succès !.");
+        return redirect('/profile');
 
-        // Réinitialisez la propriété pour effacer la nouvelle image après la mise à jour
-        $this->reset('newProfileImage');
+        // Émettre un événement pour informer que la photo a été mise à jour
+        //$this->dispatch('photoUpdated');
     }
 
 

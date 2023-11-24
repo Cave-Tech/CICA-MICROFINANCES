@@ -86,9 +86,13 @@ Route::get('/inscription-employer', function () {
     return view('inscription.inscription');
 })->name('inscription');
 
+Route::get('/create-client', function () {
+    return view('inscription.create-client');
+})->name('/create-client');
+
 Route::get('/profile', function () {
     return view('editprofile.profile');
-})->name('inscription');
+})->name('profile');
 
 Route::get('/details_pret', function () {
     return view('employe.details-pret');

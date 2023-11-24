@@ -29,7 +29,6 @@ class InscriptionComponent extends Component
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'typeEmploye' => 'required|in:1,2,3,4,5,6', // Adjust the in rule based on your options
-            //'password' => 'required|min:8|confirmed',
             'terms' => 'required|accepted',
         ]);
 
@@ -49,7 +48,7 @@ class InscriptionComponent extends Component
         // auth()->login($user);
         
         // Redirect or emit an event to redirect the user to the login page
-        return redirect('/inscription-employer')->with('success', 'Votre compte a été créé avec succès. Connectez-vous maintenant !');
+        return redirect('/inscription-employer')->with('success', 'Votre compte a été créé avec succès. Vérifez votre mail !');
         //$this->emit('redirectLogin'); // Assuming you have a Livewire listener for this event
     }
 }

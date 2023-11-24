@@ -142,11 +142,36 @@
             @if(auth()->user()->employee_type_id == 3)
                 <li class="nav-item">
                     <!-- Lien ou sous-menu pour les Agents de Terrain -->
-
-
                     <a class="nav-link" href="agent-terrain-dashboard.html">
                         <i class="bi bi-person"></i>
                         <span>Dashboard Agent de Terrain</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#operation-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-menu-button-wide"></i><span>Gestion des paiements</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="operation-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="">
+                            <i class="bi bi-circle"></i><span>Mes clients </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                            <i class="bi bi-circle"></i><span>Mes paiements</span>
+                            </a>
+                        </li>
+                       
+                    </ul>
+                </li><!-- End Components Nav -->
+
+                <li class="nav-item">
+                    <!-- Lien ou sous-menu pour les Agents de Terrain -->
+                    <a class="nav-link" href="{{ url('/create-client')}}">
+                        <i class="bi bi-person"></i>
+                        <span>Créer un clients</span>
                     </a>
                 </li>
             @endif

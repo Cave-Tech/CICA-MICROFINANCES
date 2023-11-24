@@ -154,13 +154,15 @@ class OperationsComponent extends Component
     public function render()
     {
         $userid = Auth::user()->id;
-        $this->operations = Operation::orderBy('id', 'desc')->get();
+        //$this->operations = Operation::orderBy('id', 'desc')->get();
+        // Récupérer uniquement les opérations associées à l'utilisateur connecté
+        $this->operations = Operation::where('user_id', $userid)->orderBy('id', 'desc')->get();
         $this->user = User::with('account', 'operation', 'loan')->find($userid);
         return view('livewire.client.operations-component');
     }
     //Fin Show opperation
 
-
+    public $loans;
     //ShowEdit opperation
     public function showEdit($operationId)
     {

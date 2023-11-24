@@ -11,10 +11,17 @@
         </ol>
     </nav>
 
-    @if(auth()->user()->employee_type_id == 4 && $loan->status === 'pending')
+    @if(auth()->user()->employee_type_id == 4 && $loan->status === 'in progress')
         <!-- Boutons pour valider ou rejeter le prêt -->
         <div class="left-align">
             <button wire:click="validateLoan({{$loan->id}})" class="btn btn-success">Valider</button>
+            <button wire:click="rejectLoan({{$loan->id}})" class="btn btn-danger">Rejeter</button>
+        </div>
+        <br>
+    @elseif(auth()->user()->employee_type_id == 5 && $loan->status === 'pending')
+        <!-- Boutons pour valider ou rejeter le prêt -->
+        <div class="left-align">
+            <button wire:click="preValidateLoan({{$loan->id}})" class="btn btn-success">Pre-Valider</button>
             <button wire:click="rejectLoan({{$loan->id}})" class="btn btn-danger">Rejeter</button>
         </div>
         <br>
@@ -33,9 +40,13 @@
                         <li class="list-group-item"><strong>Montant:</strong> {{ $loan->loan_amount }} FCFA</li>
                         <li class="list-group-item"><strong>Status:</strong> 
                             @if ($loan->status === 'validated')
-                                <span class="badge bg-success">Terminé</span>
+                                <span class="badge bg-success">Valider</span>
                             @elseif ($loan->status === 'pending')
-                                <span class="badge bg-warning text-dark">En cours</span>
+                                <span class="badge bg-warning text-dark">En attente</span>
+                            @elseif ($loan->status === 'in progress')
+                                <span class="badge bg-info">En cours</span>
+                            @elseif ($loan->status === 'completed')
+                                <span class="badge bg-success">Terminé</span> 
                             @else
                                 <span class="badge bg-danger">Rejeté</span>
                             @endif
@@ -64,8 +75,8 @@
 
 
     @if($loan->status === 'pending')
-        <form enctype="multipart/form-data">
-            @csrf
+        <form wire:submit.prevent="EditLoanDoc" enctype="multipart/form-data">
+        
 
             <div class="container">
                 <div class="row">
@@ -74,8 +85,13 @@
                             <div class="card-body">
                                 <h5 class="card-title">Informations du Prêt</h5>
                                 <div class="form-group">
-                                    <label for="loan_document">Document pour le prêt :</label>
-                                    <input type="file" class="form-control" id="loan_document" name="loan_document" accept=".pdf, .doc, .docx">
+                                        @if($loan->doc_files)
+                                            <label for="loan_document">Document pour le prêt :</label>
+                                            <a href="{{ asset('storage/' . $loan->doc_files) }}" target="_blank">Voir le document PDF</a>
+                                        @else
+                                            <p>Mettez un document</p>
+                                        @endif
+                                    <input type="file" class="form-control" value="{{$loan->doc_files}}" wire:model="doc_files" accept=".pdf, .doc, .docx">
                                 </div>
                             </div>
                         </div>
@@ -84,9 +100,14 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Détails du Garant</h5>
-                                <div class="form-group">
-                                    <label for="guarantor_document">Document pour le garant :</label>
-                                    <input type="file" class="form-control" id="guarantor_document" name="guarantor_document" accept=".pdf, .doc, .docx">
+                                <div class="form-group"> 
+                                        @if($loan->doc_files)
+                                            <label for="loan_document">Document pour le prêt :</label>
+                                            <a href="{{ asset('storage/' . $loan->doc_files_warrantor) }}" target="_blank">Voir le document PDF</a>
+                                        @else
+                                            <p>Mettez un document</p>
+                                        @endif
+                                    <input type="file" class="form-control" value=" {{$loan->doc_files_warrantor}}" wire:model="doc_files_warrantor" accept=".pdf, .doc, .docx">
                                 </div>
                             </div>
                         </div>
@@ -157,5 +178,12 @@
             </div>
         </div>
     @endif
+
+
+       
+
+
+   
+
 
 </main><!-- End #main -->

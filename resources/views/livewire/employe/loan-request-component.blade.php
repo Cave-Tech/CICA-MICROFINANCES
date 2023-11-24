@@ -1,74 +1,125 @@
 <main id="main" class="main">
 
-    <div class="pagetitle">
-      <h1>Liste de demande de pret</h1>
+<div class="pagetitle">
+  <h1>DEMANDES DE PRET </h1>
+</div><!-- End Page Title -->
 
-    </div><!-- End Page Title -->
+@if($message = Session::get('success'))
+    <div id="success-alert" class="alert alert-success">
+        <p>{{$message}}</p>
+    </div>
+@endif
 
+@if($message = Session::get('fail'))
+    <div id="fail-alert" class="alert alert-danger">
+        <p>{{$message}}</p>
+    </div>
+@endif
+
+<div class="card">
+  <div class="card-body"><br>
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
 
-          <div class="card">
-            <div class="card-body">
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">Les prets</h5>
 
-              <!-- Table with stripped rows -->
-              <table class="table datatable">
-                <thead>
-                  <tr>
-                    <th scope="col">Numero</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Prenom</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Table with stripped rows -->
+                <!-- Before your table, add this search input -->
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Rechercher" wire:model.live="search">
+                </div>
 
+                <div class="left-align">
+                      <a href="{{ url('/create-loan-request')}}" type="button" class="btn btn-primary" >
+                          Enregistrer un nouveau prêt
+                      </a>
+                  </div>
+                
+                <table class="table">
+                              <thead>
+                                <tr>
+                                    <th scope="col">Nom et Prénom</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Type du prêt</th>
+                                    <th scope="col">Montant</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Date</th>
+                                    <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                @foreach($loans as $loan)
+                                  <tr>
+                                    <td>{{ $loan->borrower->name }}</td>
+                                    <td>{{ $loan->borrower->email }}</td>
+                                    <td>
+                                        @if ($loan->loan_type_id == 1)
+                                            <span class='badge bg-success'>pret automobile</span>
+                                        @elseif ($loan->loan_type_id == 2)
+                                            <span class='badge bg-warning'>pret immobilier</span>
+                                        @endif
+                                        
+                                    </td>
+                                    <td>{{ number_format($loan->loan_amount, 2, ',', ' ') }} FCFA</td>
+                                    <td>
+                                    @if ($loan->status === 'validated')
+                                        <span class="badge bg-success">Valider</span>
+                                    @elseif ($loan->status === 'pending')
+                                        <span class="badge bg-warning text-dark">En attente</span>
+                                    @elseif ($loan->status === 'in progress')
+                                        <span class="badge bg-info">En cours</span>
+                                    @elseif ($loan->status === 'completed')
+                                        <span class="badge bg-success">Terminé</span> 
+                                    @else
+                                        <span class="badge bg-danger">Rejeté</span>
+                                    @endif
+                                    </td>
+                                    <td>{{ $loan->created_at->toDateString() }}</td>
+                                    <td>
+                                      <a href="{{ route('client.details-loan', ['loanId' => $loan->id]) }}"><button  class="btn btn-primary"><i class='bi bi-eye'></i></button></a>
+                                    </td>
+                                  </tr>
+                                @endforeach
+                              </tbody>
+                            </table>
+                </div>
             </div>
-          </div>
-
         </div>
       </div>
     </section>
+  </div>
+</div>
 
-  </main><!-- End #main -->
+
+
+
+
+</main>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    let modalEl = document.getElementById('operationModal');
+    let modal = new bootstrap.Modal(modalEl);
+
+    window.addEventListener('show-operation-modal', (event) => {
+        modal.show();
+    });
+
+    window.addEventListener('close-operation-modal', () => {
+        modal.hide();
+    });
+
+    modalEl.addEventListener('hidden.bs.modal', () => {
+        // Cette fonction est appelée après que le modal est complètement fermé
+        window.livewire.emit('resetListener');
+    });
+
+   
+});
+</script>
+
+
 

@@ -58,13 +58,17 @@
                                     </td>
                                     <td>{{ number_format($loan->loan_amount, 2, ',', ' ') }} FCFA</td>
                                     <td>
-                                        @if ($loan->status == "rejected")
-                                            <span class='badge bg-danger'>Rejeter</span>
-                                        @elseif ($loan->status == "pending")
-                                            <span class='badge bg-warning'>En attente</span>
-                                        @else($loan->status == "validated")
-                                            <span class='badge bg-success'>Valider</span>
-                                        @endif
+                                    @if ($loan->status === 'validated')
+                                        <span class="badge bg-success">Valider</span>
+                                    @elseif ($loan->status === 'pending')
+                                        <span class="badge bg-warning text-dark">En attente</span>
+                                    @elseif ($loan->status === 'in progress')
+                                        <span class="badge bg-info">En cours</span>
+                                    @elseif ($loan->status === 'completed')
+                                        <span class="badge bg-success">Terminé</span> 
+                                    @else
+                                        <span class="badge bg-danger">Rejeté</span>
+                                    @endif
                                     </td>
                                     <td>{{ $loan->created_at->toDateString() }}</td>
                                     <td>

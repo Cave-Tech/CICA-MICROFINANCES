@@ -197,17 +197,17 @@
                     </a>
                     <ul id="pret-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
-                            <a href="{{ url('/create-loan')}}">
+                            <a href="{{ url('/create-loan-request')}}">
                             <i class="bi bi-circle"></i><span>Creer un pret</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/loan-operation')}}">
+                            <a href="{{ url('/loan-request')}}">
                             <i class="bi bi-circle"></i><span>Demandes de pret</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/operation-list')}}">
+                            <a href="{{ url('/loan-request-pending')}}">
                             <i class="bi bi-circle"></i><span>Demandes de pret en attente</span>
                             </a>
                         </li>
@@ -225,6 +225,13 @@
                     <a class="nav-link" href="charge-ressources-humaines-dashboard.html">
                         <i class="bi bi-person"></i>
                         <span>Dashboard Chargé des Ressources Humaines</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{{ url('/inscription-employer')}}">
+                        <i class="bi bi-journal-text"></i>
+                        <span>Gérer mes operations</span>
                     </a>
                 </li>
             @endif

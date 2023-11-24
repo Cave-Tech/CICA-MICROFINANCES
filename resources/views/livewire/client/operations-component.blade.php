@@ -65,10 +65,6 @@
                         <input type="email" class="form-control" name="email" placeholder="Your Email" required>
                       </div>-->
 
-                      <div class="col-md-12">
-                        <input type="number" class="form-control" wire:model="montant" placeholder="Entrer le montant" required>
-                      </div>
-
                       <!--<label class="col-sm-2 col-form-label">Select</label>-->
                       <div class="col-md-12">
                           <select id="typeOperation" wire:model="typeOperation" class="form-select" aria-label="Default select example">
@@ -83,6 +79,9 @@
                           <input id="beneficiaire" wire:model="beneficiaire"  class="form-control" type="text" placeholder="Bénéficiaire"><br>
                           <input id="compteDestination" wire:model="compte_de_destination"  class="form-control" type="number" placeholder="Compte de destination"><br>
                           <input id="motif" wire:model="motif"  class="form-control" type="text" placeholder="Motif">
+                      </div>
+                      <div class="col-md-12">
+                        <input type="number" class="form-control" wire:model="montant" placeholder="Entrer le montant" required>
                       </div>
                       @foreach ($user->account as $account)
                       @if ($account->account_types_id === 1)
@@ -186,7 +185,7 @@
                   @foreach($operations as $operation)
                     <tr>
                       <th scope="row">{{ $operation->transaction_key }}</th>
-                      <td>{{ $operation->withdrawal_amount }}</td>
+                      <td>{{ $operation->withdrawal_amount }} FCFA</td>
                       
                       <td>
                         @if($operation->operation_type_id == 1)
@@ -269,10 +268,7 @@
                           <div class="modal-body">
                               <form wire:submit.prevent="editOperation" class="php-email-form">
                                   <div class="row gy-4">
-                                      <div class="col-md-12">
-                                          <input type="number" class="form-control" wire:model="montant" value="{{$operation->montant}}">
-                                      </div>
-                                      <div class="col-md-12">
+                                  <div class="col-md-12">
                                           <select wire:model="typeOperation" class="form-select" aria-label="Type d'opération">
                                               <option value="1">Dépôt</option>
                                               <option value="2">Retrait</option>
@@ -290,6 +286,9 @@
                                           <input type="text" class="form-control" wire:model="motif">
                                       </div>
                                       @endif
+                                      <div class="col-md-12">
+                                          <input type="number" class="form-control" wire:model="montant">
+                                      </div>
 
                                       @foreach ($user->account as $account)
                                         @if ($account->account_types_id === 1)

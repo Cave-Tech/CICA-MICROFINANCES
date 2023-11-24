@@ -86,6 +86,16 @@ Route::get('/create-current-account', function () {
     return view('employe.create-current-account');
 })->name('employe.create-current-account');
 
+Route::get('/loan-request', function () {
+    return view('employe.loan-request');
+})->name('employe.loan-request');
+
+
+Route::get('/create-loan-request', function () {
+    return view('employe.create-loan-request');
+})->name('employe.create-loan-request');
+
+
 Route::get('/create-savings-account', function () {
     return view('employe.create-savings-account');
 })->name('employe.create-savings-account');
@@ -98,6 +108,14 @@ Route::get('/save-operation', function () {
 Route::get('/details', function () {
     return view('employe.details');
 })->name('employe.details');
+
+Route::get('/inscription-employer', function () {
+    return view('inscription.inscription');
+})->name('inscription');
+
+Route::get('/profile', function () {
+    return view('editprofile.profile');
+})->name('inscription');
 
 Route::get('/details_pret', function () {
     return view('employe.details-pret');

@@ -22,7 +22,9 @@ class LoanRequestComponent extends Component
 
     
     public $loanId;
+    public $id;
 
+    public $idloan;
     public $amount;
     public $typeloan;
     public $typeWarranty;
@@ -34,6 +36,7 @@ class LoanRequestComponent extends Component
     public $numWarrantor;
     public $relationWarrantor;
     public $docFiles;
+    public $userId;
     
 
     public function saveLoan()
@@ -96,11 +99,53 @@ class LoanRequestComponent extends Component
     //ShowEdit Loan
     public function showEditLoan($loanId)
     {
-        $loan = Operation::find($loanId);
-        $this->montant = $loan->loan_amount;
-        $this->type_warranty = $loan->type_warranty;
-        $this->value_warranty = $loan->value_warranty;
+        $loan = Loan::find($loanId);
+        $this->idloan = $loan->id;
+        $this->amount = $loan->loan_amount;
+        $this->typeloan = $loan->loan_type_id;
+        $this->typeWarranty = $loan->type_warranty;
+        $this->detailsWarranty = $loan->details_warranty;
+        $this->valueWarranty = $loan->value_warranty;
+        $this->purposeWarranty = $loan->purpose_warranty;
+        $this->nameWarrantor = $loan->name_warrantor;
+        $this->addressWarrantor = $loan->address_warrantor;
+        $this->numWarrantor = $loan->number_warrantor;
+        $this->relationWarrantor = $loan->relation_warrantor;
+        $this->valueWarranty = $loan->value_warranty;
     }
     //Fin ShowEdit Loan
 
+
+    //Edit d'loan
+    public function EditLoan()
+    {
+        $LoanToEdit = Loan::find($this->idloan);
+        //dd($this->nameWarrantor,$this->addressWarrantor );
+            if ($LoanToEdit) {
+                // Mets à jour les attributs de l'opération à partir des propriétés du composant
+                $LoanToEdit->loan_amount = $this->amount;
+                $LoanToEdit->loan_type_id = $this->typeloan;
+                $LoanToEdit->status = "pending";
+                $LoanToEdit->type_warranty = $this->typeWarranty;
+                $LoanToEdit->value_warranty = $this->valueWarranty;
+                $LoanToEdit->details_warranty = $this->detailsWarranty;
+                $LoanToEdit->purpose_warranty = $this->purposeWarranty;
+                $LoanToEdit->name_warrantor = $this->nameWarrantor;
+                $LoanToEdit->address_warrantor = $this->addressWarrantor;
+                $LoanToEdit->number_warrantor = $this->numWarrantor;
+                $LoanToEdit->relation_warrantor = $this->relationWarrantor;
+                
+                // Enregistre les modifications dans la base de données
+                $LoanToEdit->update();
+    
+                $this->reset(); // Réinitialisez les propriétés du composant après la mise à jour
+    
+                // Redirigez l'utilisateur avec un message de succès ou echec
+                return redirect('/client-loan-request')->with("success", "Prêt mise à jour avec succès.");
+            } else {
+                return redirect('/client-loan-request')->with("fail", "Prêt non trouvée.");
+            }
+    }
+    //Fin Edit loan
+    
 }

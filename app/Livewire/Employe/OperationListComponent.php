@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Employe;
 
+use App\Models\Account;
 use App\Models\Operation;
 use Livewire\Component;
 
@@ -23,6 +24,51 @@ class OperationListComponent extends Component
         $operation = Operation::findOrFail($operationId);
         $operation->status = "completed";
         $operation->save();
+
+        // Récupérer le compte de l'utilisateur
+        $userAccount = Account::where('user_id', $operation->user_id)->first();
+        $typeOperation = $operation->operation_type_id;
+        $montant = $operation->withdrawal_amount;
+
+
+        // Logique pour mettre à jour le solde en fonction du type d'opération
+        switch ($typeOperation) {
+            case 1: // Dépôt
+                $userAccount->balance += $montant;
+                break;
+            case 2: // Retrait
+                if ($userAccount->balance >= $montant) {
+                    $userAccount->balance -= $montant;
+                } else {
+                    session()->flash('fail', "Solde insuffisant pour effectuer le retrait.");
+                    return;
+                }
+                break;
+            case 3: // Virement
+                // Vérifier si l'utilisateur a suffisamment de fonds pour le virement
+                if ($userAccount->balance >= $montant) {
+                    $userAccount->balance -= $montant;
+                    
+                    // Mettre à jour le compte de destination
+                    $destinationAccount = Account::where('account_number', $this->compte_de_destination)->first();
+                    if ($destinationAccount) {
+                        $destinationAccount->balance += $montant;
+                        $destinationAccount->save();
+                    } else {
+                        session()->flash('fail', "Le compte de destination n'a pas été trouvé.");
+                        return;
+                    }
+                } else {
+                    session()->flash('fail', "Solde insuffisant pour effectuer le virement.");
+                    return;
+                }
+                break;
+            default:
+                session()->flash('fail', "Type d'opération non pris en charge.");
+                return;
+        }
+    
+
 
         // Émettre l'événement
         $this->dispatch('close-operation-modal');
@@ -61,6 +107,7 @@ class OperationListComponent extends Component
                                 $query->where('name', 'like', '%' . $this->search . '%')
                                       ->orWhere('email', 'like', '%' . $this->search . '%');
                             })
+                            ->latest()
                             ->get();
      
         return view('livewire.employe.operation-list-component');

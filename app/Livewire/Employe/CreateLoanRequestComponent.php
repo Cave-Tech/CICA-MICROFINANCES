@@ -68,7 +68,7 @@ class CreateLoanRequestComponent extends Component
 
         if ($existingLoan) {
             session()->flash('fail', 'Cet utilisateur a déjà un prêt en cours ou en attente.');
-            return redirect()->route('your.route.name');
+            return redirect()->route('employe.loan-request');
         }
 
         Loan::create([
@@ -95,7 +95,7 @@ class CreateLoanRequestComponent extends Component
 
         session()->flash('success', 'La demande de prêt a été enregistrée avec succès.');
 
-        return redirect()->route('your.route.name');
+        return redirect()->route('employe.loan-request');
     }
 
     public function render()

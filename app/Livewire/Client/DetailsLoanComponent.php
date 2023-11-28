@@ -12,6 +12,14 @@ class DetailsLoanComponent extends Component
 {
     use WithFileUploads;
     public $loan;
+    // Dans votre composant Livewire, ajoutez un listener pour cet événement
+    protected $listeners = ['loanStatusUpdated' => 'refreshComponent'];
+
+    public function refreshComponent()
+    {
+        // Vous pouvez soit réinitialiser les propriétés, soit rappeler `mount()` pour rafraîchir les données
+        $this->mount($this->loan->id);
+    }
     public $doc_files_warrantor;
     public $doc_files;
     public $id;
@@ -24,6 +32,34 @@ class DetailsLoanComponent extends Component
         // dd($this->loan);
     }
 
+    // Méthode pour valider le prêt
+    public function validateLoan($loanId)
+    {
+        $loan = Loan::findOrFail($loanId);
+        $loan->status = "validated";
+        $loan->save();
+        $this->dispatch('loanStatusUpdated');
+        
+    }
+
+     // Méthode pour pre-valider le prêt
+     public function preValidateLoan($loanId)
+     {
+         $loan = Loan::findOrFail($loanId);
+         $loan->status = "in progress";
+         $loan->save();
+         $this->dispatch('loanStatusUpdated');
+         
+     }
+
+    // Méthode pour rejeter le prêt
+    public function rejectLoan($loanId)
+    {
+        $loan = Loan::findOrFail($loanId);
+        $loan->status = "rejected";
+        $loan->save();
+        $this->dispatch('loanStatusUpdated');
+    }
     //Edit loan doc
     
     public function EditLoanDoc()

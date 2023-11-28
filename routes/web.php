@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Employe\DetailCustomerComponent;
 use App\Livewire\Client\DetailsLoanComponent;
-
+use App\Livewire\Employe\DetailEmployeComponent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,6 +74,33 @@ Route::get('/operation-list', function () {
     return view('employe.operation-list');
 })->name('employe.operartion-list');
 
+Route::get('/current-accounts', function () {
+    return view('employe.current-accounts');
+})->name('employe.current-accounts');
+
+Route::get('/savings-accounts', function () {
+    return view('employe.savings-accounts');
+})->name('employe.savings-accounts');
+
+Route::get('/create-current-account', function () {
+    return view('employe.create-current-account');
+})->name('employe.create-current-account');
+
+Route::get('/loan-request', function () {
+    return view('employe.loan-request');
+})->name('employe.loan-request');
+
+
+Route::get('/create-loan-request', function () {
+    return view('employe.create-loan-request');
+})->name('employe.create-loan-request');
+
+
+Route::get('/create-savings-account', function () {
+    return view('employe.create-savings-account');
+})->name('employe.create-savings-account');
+
+
 Route::get('/save-operation', function () {
     return view('employe.save-operation');
 })->name('employe.save-operation');
@@ -98,9 +125,13 @@ Route::get('/details_pret', function () {
     return view('employe.details-pret');
 })->name('employe.details-pret');
 
+Route::get('/loan-in-progress', function () {
+    return view('employe.loan-in-progress');
+})->name('employe.loan-in-progress');
+
 
 Route::get('/customer/{customerId}', DetailCustomerComponent::class)->name('customer.detail');
-
+Route::get('/employe/{employeId}', DetailEmployeComponent::class)->name('employe.detail');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

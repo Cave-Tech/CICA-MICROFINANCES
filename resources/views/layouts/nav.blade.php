@@ -79,15 +79,11 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/loan-request')}}">
-                        <i class="bi bi-circle"></i><span>Demande de pret</span>
+                        <a href="{{ url('/loan-in-progress')}}">
+                        <i class="bi bi-circle"></i><span>Demandes de pret en attente</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ url('/paiement-list')}}">
-                        <i class="bi bi-circle"></i><span>Liste des paiements</span>
-                        </a>
-                    </li>
+                    
 
 
                     </ul>
@@ -112,7 +108,7 @@
             <!-- Section pour les Agents à la Caisse -->
             @if(auth()->user()->employee_type_id == 1)
                 <li class="nav-item">
-                    <a class="nav-link" href="agent-caisse-dashboard.html">
+                    <a class="nav-link" href="{{ url('/employe-dashboard')}}">
                         <i class="bi bi-person"></i>
                         <span>Dashboard</span>
                     </a>
@@ -192,12 +188,57 @@
             <!-- Section pour les Chargés de la Clientèle -->
             @if(auth()->user()->employee_type_id == 5)
                 <li class="nav-item">
-                    <!-- Lien ou sous-menu pour les Chargés de la Clientèle -->
-
-                    <a class="nav-link" href="charge-clientele-dashboard.html">
+                    <a class="nav-link" href="{{ url('/employe-dashboard')}}">
                         <i class="bi bi-person"></i>
-                        <span>Dashboard Chargé de la Clientèle</span>
+                        <span>Dashboard</span>
                     </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#compte-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-menu-button-wide"></i><span>Gestion des Comptes client</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="compte-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                       
+                        <li>
+                            <a href="{{ url('/current-accounts')}}">
+                            <i class="bi bi-circle"></i><span>Comptes Courants</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/savings-accounts')}}">
+                            <i class="bi bi-circle"></i><span>Compte Epargnes</span>
+                            </a>
+                        </li>
+                       
+                    </ul>
+
+                    
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#pret-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-menu-button-wide"></i><span>Gestion des Prets</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="pret-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="{{ url('/create-loan-request')}}">
+                            <i class="bi bi-circle"></i><span>Creer un pret</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/loan-request')}}">
+                            <i class="bi bi-circle"></i><span>Demandes de pret</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/loan-request-pending')}}">
+                            <i class="bi bi-circle"></i><span>Demandes de pret en attente</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    
                 </li>
 
             @endif

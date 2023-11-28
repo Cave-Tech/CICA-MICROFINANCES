@@ -63,6 +63,10 @@ return new class extends Migration
             $table->string('previous_loan_details')->nullable();  // Détails des prêts précédents: si le client avait précédemment un prêt avec la microfinance ou avec d'autres institutions
             $table->enum('client_type', ['individual', 'group'])->nullable();  // Type de client: si le client est un individu ou fait partie d'un groupe (par exemple, dans le cas d'un prêt de groupe)
             $table->decimal('average_monthly_income', 10, 2)->nullable();  // Revenu mensuel moyen: le revenu mensuel approximatif du client
+            $table->string('ifu')->nullable();  // IFU: le numéro d'identification fiscale du client
+            $table->string('identity_piece')->nullable();  // Pièce d'identité: le type de pièce d'identité utilisée par le client (par exemple, carte d'identité nationale, passeport, etc.)
+            $table->string('identity_picture')->nullable(); // Photo d'identité: une photo de la pièce d'identité du client
+            $table->string('proof_of_address')->nullable();  // Preuve d'adresse: une preuve d'adresse du client (par exemple, facture d'électricité, facture d'eau, etc.)
 
             // Clés étrangères
             

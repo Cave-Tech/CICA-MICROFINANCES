@@ -11,10 +11,27 @@
         </ol>
     </nav>
 
+    @if(auth()->user()->employee_type_id == 4 && $loan->status === 'in progress')
+        <!-- Boutons pour valider ou rejeter le prêt -->
+        <div class="left-align">
+            <button wire:click="validateLoan({{$loan->id}})" class="btn btn-success">Valider</button>
+            <button wire:click="rejectLoan({{$loan->id}})" class="btn btn-danger">Rejeter</button>
+        </div>
+        <br>
+    @elseif(auth()->user()->employee_type_id == 5 && $loan->status === 'pending')
+        <!-- Boutons pour valider ou rejeter le prêt -->
+        <div class="left-align">
+            <button wire:click="preValidateLoan({{$loan->id}})" class="btn btn-success">Pre-Valider</button>
+            <button wire:click="rejectLoan({{$loan->id}})" class="btn btn-danger">Rejeter</button>
+        </div>
+        <br>
+    @endif
+   
 
-    <!--<h1>Détails du Prêt</h1>-->
     <div class="row">
+
         <div class="col-md-6">
+            
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Informations du Prêt</h5>
@@ -23,9 +40,13 @@
                         <li class="list-group-item"><strong>Montant:</strong> {{ number_format($loan->loan_amount, 2, ',', ' ') }} FCFA</li>
                         <li class="list-group-item"><strong>Status:</strong> 
                             @if ($loan->status === 'validated')
-                                <span class="badge bg-success">Terminé</span>
+                                <span class="badge bg-success">Valider</span>
                             @elseif ($loan->status === 'pending')
                                 <span class="badge bg-warning text-dark">En attente</span>
+                            @elseif ($loan->status === 'in progress')
+                                <span class="badge bg-info">En cours</span>
+                            @elseif ($loan->status === 'completed')
+                                <span class="badge bg-success">Terminé</span> 
                             @else
                                 <span class="badge bg-danger">Rejeté</span>
                             @endif
@@ -50,100 +71,119 @@
         </div>
     </div>
 
+    
 
-        @if($loan->status === 'pending')
-            <form wire:submit.prevent="EditLoanDoc" enctype="multipart/form-data">
-            
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Informations du Prêt</h5>
-                                    <div class="form-group">
-                                            @if($loan->doc_files)
-                                                <label for="loan_document">Document pour le prêt :</label>
-                                                <a href="{{ asset('storage/' . $loan->doc_files) }}" target="_blank">Voir le document PDF</a>
-                                            @else
-                                                <p>Mettez un document</p>
-                                            @endif
-                                        <input type="file" class="form-control" value="{{$loan->doc_files}}" wire:model="doc_files" accept=".pdf, .doc, .docx">
-                                    </div>
+    @if($loan->status === 'pending')
+        <form wire:submit.prevent="EditLoanDoc" enctype="multipart/form-data">
+        
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Informations du Prêt</h5>
+                                <div class="form-group">
+                                        @if($loan->doc_files)
+                                            <label for="loan_document">Document pour le prêt :</label>
+                                            <a href="{{ asset('storage/' . $loan->doc_files) }}" target="_blank">Voir le document PDF</a>
+                                        @else
+                                            <p>Mettez un document</p>
+                                        @endif
+                                    <input type="file" class="form-control" value="{{$loan->doc_files}}" wire:model="doc_files" accept=".pdf, .doc, .docx">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Détails du Garant</h5>
-                                    <div class="form-group"> 
-                                            @if($loan->doc_files)
-                                                <label for="loan_document">Document pour le prêt :</label>
-                                                <a href="{{ asset('storage/' . $loan->doc_files_warrantor) }}" target="_blank">Voir le document PDF</a>
-                                            @else
-                                                <p>Mettez un document</p>
-                                            @endif
-                                        <input type="file" class="form-control" value=" {{$loan->doc_files_warrantor}}" wire:model="doc_files_warrantor" accept=".pdf, .doc, .docx">
-                                    </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Détails du Garant</h5>
+                                <div class="form-group"> 
+                                        @if($loan->doc_files)
+                                            <label for="loan_document">Document pour le prêt :</label>
+                                            <a href="{{ asset('storage/' . $loan->doc_files_warrantor) }}" target="_blank">Voir le document PDF</a>
+                                        @else
+                                            <p>Mettez un document</p>
+                                        @endif
+                                    <input type="file" class="form-control" value=" {{$loan->doc_files_warrantor}}" wire:model="doc_files_warrantor" accept=".pdf, .doc, .docx">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-primary">Envoyer les fichiers</button>
-                </div>
-            </form>
-        @endif 
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Envoyer les fichiers</button>
+            </div>
+        </form>
+    @endif
 
-        @if ($loan->status !== 'pending' && $loan->status !== 'in progress' && $loan->status !== 'rejected')
-    <div class="pagetitle">
-        <h1>Historique des paiements</h1>
-    </div>
+    
+    @if($loan->payment && $loan->status === 'validated')
+        <div class="pagetitle">
+            <h1>Historique des paiements</h1>
+        </div>
 
-    <br>
+        <br>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
+        <div class="row">
+        
+            
+
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
 
                     <!-- Table with stripped rows -->
                     <table class="table">
                         <thead>
-                            <tr>
-                                <th scope="col">Id</th>
-                                <th scope="col">Montant payé</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Date</th>
-                            </tr>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Montant paye</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
+
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach($loan->payment as $payment)
-                                <tr>
-                                    <td>{{ $payment->id }}</td>
-                                    <td>{{ number_format($payment->payment_amount, 2, ',', ' ') }} FCFA</td>
-                                    <td>
-                                        @if ($payment->status == "pending")
-                                            <span class='badge bg-warning'>En attente</span>
-                                        @elseif ($payment->status == "completed")
-                                            <span class='badge bg-success'>Valider</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $payment->created_at->toDateString() }}</td>
-                                </tr>
-                            @endforeach
+                        @foreach($loan->payment as $payment)
+                            <tr>
+                            <td>
+                                {{ $payment->id }}
+                                
+                            </td>
+                            <td>{{ number_format($payment->payment_amount, 2, ',', ' ') }} FCFA</td>
+                            <td>
+                                @if ($payment->status == "pending")
+                                    <span class='badge bg-warning'>En attente</span>
+                                @else($payment->status == "completed")
+                                    <span class='badge bg-success'>Valider</span>
+                                @endif
+                            </td>
+                            <td>{{ $payment->created_at->toDateString() }}</td>
+                            <!-- <td>
+                                <a href="{{ route('client.details-loan', ['loanId' => $loan->id]) }}"><button  class="btn btn-primary"><i class='bi bi-eye'></i></button></a>
+                            </td> -->
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                     <!-- End Table with stripped rows -->
-
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-@endif
+    @endif
+
+
+       
+
+
+   
 
 
 </main><!-- End #main -->

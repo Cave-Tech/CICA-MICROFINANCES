@@ -37,9 +37,7 @@
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Opérations</button>
                 </li>
 
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
-                </li>
+               
 
               </ul>
               <div class="tab-content pt-2">
@@ -154,7 +152,7 @@
                     <div class="col-lg-9 col-md-8">
                         {{ $customer->client_since ? \Carbon\Carbon::parse($customer->client_since)->toDateString() : 'Non Disponible' }}
                     </div>
-                </div>
+                  </div>
 
 
                   <!-- <div class="row">
@@ -279,104 +277,71 @@
 
 
                   <section class="section">
-                        <div class="row">
-                          <div class="col-lg-12">
+                    <div class="row">
+                      <div class="col-lg-12">
 
-                            <div class="card">
-                              <div class="card-body">
-                                <h5 class="card-title">Mes opérations</h5>
-                                <!--<p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>-->
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">Historique des opérations</h5>
+                            <!--<p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>-->
 
-                                <!-- Table with stripped rows -->
-                                <table class="table">
-                                  <thead>
-                                      <tr>
-                                          <th scope="col">#Code unique</th>
-                                          <th scope="col">Montant</th>
-                                          <th scope="col">Type d'opération</th>
-                                          <th scope="col">Status</th>
-                                          <th scope="col">Date</th>
-                                          <th scope="col">Action</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                  @foreach($customer->operation as $operation)
-                                      <tr>
-                                        <th scope="row">{{ $operation->transaction_key }}</th>
-                                        <td>{{ $operation->withdrawal_amount }}</td>
-                                        <td>{{ $operation->operationType->designation }}</td>
+                            <!-- Table with stripped rows -->
+                            <table class="table">
+                              <thead>
+                                  <tr>
+                                      <th scope="col">#Code unique</th>
+                                      <th scope="col">Montant</th>
+                                      <th scope="col">Type d'opération</th>
+                                      <th scope="col">Status</th>
+                                      <th scope="col">Date</th>
+                                      <!-- <th scope="col">Action</th> -->
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              @foreach($customer->operation as $operation)
+                                  <tr>
+                                    <th scope="row">{{ $operation->transaction_key }}</th>
+                                    <td>{{ $operation->withdrawal_amount }} FCFA</td>
+                                    <td>{{ $operation->operationType->designation }}</td>
 
-                                        <td>
-                                            @if ($operation->status == "completed")
-                                                <span class='badge bg-success'>Terminé</span>
-                                            @elseif ($operation->status == "pending")
-                                                <span class='badge bg-warning'>En cours</span>
-                                            @else
-                                                <span class='badge bg-danger'>Annuler</span>
-                                            @endif
-                                            
-                                        </td>
-
-                                        <td>{{ strftime('%d %B %Y', strtotime($operation->withdrawal_date)) }}</td>
-
-                                        <!-- <td>
-                                            <div class="btn-group" role="group">
-                                                <button wire:click="showDetails({{ $operation->id }})" data-bs-toggle="modal" data-bs-target="#operationModal" class="btn btn-primary"><i class='bi bi-eye'></i></button>        
-                                            </div>
-                                        </td>   -->
-                                          
+                                    <td>
+                                        @if ($operation->status == "completed")
+                                            <span class='badge bg-success'>Terminé</span>
+                                        @elseif ($operation->status == "pending")
+                                            <span class='badge bg-warning'>En cours</span>
+                                        @else
+                                            <span class='badge bg-danger'>Annuler</span>
+                                        @endif
                                         
-                                      </tr>
-                                  @endforeach
-                                  
-                                  </tbody>
-                              </table>
-                                <!-- End Table with stripped rows -->
+                                    </td>
 
-                              </div>
-                            </div>
+                                    <td>{{ strftime('%d %B %Y', strtotime($operation->withdrawal_date)) }}</td>
+
+                                    <!-- <td>
+                                        <div class="btn-group" role="group">
+                                            <button wire:click="showDetails({{ $operation->id }})" data-bs-toggle="modal" data-bs-target="#operationModal" class="btn btn-primary"><i class='bi bi-eye'></i></button>        
+                                        </div>
+                                    </td>   -->
+                                      
+                                    
+                                  </tr>
+                              @endforeach
+                              
+                              </tbody>
+                          </table>
+                            <!-- End Table with stripped rows -->
 
                           </div>
                         </div>
-                      </section>
-                  </form><!-- End settings Form --> <!--  Form operation fin -->
+
+                      </div>
+                    </div>
+                  </section>
+                 
 
                 </div>
 
-                <div class="tab-pane fade pt-3" id="profile-change-password">
-
-                  <!-- Change Password Form -->
-                  <form>
-
-                    <div class="row mb-3">
-                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="renewpassword" type="password" class="form-control" id="renewPassword">
-                      </div>
-                    </div>
-
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Change Password</button>
-                    </div>
-                  </form><!-- End Change Password Form -->
-
-                </div>
-
-              </div><!-- End Bordered Tabs -->
+              </div>
 
             </div>
           </div>
@@ -385,4 +350,4 @@
       </div>
     </section>
 
-</main><!-- End #main -->
+</main>

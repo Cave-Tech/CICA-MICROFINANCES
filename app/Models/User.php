@@ -62,9 +62,14 @@ class User extends Authenticatable
         'client_since',
         'previous_loan_details',
         'client_type',
-        'average_monthly_income'
+        'average_monthly_income',
+        'ifu',
+        'identity_piece',
+        'identity_picture',
+        'proof_of_address',
     ];
 
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -107,9 +112,9 @@ class User extends Authenticatable
     }
 
 
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
+    // public function user(){
+    //     return $this->belongsTo(User::class);
+    // }
 
     public function useragent(){
         return $this->hasOne(User::class);

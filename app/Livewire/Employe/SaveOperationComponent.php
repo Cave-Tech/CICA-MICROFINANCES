@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Employe;
 
+use App\Models\Account;
 use App\Models\Operation;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,7 @@ class SaveOperationComponent extends Component
     public $name = ''; // Nom entré par l'utilisateur
     public $filteredUsers = []; // Utilisateurs filtrés
     public $selectedUserId; // ID de l'utilisateur sélectionné
+    public $filteredAccounts = []; // Comptes filtrés
 
      //generation de code aleatoir
      public $randomString;
@@ -27,6 +29,7 @@ class SaveOperationComponent extends Component
      public $motif;
      public $date;
      public $userId;
+        
 
      // Cette méthode met à jour les utilisateurs filtrés à mesure que vous tapez
     public function updatedName($value)
@@ -47,11 +50,83 @@ class SaveOperationComponent extends Component
         $this->filteredUsers = []; // Efface les résultats de la recherche
     }
 
+    public function updatedCompteDeDestination($value)
+    {
+        if (strlen($value) > 1) {
+            // Commencez à filtrer après que l'utilisateur a tapé 2 caractères
+            $this->filteredAccounts = Account::where('account_number', 'like', '%' . $value . '%')->get();
+        } else {
+            $this->filteredAccounts = [];
+        }
+    }
+
+    public function selectAccount($accountNumber)
+    {
+        $account = Account::where('account_number', $accountNumber)->first();
+        $this->compte_de_destination = $accountNumber;
+        $this->beneficiaire = $account->user->name;
+        $this->filteredAccounts = [];
+    }
+
+
     public function saveOperation()
     {
+        
+        $this->validate([
+            'name' => 'required',
+            'typeOperation' => 'required|in:1,2,3',
+            'montant' => 'required|numeric',
+            'date' => 'required|date',
+        ]);
+
         if (!$this->selectedUserId) {
-            session()->flash('error', 'Veuillez sélectionner un utilisateur.');
+        session()->flash('fail', 'Veuillez sélectionner un utilisateur.');
+        return;
+        }
+
+        // Récupérer le compte de l'utilisateur
+        $userAccount = Account::where('user_id', $this->selectedUserId)->first();
+
+        if (!$userAccount) {
+            session()->flash('fail', "Le compte de l'utilisateur n'a pas été trouvé.");
             return;
+        }
+
+        // Logique pour mettre à jour le solde en fonction du type d'opération
+        switch ($this->typeOperation) {
+            case 1: // Dépôt
+                $userAccount->balance += $this->montant;
+                break;
+            case 2: // Retrait
+                if ($userAccount->balance >= $this->montant) {
+                    $userAccount->balance -= $this->montant;
+                } else {
+                    session()->flash('fail', "Solde insuffisant pour effectuer le retrait.");
+                    return;
+                }
+                break;
+            case 3: // Virement
+                // Vérifier si l'utilisateur a suffisamment de fonds pour le virement
+                if ($userAccount->balance >= $this->montant) {
+                    $userAccount->balance -= $this->montant;
+                    
+                    // Mettre à jour le compte de destination
+                    $destinationAccount = Account::where('account_number', $this->compte_de_destination)->first();
+                    if ($destinationAccount) {
+                        $destinationAccount->balance += $this->montant;
+                        $destinationAccount->save();
+                    } else {
+                        session()->flash('fail', "Le compte de destination n'a pas été trouvé.");
+                        return;
+                    }
+                } else {
+                    session()->flash('fail', "Solde insuffisant pour effectuer le virement.");
+                    return;
+                }
+                break;
+            default:
+                session()->flash('fail', "Type d'opération non pris en charge.");
+                return;
         }
     
         // Création et enregistrement en une seule opération grâce à la méthode create de Eloquent.
@@ -69,13 +144,16 @@ class SaveOperationComponent extends Component
             'motif' => $this->motif,
             'withdrawal_date' => $this->date,
         ]);
+
+        // Sauvegarder le solde mis à jour du compte
+        $userAccount->save();
     
         $this->reset(); // Réinitialiser les champs du formulaire
     
         if($operation) {
             session()->flash('success', "L'opération a été enregistrée avec succès.");
         } else {
-            session()->flash('error', "L'opération n'a pas pu être enregistrée.");
+            session()->flash('fail', "L'opération n'a pas pu être enregistrée.");
         }
     
         return redirect()->to('/operation-list');

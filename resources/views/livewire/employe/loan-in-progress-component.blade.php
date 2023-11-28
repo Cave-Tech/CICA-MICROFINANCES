@@ -1,7 +1,7 @@
 <main id="main" class="main">
 
 <div class="pagetitle">
-  <h1>DEMANDES DE PRET </h1>
+  <h1>DEMANDE DE PRET EN ATTENTE </h1>
 </div><!-- End Page Title -->
 
 @if($message = Session::get('success'))
@@ -30,12 +30,6 @@
                 <div class="mb-3">
                     <input type="text" class="form-control" placeholder="Rechercher" wire:model.live="search">
                 </div>
-
-                <div class="left-align">
-                      <a href="{{ url('/create-loan-request')}}" type="button" class="btn btn-primary" >
-                          Enregistrer un nouveau prêt
-                      </a>
-                  </div>
                 
                 <table class="table">
                               <thead>
@@ -50,7 +44,7 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                @foreach($loans as $loan)
+                                @foreach($loanInProgress as $loan)
                                   <tr>
                                     <td>{{ $loan->borrower->name }}</td>
                                     <td>{{ $loan->borrower->email }}</td>

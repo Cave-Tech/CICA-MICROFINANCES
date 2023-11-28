@@ -198,16 +198,17 @@
                     </th>
                     <td>{{$loan->loan_amount}} FCFA</td>
                     <td>
-                    <?php 
-                      $statuss = $loan->status;
-                      if($statuss =="validated"){
-                        echo "<span class='badge bg-success'>Terminé</span>";
-                      }elseif($statuss =="pending"){
-                        echo "<span class='badge bg-warning'>En attente</span>";
-                      }else{
-                        echo"<span class='badge bg-danger'>rejected</span>";
-                      }
-                      ?>
+                    @if ($loan->status === 'validated')
+                        <span class="badge bg-success">Valider</span>
+                    @elseif ($loan->status === 'pending')
+                        <span class="badge bg-warning text-dark">En attente</span>
+                    @elseif ($loan->status === 'in progress')
+                        <span class="badge bg-info">En cours</span>
+                    @elseif ($loan->status === 'completed')
+                        <span class="badge bg-success">Terminé</span> 
+                    @else
+                        <span class="badge bg-danger">Rejeté</span>
+                    @endif
                     </td>
                     <td>{{ strftime('%d %B %Y', strtotime($loan->due_date)) }}</td>
                     <td>    

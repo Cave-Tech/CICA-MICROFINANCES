@@ -71,7 +71,7 @@
 <div class="container">
         
 
-    @if ($user->loan->where('status', 'pending')->isNotEmpty())
+    @if ($user->loan->where('status', 'pending')->isNotEmpty() || $user->loan->where('status', 'in progress')->isNotEmpty())
 
         @elseif (!$user->loan->where('status', 'pending')->isNotEmpty())
         <!-- Pas de demande de prêt en attente -->
@@ -203,7 +203,7 @@
                       if($statuss =="validated"){
                         echo "<span class='badge bg-success'>Terminé</span>";
                       }elseif($statuss =="pending"){
-                        echo "<span class='badge bg-warning'>En cours</span>";
+                        echo "<span class='badge bg-warning'>En attente</span>";
                       }else{
                         echo"<span class='badge bg-danger'>rejected</span>";
                       }

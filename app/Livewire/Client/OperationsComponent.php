@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Client;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -36,8 +37,8 @@ class OperationsComponent extends Component
         //dd($user->account->balance);
         $montant = $this->montant;
         $typeOperation = $this->typeOperation;
-
-        if ($typeOperation == 2) { 
+        $dates = Carbon::now();
+        if ($typeOperation == 2 or $typeOperation == 3 ) { 
             $solde = $user->account->first()->balance;
                 if ($solde < $montant or $montant == 0) {
                     return redirect('/client-operations')->with("fail", "Retrait impossible.");
@@ -53,7 +54,7 @@ class OperationsComponent extends Component
                     $operation->compte_destination = $this->compte_de_destination;
                     $operation->motif = $this->motif;
                     $operation->account_types_id = $this->typeAccount;
-                    $operation->withdrawal_date = $this->date;
+                    $operation->withdrawal_date = $dates;
                     $operation->save();
 
                     $this->reset(); // Réinitialiser les champs du formulaire après l'ajout
@@ -74,7 +75,7 @@ class OperationsComponent extends Component
                 $operation->compte_destination = $this->compte_de_destination;
                 $operation->motif = $this->motif;
                 $operation->account_types_id = $this->typeAccount;
-                $operation->withdrawal_date = $this->date;
+                $operation->withdrawal_date = $dates;
                 $operation->save();
 
                 $this->reset(); // Réinitialiser les champs du formulaire après l'ajout
@@ -122,8 +123,12 @@ class OperationsComponent extends Component
     //Edit d'operation
     public function editOperation()
     {
-        $operationToEdit = Operation::find($this->operationId);
-        //dd($this->typeOperation, $this->montant, $this->beneficiaire, $this->compte_de_destination, $this->motif, $this->date);
+        $user = Auth::user();
+        $userId = $user->id;
+        $user = User::with('account')->find($userId);
+        $montant = $this->montant;
+        $typeOperation = $this->typeOperation;
+        $operationToEdit = Operation::find($this->operationId); 
             if ($operationToEdit) {
                 // Mets à jour les attributs de l'opération à partir des propriétés du composant
                 $operationToEdit->operation_type_id = $this->typeOperation;
@@ -132,8 +137,6 @@ class OperationsComponent extends Component
                 $operationToEdit->compte_destination = $this->compte_de_destination;
                 $operationToEdit->motif = $this->motif;
                 $operationToEdit->account_types_id = $this->typeAccount;
-                $operationToEdit->withdrawal_date = $this->date;
-                
                 // Enregistre les modifications dans la base de données
                 $operationToEdit->update();
     

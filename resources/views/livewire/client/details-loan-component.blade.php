@@ -20,12 +20,12 @@
                     <h5 class="card-title">Informations du Prêt</h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Type de Prêt:</strong> {{ $loan->loan_type_id == 1 ? 'Prêt Automobile' : 'Prêt Immobilier' }}</li>
-                        <li class="list-group-item"><strong>Montant:</strong> {{ $loan->loan_amount }} FCFA</li>
+                        <li class="list-group-item"><strong>Montant:</strong> {{ number_format($loan->loan_amount, 2, ',', ' ') }} FCFA</li>
                         <li class="list-group-item"><strong>Status:</strong> 
                             @if ($loan->status === 'validated')
                                 <span class="badge bg-success">Terminé</span>
                             @elseif ($loan->status === 'pending')
-                                <span class="badge bg-warning text-dark">En cours</span>
+                                <span class="badge bg-warning text-dark">En attente</span>
                             @else
                                 <span class="badge bg-danger">Rejeté</span>
                             @endif
@@ -96,9 +96,9 @@
                     <button type="submit" class="btn btn-primary">Envoyer les fichiers</button>
                 </div>
             </form>
-        @endif
+        @endif 
 
-
+        @if ($loan->status !== 'pending' && $loan->status !== 'in progress' && $loan->status !== 'rejected')
     <div class="pagetitle">
         <h1>Historique des paiements</h1>
     </div>
@@ -106,53 +106,44 @@
     <br>
 
     <div class="row">
-       
-        
-
         <div class="col-lg-12">
-
             <div class="card">
                 <div class="card-body">
 
-                <!-- Table with stripped rows -->
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Montant paye</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Date</th>
+                    <!-- Table with stripped rows -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Montant payé</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($loan->payment as $payment)
+                                <tr>
+                                    <td>{{ $payment->id }}</td>
+                                    <td>{{ number_format($payment->payment_amount, 2, ',', ' ') }} FCFA</td>
+                                    <td>
+                                        @if ($payment->status == "pending")
+                                            <span class='badge bg-warning'>En attente</span>
+                                        @elseif ($payment->status == "completed")
+                                            <span class='badge bg-success'>Valider</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $payment->created_at->toDateString() }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($loan->payment as $payment)
-                        <tr>
-                        <td>
-                            {{ $payment->id }}
-                            
-                        </td>
-                        <td>{{ number_format($payment->payment_amount, 2, ',', ' ') }} FCFA</td>
-                        <td>
-                            @if ($payment->status == "pending")
-                                <span class='badge bg-warning'>En attente</span>
-                            @else($payment->status == "completed")
-                                <span class='badge bg-success'>Valider</span>
-                            @endif
-                        </td>
-                        <td>{{ $payment->created_at->toDateString() }}</td>
-                        <!-- <td>
-                            <a href="{{ route('client.details-loan', ['loanId' => $loan->id]) }}"><button  class="btn btn-primary"><i class='bi bi-eye'></i></button></a>
-                        </td> -->
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-                <!-- End Table with stripped rows -->
                 </div>
             </div>
         </div>
     </div>
+@endif
 
 
 </main><!-- End #main -->

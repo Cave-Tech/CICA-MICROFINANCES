@@ -121,9 +121,9 @@
                       </script>
                       <!-- Fin code pour afficher les champs supplémentaires quant on selectionne Virement -->
 
-                      <div class="col-md-12">
+                      <!--<div class="col-md-12">
                         <input type="date" wire:model="date" class="form-control" required>
-                      </div>
+                      </div>-->
 
 
                         <!--<div class="col-md-12">
@@ -268,12 +268,8 @@
                           <div class="modal-body">
                               <form wire:submit.prevent="editOperation" class="php-email-form">
                                   <div class="row gy-4">
-                                  <div class="col-md-12">
-                                          <select wire:model="typeOperation" class="form-select" aria-label="Type d'opération">
-                                              <option value="1">Dépôt</option>
-                                              <option value="2">Retrait</option>
-                                              <option value="3">Virement</option>
-                                          </select>
+                                      <div class="col-md-12">
+                                          <input type="hidden" class="form-control" wire:model="typeOperation" >
                                       </div>
                                       @if($operation->operation_type_id == 3)
                                       <div class="col-md-12">
@@ -312,10 +308,6 @@
                                         </div>
                                         @endif
                                       @endforeach
-
-                                      <div class="col-md-12">
-                                          <input type="date" class="form-control" wire:model="date">
-                                      </div>
                                   </div>
                                   <div class="modal-footer">
                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>

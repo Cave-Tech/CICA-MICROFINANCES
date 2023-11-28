@@ -199,6 +199,7 @@
                         <span>Dashboard Chargé de la Clientèle</span>
                     </a>
                 </li>
+
             @endif
 
             <!-- Section pour les Chargés des Ressources Humaines -->

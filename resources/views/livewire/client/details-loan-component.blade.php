@@ -6,7 +6,7 @@
     <nav>
         <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Acceuil</a></li>
-        <li class="breadcrumb-item">Page</li>
+        <li class="breadcrumb-item">Prêt</li>
         <li class="breadcrumb-item active">Détails</li>
         </ol>
     </nav>

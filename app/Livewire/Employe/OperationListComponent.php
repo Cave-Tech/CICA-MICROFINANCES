@@ -98,6 +98,11 @@ class OperationListComponent extends Component
         $this->dispatch('close-operation-modal'); // Fermez le modal avec JS
     }
 
+    public function mount()
+    {
+        $this->operations = Operation::with(['user', 'agent', 'operationType'])->latest()->get();
+    }
+
 
     public function render()
     {

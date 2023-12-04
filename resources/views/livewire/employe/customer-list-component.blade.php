@@ -33,11 +33,11 @@
               
                     <br>
                     <!-- Before your table, add this search input -->
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <input type="text" class="form-control" placeholder="Rechercher" wire:model.live="search">
-                    </div>
+                    </div> -->
                     
-                    <table class="table">
+                    <table class="table datatable">
                         <thead>
                           <tr>
                             <th scope="col">id</th>

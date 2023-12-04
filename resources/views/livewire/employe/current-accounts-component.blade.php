@@ -76,7 +76,7 @@
 
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <button wire:click="showDetails({{ $currentAccount->id }})" data-bs-toggle="modal" data-bs-target="#currentAccountModal" class="btn btn-primary"><i class='bi bi-eye'></i></button>        
+                                                <button wire:click="showDetails({{ $currentAccount->id }})"  class="btn btn-primary"><i class='bi bi-eye'></i></button>        
                                             </div>
                                         </td>  
                                     </tr>
@@ -87,12 +87,12 @@
                     </div>
  
                     <!-- Modal -->
-                    <div class="modal fade" id="currentAccountModal" tabindex="-1" aria-labelledby="currentAccountModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                    <div class="modal fade" id="ExtralargeModal" tabindex="-1" aria-labelledby="ExtralargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
                             @if($detailsCurrentAccount)
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="currentAccountModalLabel">Détails du compte</h5>
+                                        <h5 class="modal-title" id="ExtralargeModalLabel">Détails du compte</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -170,15 +170,14 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        let modalEl = document.getElementById('currentAccountModal');
+        let modalEl = document.getElementById('ExtralargeModal');
         let modal = new bootstrap.Modal(modalEl);
 
         window.addEventListener('show-current-account-modal', (event) => {
             modal.show();
         });
 
-        window.addEventListener('close-current-account-modal', () => {
-            console.log('Fermeture du modal');
+        window.addEventListener('close-current-account-modal', (event) => {
             modal.hide();
         });
 

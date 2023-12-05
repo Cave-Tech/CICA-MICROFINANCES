@@ -28,11 +28,11 @@
                 <h5 class="card-title">Mes opérations</h5>
 
                 <!-- Before your table, add this search input -->
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <input type="text" class="form-control" placeholder="Rechercher" wire:model.live="search">
-                </div>
+                </div> -->
                 
-                <table class="table">
+                <table class="table datatable">
                     <thead>
                         <tr>
                             <th scope="col">#Code unique</th>
@@ -69,7 +69,7 @@
 
                             <td>
                                 <div class="btn-group" role="group">
-                                    <button wire:click="showDetails({{ $operation->id }})" data-bs-toggle="modal" data-bs-target="#operationModal" class="btn btn-primary"><i class='bi bi-eye'></i></button>        
+                                    <button wire:click="showDetails({{ $operation->id }})"  class="btn btn-primary"><i class='bi bi-eye'></i></button>        
                                 </div>
                             </td>  
                             
@@ -146,25 +146,26 @@
 
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    let modalEl = document.getElementById('operationModal');
-    let modal = new bootstrap.Modal(modalEl);
+    document.addEventListener('DOMContentLoaded', () => {
+        let modalEl = document.getElementById('operationModal');
+        let modal = new bootstrap.Modal(modalEl);
 
-    window.addEventListener('show-operation-modal', (event) => {
-        modal.show();
+        window.addEventListener('show-operation-modal', (event) => {
+            
+            modal.show();
+        });
+
+        window.addEventListener('close-operation-modal', () => {
+            modal.hide();
+        });
+
+        modalEl.addEventListener('hidden.bs.modal', () => {
+            // Cette fonction est appelée après que le modal est complètement fermé
+            window.livewire.dispatch('resetListener');
+        });
+
+    
     });
-
-    window.addEventListener('close-operation-modal', () => {
-        modal.hide();
-    });
-
-    modalEl.addEventListener('hidden.bs.modal', () => {
-        // Cette fonction est appelée après que le modal est complètement fermé
-        window.livewire.emit('resetListener');
-    });
-
-   
-});
 </script>
 
 

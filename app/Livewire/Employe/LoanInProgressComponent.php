@@ -12,7 +12,7 @@ class LoanInProgressComponent extends Component
     public function render()
     {
         $this->loanInProgress = Loan::with(['borrower', 'agent', 'payment', 'loanType'])
-                                    ->where('status', 'pending')
+                                    ->where('status', 'in progress')
                                     ->where(function($query) {
                                         $query->where('loan_amount', 'like', '%' . $this->search . '%')
                                               ->orWhere('interest_rate', 'like', '%' . $this->search . '%')

@@ -51,7 +51,7 @@ class SavingsAccountsComponent extends Component
         $savingsAccount->save();
 
         // Émettre l'événement
-        $this->dispatch('close-current-account-modall');
+        $this->dispatch('close-savings-account-modal');
 
         // Ici, vous pouvez ajouter une session flash ou d'autres actions selon vos besoins
     }
@@ -62,7 +62,7 @@ class SavingsAccountsComponent extends Component
         $savingsAccount->status = "blocked";
         $savingsAccount->save();
 
-        $this->dispatch('close-current-account-modall');
+        $this->dispatch('close-savings-account-modal');
     }
 
     // public function showDetails($savingsAccountId)
@@ -72,11 +72,11 @@ class SavingsAccountsComponent extends Component
 
     public function showDetails($savingsAccountId) {
         $this->detailsSavingsAccount = Account::findOrFail($savingsAccountId);
-        $this->dispatch('show-current-account-modal'); // Ouvrez le modal avec JS
+        $this->dispatch('show-savings-account-modal'); // Ouvrez le modal avec JS
     }
     
     public function closeDetails() {
-        $this->dispatch('close-current-account-modal'); // Fermez le modal avec JS
+        $this->dispatch('close-savings-account-modal'); // Fermez le modal avec JS
     }
 
 

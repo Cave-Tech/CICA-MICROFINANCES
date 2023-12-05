@@ -16,26 +16,34 @@ class SaveOperationComponent extends Component
     public $selectedUserId; // ID de l'utilisateur sélectionné
     public $filteredAccounts = []; // Comptes filtrés
 
-     //generation de code aleatoir
-     public $randomString;
-     //Enregistrement de l'operation
-     public $operationId;
-     public $typeOperation;
-     public $montant;
-     public $method = "cash";
-    //  public $status = "en cours";
-     public $beneficiaire;
-     public $compte_de_destination;
-     public $motif;
-     public $date;
-     public $userId;
+
+    //generation de code aleatoir
+    public $randomString;
+    //Enregistrement de l'operation
+    public $operationId;
+    public $typeOperation;
+    public $montant;
+    public $method = "cash";
+
+    public $phone;
+    public $beneficiaire;
+    public $compte_de_destination;
+    public $motif;
+    public $date;
+    public $userId;
+    public $userAccounts;
+    public $selfAccount;
+    public $transactionMethod;
+
         
 
      // Cette méthode met à jour les utilisateurs filtrés à mesure que vous tapez
     public function updatedName($value)
     {
         if(strlen($value) > 1) { // Commencez à filtrer après que l'utilisateur a tapé 2 caractères
-            $this->filteredUsers = User::where('name', 'like', '%' . $value . '%')->get();
+            $this->filteredUsers = User::where('name', 'like', '%' . $value . '%')
+                                        ->where('profile_id', 3)
+                                        ->get();
         } else {
             $this->filteredUsers = [];
         }
@@ -47,6 +55,8 @@ class SaveOperationComponent extends Component
         $this->selectedUserId = $userId;
         $user = User::find($userId);
         $this->name = $user->name; // Met à jour le champ de texte avec le nom complet
+        $this->phone = $user->phone;
+        $this->userAccounts = Account::where('user_id', $userId)->get();
         $this->filteredUsers = []; // Efface les résultats de la recherche
     }
 
@@ -75,29 +85,38 @@ class SaveOperationComponent extends Component
         $this->validate([
             'name' => 'required',
             'typeOperation' => 'required|in:1,2,3',
-            'montant' => 'required|numeric',
-            'date' => 'required|date',
+            'montant' => 'required',
+            'compte_de_destination' => 'required_if:typeOperation,3',
+            'beneficiaire' => 'required_if:typeOperation,3',
+            'motif' => 'required_if:typeOperation,3',
+
         ]);
+
+        
 
         if (!$this->selectedUserId) {
         session()->flash('fail', 'Veuillez sélectionner un utilisateur.');
         return;
         }
 
-        // Récupérer le compte de l'utilisateur
-        $userAccount = Account::where('user_id', $this->selectedUserId)->first();
-
-        if (!$userAccount) {
-            session()->flash('fail', "Le compte de l'utilisateur n'a pas été trouvé.");
+        $user = User::where('name', $this->name)
+                    ->where('phone', $this->phone)
+                    ->first();
+        if (!$user) {
+            session()->flash('fail', "L'utilisateur n'a pas été trouvé.");
             return;
         }
+
+       
 
         // Logique pour mettre à jour le solde en fonction du type d'opération
         switch ($this->typeOperation) {
             case 1: // Dépôt
+                $userAccount = Account::where('id', $this->selfAccount)->first();    
                 $userAccount->balance += $this->montant;
                 break;
             case 2: // Retrait
+                $userAccount = Account::where('id', $this->selfAccount)->first();   
                 if ($userAccount->balance >= $this->montant) {
                     $userAccount->balance -= $this->montant;
                 } else {
@@ -106,22 +125,29 @@ class SaveOperationComponent extends Component
                 }
                 break;
             case 3: // Virement
-                // Vérifier si l'utilisateur a suffisamment de fonds pour le virement
-                if ($userAccount->balance >= $this->montant) {
-                    $userAccount->balance -= $this->montant;
-                    
-                    // Mettre à jour le compte de destination
-                    $destinationAccount = Account::where('account_number', $this->compte_de_destination)->first();
-                    if ($destinationAccount) {
+                // Récupérer le compte de l'utilisateur
+                $destinationAccount = Account::where('account_number', $this->compte_de_destination)->first();
+
+                 if (!$destinationAccount) {
+                    session()->flash('fail', "Le compte du destinataire n'a pas été trouvé.");
+                    return;
+                }
+
+                if($this->transactionMethod == "cash"){
+                    $destinationAccount->balance += $this->montant;
+                    $destinationAccount->save();
+                }else{
+                    $userAccount = Account::where('id', $this->transactionMethod)->first();
+                    // Vérifier si l'utilisateur a suffisamment de fonds pour le virement
+                    if ($userAccount->balance >= $this->montant){
+                        $userAccount->balance -= $this->montant;
                         $destinationAccount->balance += $this->montant;
+                        $userAccount->save();
                         $destinationAccount->save();
                     } else {
-                        session()->flash('fail', "Le compte de destination n'a pas été trouvé.");
+                        session()->flash('fail', "Solde insuffisant pour effectuer le virement.");
                         return;
                     }
-                } else {
-                    session()->flash('fail', "Solde insuffisant pour effectuer le virement.");
-                    return;
                 }
                 break;
             default:
@@ -142,7 +168,7 @@ class SaveOperationComponent extends Component
             'beneficiaire' => $this->beneficiaire,
             'compte_destination' => $this->compte_de_destination,
             'motif' => $this->motif,
-            'withdrawal_date' => $this->date,
+            'withdrawal_date' => now(),
         ]);
 
         // Sauvegarder le solde mis à jour du compte

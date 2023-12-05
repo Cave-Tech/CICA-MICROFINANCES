@@ -51,7 +51,7 @@ class CurrentAccountsComponent extends Component
         $currentAccount->save();
 
         // Émettre l'événement
-        $this->dispatch('close-current-account-modall');
+        $this->dispatch('close-current-account-modal');
 
         // Ici, vous pouvez ajouter une session flash ou d'autres actions selon vos besoins
     }
@@ -62,7 +62,7 @@ class CurrentAccountsComponent extends Component
         $currentAccount->status = "blocked";
         $currentAccount->save();
 
-        $this->dispatch('close-current-account-modall');
+        $this->dispatch('close-current-account-modal');
     }
 
     // public function showDetails($currentAccountId)

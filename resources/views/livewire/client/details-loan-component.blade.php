@@ -51,7 +51,7 @@
                                 <span class="badge bg-danger">Rejeté</span>
                             @endif
                         </li>
-                        <li class="list-group-item"><strong>Date d'échéance:</strong> {{ date('d F Y', strtotime($loan->due_date)) }}</li>
+                        <li class="list-group-item"><strong>Date d'échéance:</strong> {{ date('d F Y', strtotime($loan->loan_date)) }}</li>
                     </ul>
                 </div>
             </div>

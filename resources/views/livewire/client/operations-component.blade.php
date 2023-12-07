@@ -1,21 +1,5 @@
 <main id="main" class="main">
 
-<!--<div class="pagetitle">
-  <h1>GESTION DES OPERATIONS </h1>
-<div>-->
-  
-<!-- Ajoutez d'autres informations du profil ici -->
-</div>
-<!--<nav>
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-      <li class="breadcrumb-item">Pages</li>
-      <li class="breadcrumb-item active">Contact</li>
-    </ol>
-  </nav>-->
-</div>
-<!-- End Page Title -->
-
         <!-- Message de succes ou d'erreur -->
         @if($message = Session::get('success'))
         <div class="alertt">
@@ -33,18 +17,25 @@
         </div>
         @endif
 
-<!--<div>
-<p>Résultat de la génération aléatoire : {{ $randomString }}</p>
-</div>
-
-<button wire:click="generateRandomString">Générer une chaîne aléatoire</button>-->
-
       <div class="container">
           <!-- Vertically centered Modal -->
           <div class="left-align">
-          <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
-            Faites un depôt ou un retrait
-          </button>
+
+          
+          <!-- Affichez le bouton uniquement si l'utilisateur a un compte bancaire -->
+          @if ($userAccounts->count() > 0)
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+                  Faites un dépôt ou un retrait
+              </button>
+          @else
+          <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            Vous n'avez pas un compte ! Veuillez vous rapprocher de notre agence afin de créer un compte courant et/ou épagne pour avoir
+            accès aux opérations à distance.
+          </div>
+          @endif
+
+
           </div>
           <div class="modal fade" id="verticalycentered" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -56,16 +47,6 @@
                 <div class="modal-body">
                   <form wire:submit.prevent="saveOperation" class="php-email-form">
                       <div class="row gy-4">
-
-                      <!--<div class="col-md-6">
-                        <input type="text" name="name" class="form-control" placeholder="Your Name" required>
-                      </div>
-
-                      <div class="col-md-6 ">
-                        <input type="email" class="form-control" name="email" placeholder="Your Email" required>
-                      </div>-->
-
-                      <!--<label class="col-sm-2 col-form-label">Select</label>-->
                       <div class="col-md-12">
                           <select id="typeOperation" wire:model="typeOperation" class="form-select" aria-label="Default select example">
                               <option selected>Choisissez le type d'opération</option>
@@ -77,34 +58,29 @@
 
                       <div class="col-md-12" id="champsSupplementaires" style="display: none;">
                           <input id="beneficiaire" wire:model="beneficiaire"  class="form-control" type="text" placeholder="Bénéficiaire"><br>
-                          <input id="compteDestination" wire:model="compte_de_destination"  class="form-control" type="number" placeholder="Compte de destination"><br>
+                          <input id="compteDestination" wire:model="compte_de_destination"  class="form-control" type="text" placeholder="Compte de destination"><br>
                           <input id="motif" wire:model="motif"  class="form-control" type="text" placeholder="Motif">
                       </div>
                       <div class="col-md-12">
                         <input type="number" class="form-control" wire:model="montant" placeholder="Entrer le montant" required>
                       </div>
-                      @foreach ($user->account as $account)
-                      @if ($account->account_types_id === 1)
-                      <div class="col-md-12">
-                          <select wire:model="typeAccount" class="form-select" aria-label="Default select example">
-                              <option value="1">De mon compte épagne</option>
-                          </select>
+                      <div class="col-md-12" id="champsSupplementaires2">
+                        <select id="typeAccount" wire:model="typeAccount" class="form-select" aria-label="Default select example" required>
+                          <option seleted>Choisir un compte</option>
+                            @if(!is_null($userAccounts))
+                                @foreach($userAccounts as $userAccount)
+                                    <option value="{{ $userAccount->id }}">
+                                        @if($userAccount->account_types_id == 1)
+                                            Compte courant - {{ $userAccount->account_number }}
+                                        @elseif($userAccount->account_types_id == 2)
+                                            Compte épargne - {{ $userAccount->account_number }}
+                                        @endif
+                                    </option>
+                                @endforeach
+                            @endif
+                        </select>
+                        @error('typeAccount') <span class="text-danger">{{ $message }}</span> @enderror
                       </div>
-                      @elseif($account->account_types_id === 2)
-                      <div class="col-md-12">
-                          <select wire:model="typeAccount" class="form-select" aria-label="Default select example">
-                              <option value="1">De mon compte épagne</option>
-                          </select>
-                      </div>
-                      @else
-                      <div class="col-md-12">
-                          <select wire:model="typeAccount" class="form-select" aria-label="Default select example">
-                              <option value="1">De mon compte épagne</option>
-                              <option value="1">De mon compte courant</option>
-                          </select>
-                      </div>
-                      @endif
-                      @endforeach
 
                       <!-- Code pour afficher les champs supplémentaires quant on selectionne Virement -->
                       <script>
@@ -119,16 +95,6 @@
                               }
                           });
                       </script>
-                      <!-- Fin code pour afficher les champs supplémentaires quant on selectionne Virement -->
-
-                      <!--<div class="col-md-12">
-                        <input type="date" wire:model="date" class="form-control" required>
-                      </div>-->
-
-
-                        <!--<div class="col-md-12">
-                          <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-                        </div> -->
                       </div>
                       </div>
                       <div class="modal-footer">
@@ -276,7 +242,7 @@
                                           <input class="form-control" type="text" wire:model="beneficiaire" >
                                       </div>
                                       <div class="col-md-12">
-                                          <input class="form-control" type="number" wire:model="compte_de_destination">
+                                          <input class="form-control" type="text" wire:model="compte_de_destination">
                                       </div>
                                       <div class="col-md-12">
                                           <input type="text" class="form-control" wire:model="motif">
@@ -285,29 +251,7 @@
                                       <div class="col-md-12">
                                           <input type="number" class="form-control" wire:model="montant">
                                       </div>
-
-                                      @foreach ($user->account as $account)
-                                        @if ($account->account_types_id === 1)
-                                        <div class="col-md-12">
-                                            <select wire:model="typeAccount" class="form-select" aria-label="Default select example">
-                                                <option value="1">De mon compte épagne</option>
-                                            </select>
-                                        </div>
-                                        @elseif($account->account_types_id === 2)
-                                        <div class="col-md-12">
-                                            <select wire:model="typeAccount" class="form-select" aria-label="Default select example">
-                                                <option value="2">De mon compte épagne</option>
-                                            </select>
-                                        </div>
-                                        @else
-                                        <div class="col-md-12">
-                                            <select wire:model="typeAccount" class="form-select" aria-label="Default select example">
-                                                <option value="1">De mon compte épagne</option>
-                                                <option value="2">De mon compte courant</option>
-                                            </select>
-                                        </div>
-                                        @endif
-                                      @endforeach
+                                      <input type="hidden" value="{{ $typeAccount }}" class="form-control" wire:model="typeAccount">
                                   </div>
                                   <div class="modal-footer">
                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>

@@ -34,6 +34,7 @@ class LoanRequestComponent extends Component
     public $nameWarrantor;
     public $addressWarrantor;
     public $numWarrantor;
+    public $dateloan;
     public $relationWarrantor;
     public $docFiles;
     public $userId;
@@ -62,6 +63,7 @@ class LoanRequestComponent extends Component
             $saveLoan->address_warrantor = $this->addressWarrantor;
             $saveLoan->number_warrantor = $this->numWarrantor;
             $saveLoan->relation_warrantor = $this->relationWarrantor;
+            $saveLoan->loan_date = Now();
             $saveLoan->doc_files = "";
             $saveLoan->save();
                 if($saveLoan){
@@ -83,6 +85,7 @@ class LoanRequestComponent extends Component
             $saveLoan->address_warrantor = $this->addressWarrantor;
             $saveLoan->number_warrantor = $this->numWarrantor;
             $saveLoan->relation_warrantor = $this->relationWarrantor;
+            $saveLoan->loan_date = Now();
             $saveLoan->doc_files = $this->docFiles->store('loan_documents', 'public'); // Enregistrez le fichier et obtenez le chemin
             //dd($saveLoan);
                 $saveLoan->save();

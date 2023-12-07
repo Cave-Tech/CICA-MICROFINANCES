@@ -16,18 +16,18 @@ return new class extends Migration
             
             $table->id();  // Identifiant unique pour chaque utilisateur
             $table->unsignedBigInteger('agent_id')->nullable();  // Clé étrangère pour identifier l'agent de cet utilisateur, peut être nulle
-            $table->unsignedBigInteger('profile_id');  // Clé étrangère pour le profil de l'utilisateur (ex. client, employé)
+            $table->unsignedBigInteger('profile_id')->nullable();  // Clé étrangère pour le profil de l'utilisateur (ex. client, employé)
             $table->string('name');  // Nom complet de l'utilisateur
-            $table->enum('gender', ['male', 'female', 'other']);  // Genre de l'utilisateur
-            $table->date('birth_date');  // Date de naissance de l'utilisateur
-            $table->string('nationality');  // Nationalité de l'utilisateur
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();  // Genre de l'utilisateur
+            $table->date('birth_date')->nullable();  // Date de naissance de l'utilisateur
+            $table->string('nationality')->nullable();  // Nationalité de l'utilisateur
             $table->string('email')->unique();  // Adresse email unique de l'utilisateur
-            $table->string('phone');  // Numéro de téléphone de l'utilisateur
-            $table->text('address');  // Adresse résidentielle de l'utilisateur
-            $table->enum('id_type', ['card', 'passport']);  // Type de pièce d'identité de l'utilisateur (carte d'identité ou passeport)
-            $table->string('id_number');  // Numéro de la pièce d'identité
+            $table->string('phone')->nullable();  // Numéro de téléphone de l'utilisateur
+            $table->text('address')->nullable();  // Adresse résidentielle de l'utilisateur
+            $table->enum('id_type', ['card', 'passport'])->nullable();  // Type de pièce d'identité de l'utilisateur (carte d'identité ou passeport)
+            $table->string('id_number')->nullable();  // Numéro de la pièce d'identité
             $table->string('profile_picture')->default('default-profile-icon.png');  // Image de profil de l'utilisateur
-            $table->string('status');  // Statut actuel de l'utilisateur (ex. actif, inactif)
+            $table->string('status')->nullable();  // Statut actuel de l'utilisateur (ex. actif, inactif)
             $table->timestamp('email_verified_at')->nullable();  // Date et heure de la vérification de l'email
             $table->string('password');  // Mot de passe (haché) de l'utilisateur
             $table->rememberToken();  // Token pour la fonction "Se souvenir de moi"

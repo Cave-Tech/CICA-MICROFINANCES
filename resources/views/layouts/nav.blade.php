@@ -150,8 +150,8 @@
                     </a>
                     <ul id="operation-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
-                            <a href="">
-                            <i class="bi bi-circle"></i><span>Mes clients </span>
+                            <a href="{{ url('/payement-loan') }}">
+                            <i class="bi bi-circle"></i><span>Fait un paiement </span>
                             </a>
                         </li>
                         <li>

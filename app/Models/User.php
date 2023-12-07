@@ -91,7 +91,7 @@ class User extends Authenticatable
     ];
 
     public function account(){
-        return $this->hasMany(Account::class);
+        return $this->hasMany(Account::class, 'user_id');
     }
 
     public function operation(){

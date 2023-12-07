@@ -161,7 +161,7 @@
     </div>
 
     <div class="pagetitle">
-      <h1>Data Tables</h1>
+      <h1>Mes prêts</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Acceuil</a></li>
@@ -210,7 +210,7 @@
                         <span class="badge bg-danger">Rejeté</span>
                     @endif
                     </td>
-                    <td>{{ strftime('%d %B %Y', strtotime($loan->due_date)) }}</td>
+                    <td>{{ strftime('%d %B %Y', strtotime($loan->loan_date)) }}</td>
                     <td>    
                     <a href="{{ route('client.details-loan', ['loanId' => $loan->id]) }}"><button  class="btn btn-primary"><i class='bi bi-eye'></i></button></a>
                     @if($loan->status === 'pending')

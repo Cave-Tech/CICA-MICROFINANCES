@@ -54,6 +54,10 @@ Route::get('/employe-profile', function () {
     return view('employe.profile');
 })->name('employe.profile');
 
+Route::get('/payement-loan', function () {
+    return view('employe.payement-loan');
+})->name('payement-loan');
+
 Route::get('/customer-list', function () {
     return view('employe.customer-list');
 })->name('employe.customer-list');

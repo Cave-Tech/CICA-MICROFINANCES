@@ -44,7 +44,7 @@
                         <th scope="col">Photo</th>
                         <th scope="col">Montant</th>
                         <th scope="col">Reste</th>
-                        <th scope="col">Payer</th>
+                        <th scope="col">Action</th>
                         <th></th>
                     </tr>
                 </thead>

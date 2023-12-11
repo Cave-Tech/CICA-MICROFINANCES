@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Livewire\Employe;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Operation;
 use App\Models\Loan;
 use App\Models\Payment;
@@ -16,6 +17,8 @@ class PayementComponent extends Component
 
     public function render()
     {
+        //$userId = Auth::user()->id;
+        //$userAccount = Payment::with(['loan'])->where('user_id', $userId)->first();
         $this->loanInProgress = Loan::with(['borrower', 'agent', 'payment', 'loanType'])
             ->where('status', 'pending')
             ->where(function($query) {

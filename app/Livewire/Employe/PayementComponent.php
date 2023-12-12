@@ -17,8 +17,12 @@ class PayementComponent extends Component
 
     public function render()
     {
-        //$userId = Auth::user()->id;
-        //$userAccount = Payment::with(['loan'])->where('user_id', $userId)->first();
+        // Récupérez les paiements de l'agent de terrain connecté
+        $agentPayments = Payment::with(['loan.borrower', 'loan.agent', 'loan.loanType', 'loan'])
+    ->where('user_id', auth()->user()->id)
+    ->get();
+
+
         $this->loanInProgress = Loan::with(['borrower', 'agent', 'payment', 'loanType'])
             ->where('status', 'pending')
             ->where(function($query) {
@@ -43,7 +47,7 @@ class PayementComponent extends Component
             ->get();
         return view('livewire.employe.payement-component', [
             'loansInProgress' => $this->loanInProgress
-        ]);
+        ], ['agentPayments' => $agentPayments]);
     }
     
 

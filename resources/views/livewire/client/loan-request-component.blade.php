@@ -49,23 +49,23 @@
 
 </style>
     
-<!-- Message de succes ou d'erreur -->
-        @if($message = Session::get('success'))
-        <div class="alertt">
-        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-            {{$message}}
-        </div>
-        @endif
-        
-
-       
-        @if($message = Session::get('fail'))
-        <div class="alert">
+    <!-- Message de succes ou d'erreur -->
+    @if($message = Session::get('success'))
+        <div id="success-alert" class="alert alert-success">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-            {{$message}}
+            <p>{{$message}}</p>
         </div>
-        @endif
- <!--Fin Message de succes ou d'erreur -->
+    @endif
+
+    @if($message = Session::get('fail'))
+        <div id="fail-alert" class="alert alert-danger">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <p>{{$message}}</p>
+        </div>
+    @endif
+    <!--Fin Message de succes ou d'erreur -->
+
+
 
      
 <div class="container">

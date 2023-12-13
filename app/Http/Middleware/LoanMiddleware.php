@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ChargeRessourcesHumainesMiddleware
+class LoanMiddleware
 {
     /**
      * Handle an incoming request.
@@ -20,7 +20,7 @@ class ChargeRessourcesHumainesMiddleware
             return redirect('/login');
         }
 
-        if(auth()->user()->profile->designation === 'employe' && auth()->user()->employee_type_id == 6) {
+        if(auth()->user()->employee_type_id == 4 || auth()->user()->employee_type_id == 5) {
             return $next($request);
         }else{
             session()->flash('fail', 'Vous n\'etes pas autoriser à acceder à cette page');

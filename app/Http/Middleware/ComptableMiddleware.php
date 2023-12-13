@@ -15,10 +15,16 @@ class ComptableMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->profile->designation === 'employe' && auth()->user()->employee_type_id == 2) {
-            return $next($request);
+        if(!auth()->check()){
+            session()->flash('fail', 'Vous devez vous connecter pour acceder à cette page;');
+            return redirect('/login');
         }
 
-        abort(403, 'Unauthorized');
+        if(auth()->user()->profile->designation === 'employe' && auth()->user()->employee_type_id == 2) {
+            return $next($request);
+        }else{
+            session()->flash('fail', 'Vous n\'etes pas autoriser à acceder à cette page');
+            return redirect('/');
+        }
     }
 }

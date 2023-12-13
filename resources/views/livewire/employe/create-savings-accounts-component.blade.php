@@ -8,18 +8,19 @@
 
     <!-- Message de succes ou d'erreur -->
     @if($message = Session::get('success'))
-        <div id="success-alert" class="alert alert-success">
+        <div id="success-alert" class="alertt alert-success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             <p>{{$message}}</p>
         </div>
     @endif
 
     @if($message = Session::get('fail'))
         <div id="fail-alert" class="alert alert-danger">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             <p>{{$message}}</p>
         </div>
     @endif
     <!--Fin Message de succes ou d'erreur -->
-
 
     <div class="card">
         <div class="card-body"><br>

@@ -231,11 +231,6 @@
                             <i class="bi bi-circle"></i><span>Demandes de pret</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="{{ url('/loan-request-pending')}}">
-                            <i class="bi bi-circle"></i><span>Demandes de pret en attente</span>
-                            </a>
-                        </li>
                     </ul>
 
                     

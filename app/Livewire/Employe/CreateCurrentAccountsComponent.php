@@ -19,25 +19,30 @@ class CreateCurrentAccountsComponent extends Component
     public $name = ''; // Nom entré par l'utilisateur
     public $filteredUsers = []; // Utilisateurs filtrés
     public $selectedUserId; // ID de l'utilisateur sélectionné
-     // Cette méthode met à jour les utilisateurs filtrés à mesure que vous tapez
-     public function updatedName($value)
-     {
-         if(strlen($value) > 1) { // Commencez à filtrer après que l'utilisateur a tapé 2 caractères
-             $this->filteredUsers = User::where('name', 'like', '%' . $value . '%')
-                                        ->where('profile_id', 3)->get();
-         } else {
-             $this->filteredUsers = [];
-         }
-     }
+
+
+    // Cette méthode met à jour les utilisateurs filtrés à mesure que vous tapez
+    public function updatedName($value)
+    {
+        if(strlen($value) > 1) { // Commencez à filtrer après que l'utilisateur a tapé 2 caractères
+            $this->filteredUsers = User::where('name', 'like', '%' . $value . '%')
+                                    ->where('profile_id', 3)->get();
+        } else {
+            $this->filteredUsers = [];
+        }
+    }
  
-     // Cette méthode est appelée lorsque vous sélectionnez un utilisateur des résultats filtrés
-     public function selectUser($userId)
-     {
-         $this->selectedUserId = $userId;
-         $user = User::find($userId);
-         $this->name = $user->name; // Met à jour le champ de texte avec le nom complet
-         $this->filteredUsers = []; // Efface les résultats de la recherche
-     }
+    // Cette méthode est appelée lorsque vous sélectionnez un utilisateur des résultats filtrés
+    public function selectUser($userId)
+    {
+        $this->selectedUserId = $userId;
+        $user = User::find($userId);
+        $this->name = $user->name; // Met à jour le champ de texte avec le nom complet
+        if(!$user->ifu) {
+            $this->ifu = $user->ifu;
+        }
+        $this->filteredUsers = []; // Efface les résultats de la recherche
+    }
 
      public function createCurrentAccount()
     {
@@ -52,11 +57,25 @@ class CreateCurrentAccountsComponent extends Component
             return redirect()->route('employe.current-accounts');
         }
 
+        $userIfu = User::where('ifu', $this->ifu)
+        ->where('id', $this->selectedUserId)
+        ->value('ifu');
+
+       
+
+        if(!$userIfu){
+            $user1 = User::find($this->selectedUserId);
+            $user1->ifu = $this->ifu;
+            $user1->save();
+        }elseif($userIfu->ifu != $this->ifu) {
+            session()->flash('fail', 'L\'IFU ne correspond pas à l\'utilisateur.');
+            return redirect()->route('employe.current-accounts');
+        }
+
         // Enregistrement du compte courant
         Account::create([
             'user_id' => $this->selectedUserId,
             'balance' => $this->balance,
-            'ifu' => $this->ifu,
             'agent_id' => auth()->user()->id,
             'account_number' => $this->generateAccountNumber(),
             'account_types_id' => 1,

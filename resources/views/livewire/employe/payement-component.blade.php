@@ -4,21 +4,21 @@
   <h1>PAIEMENT DES CLIENTS </h1>
 </div><!-- End Page Title -->
     <!-- Message de succes ou d'erreur -->
+    <!-- Message de succes ou d'erreur -->
     @if($message = Session::get('success'))
-        <div class="alertt">
-        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-            {{$message}}
-        </div>
-        @endif
-        
-
-       
-        @if($message = Session::get('fail'))
-        <div class="alert">
+        <div id="success-alert" class="alertt alert-success">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-            {{$message}}
+            <p>{{$message}}</p>
         </div>
-        @endif
+    @endif
+
+    @if($message = Session::get('fail'))
+        <div id="fail-alert" class="alert alert-danger">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <p>{{$message}}</p>
+        </div>
+    @endif
+    <!--Fin Message de succes ou d'erreur -->
  <!--Fin Message de succes ou d'erreur -->
 <div class="card">
   <div class="card-body"><br>

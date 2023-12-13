@@ -74,6 +74,9 @@ class Kernel extends HttpKernel
         'comptable' => \App\Http\Middleware\ComptableMiddleware::class,
         'agent_terrain' => \App\Http\Middleware\AgentTerrainMiddleware::class,
         'charge_ressources_humaines' => \App\Http\Middleware\ChargeRessourcesHumainesMiddleware::class,
+        'employe' => \App\Http\Middleware\EmployeMiddleware::class,
+        'loan.details' => \App\Http\Middleware\LoanDetailsMiddleware::class,
+        'loan' => \App\Http\Middleware\LoanMiddleware::class,
 
     ];
 }

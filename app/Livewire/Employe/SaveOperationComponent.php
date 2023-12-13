@@ -81,7 +81,7 @@ class SaveOperationComponent extends Component
 
     public function saveOperation()
     {
-        
+       
         $this->validate([
             'name' => 'required',
             'typeOperation' => 'required|in:1,2,3',
@@ -92,7 +92,6 @@ class SaveOperationComponent extends Component
 
         ]);
 
-        
 
         if (!$this->selectedUserId) {
         session()->flash('fail', 'Veuillez sélectionner un utilisateur.');

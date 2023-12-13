@@ -44,7 +44,7 @@
                         <th scope="col">Photo</th>
                         <th scope="col">Montant</th>
                         <th scope="col">Reste</th>
-                        <th scope="col">Payer</th>
+                        <th scope="col">Action</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -93,28 +93,32 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Point du jours</h5>
+              <h5 class="card-title">Mes Paiements</h5>
               <!-- Table with stripped rows -->
               <table class="table datatable">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                </tbody>
-              </table>
+    <thead>
+        <tr>
+            <th scope="col">Photo</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Téléphone</th>
+            <th scope="col">Montant</th>
+            <th scope="col">Date de paiement</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach ($agentPayments->sortByDesc('payment_date') as $agentPayment)
+    <tr>
+        <td><img src="{{ asset('storage/' . $agentPayment->loan->borrower->profile_picture) }}" alt="Photo de profil" width="80" height="80"></td>
+        <!--<th scope="row">{{ $agentPayment->id }}</th>-->
+        <td>{{ $agentPayment->loan->borrower->name }}</td>
+        <td>{{ $agentPayment->loan->borrower->phone }}</td>
+        <td>{{ $agentPayment->payment_amount }}</td>
+        <td>{{ strftime('%d %B %Y', strtotime($agentPayment->payment_date)) }}</td>
+    </tr>
+  @endforeach
+    </tbody>
+</table>
+
               <!-- End Table with stripped rows -->
             </div>
           </div>

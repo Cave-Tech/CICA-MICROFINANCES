@@ -46,7 +46,8 @@ class OperationsComponent extends Component
         $dates = Carbon::now();
         if ($typeOperation == 2) {
                 if ($solde < $montant or $montant == 0) {
-                    return redirect('/client-operations')->with("fail", "Retrait impossible.");
+                    return redirect('/client-operations')->with("fail", "Retrait impossible - 
+                    montant de retrait incorrect ou trop élevé.");
                 }else{
                     $operation = new Operation();
                     $operation->user_id = $this->userId = $user->id;
@@ -70,7 +71,7 @@ class OperationsComponent extends Component
                 return redirect('/client-operations')->with("fail", "Numéro de compte introuvable !.");
         }elseif($typeOperation == 3 && $destinationAccount){
                 if ($solde < $montant or $montant == 0) {
-                    return redirect('/client-operations')->with("fail", "Virement impossible.");
+                    return redirect('/client-operations')->with("fail", "Virement impossible - montant du virement incorrect ou trop élevé.");
                 }else{
                     $operation = new Operation();
                     $operation->user_id = $this->userId = $user->id;
@@ -109,7 +110,7 @@ class OperationsComponent extends Component
 
             return redirect('/client-operations')->with("success", "Demande envoyée aec succes");
         }else{
-            return redirect('/client-operations')->with("fail", "Operation impossible.");
+            return redirect('/client-operations')->with("fail", "Impossible de faire un dépôt de 0 FCFA.");
         }
     }
 
@@ -137,7 +138,7 @@ class OperationsComponent extends Component
                 if($operation){
                     return redirect('/client-operations')->with("success", "Oppération supprimée avec succes !");
                 }else{
-                    return redirect('/client-operations')->with("fail", "Demande envoyée aec succes");
+                    return redirect('/client-operations')->with("fail", "Demande envoyée avec succes");
                 }
 
             }
@@ -164,7 +165,8 @@ class OperationsComponent extends Component
 
             if ($typeOperation == 2) {
                 if ($solde < $montant or $montant == 0) {
-                    return redirect('/client-operations')->with("fail", "Mise à jours impossible.");
+                    return redirect('/client-operations')->with("fail", "Mise à jours impossible - 
+                    montant de retrait incorrect ou trop élevé.");
                 }else{
                     $operationToEdit->operation_type_id = $this->typeOperation;
                     $operationToEdit->withdrawal_amount = $this->montant;
@@ -184,7 +186,7 @@ class OperationsComponent extends Component
                 return redirect('/client-operations')->with("fail", "Numéro de compte introuvable !.");
         }elseif($typeOperation == 3 && $destinationAccount){
                 if ($solde < $montant or $montant == 0) {
-                    return redirect('/client-operations')->with("fail", "Virement impossible.");
+                    return redirect('/client-operations')->with("fail", "Mise à jours impossible - montant du virement incorrect ou trop élevé.");
                 }else{
                     $operationToEdit->operation_type_id = $this->typeOperation;
                     $operationToEdit->withdrawal_amount = $this->montant;
@@ -215,7 +217,7 @@ class OperationsComponent extends Component
             // Redirigez l'utilisateur avec un message de succès ou echec
             return redirect('/client-operations')->with("success", "Opération mise à jour avec succès.");
         }else{
-            return redirect('/client-operations')->with("fail", "Operation impossible.");
+            return redirect('/client-operations')->with("fail", "Mis à jours impossible - Impossible de faire un dépôt de 0 FCFA.");
         }
     }
     //Fin Edit operation

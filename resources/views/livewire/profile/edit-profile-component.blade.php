@@ -4,7 +4,7 @@
   <h1>Profile</h1>
   <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item"><a href="">Home</a></li>
       <li class="breadcrumb-item">Users</li>
       <li class="breadcrumb-item active">Profile</li>
     </ol>
@@ -17,7 +17,6 @@
 
       <div class="card">
         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
         <img src="{{ asset('storage/' . $profile->profile_picture) }}" alt="Profile">
             <h2>{{ $profile->name }}</h2>
             <h3><span class="badge bg-success">{{ $profile->occupation }}</span></h3>

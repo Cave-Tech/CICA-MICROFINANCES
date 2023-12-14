@@ -73,10 +73,9 @@
 
     
 
-
+    
     @if($loan->status === 'pending')
         <form wire:submit.prevent="EditLoanDoc" enctype="multipart/form-data">
-        
 
             <div class="container">
                 <div class="row">
@@ -126,6 +125,18 @@
         <div class="pagetitle">
             <h1>Historique des paiements</h1>
         </div>
+
+        <div id="success-alert" class="alertt alert-success">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <p class="font-weight-bold">
+        Vous êtes à 
+        <span class="{{ $this->remainingAmount($loan) >= 90 ? 'text-danger' : ($this->remainingAmount($loan) >= 75 ? 'text-warning' : 'text-success') }}">
+            {{ $this->remainingAmount($loan) }}
+        </span>
+        de votre paiement.
+    </p>
+</div>
+
 
         <br>
 

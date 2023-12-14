@@ -32,6 +32,23 @@ class DetailsLoanComponent extends Component
         // dd($this->loan);
     }
 
+    public function remainingAmount($loan)
+    {
+        // Vérifiez si la relation payments existe
+        if ($loan->payment) {
+            $totalPayments = $loan->payment->sum('payment_amount');
+            $loanAmount = $loan->loan_amount;
+            //dd($loanAmount);
+            //dd($totalPayments);
+            $remainingAmount = ($totalPayments / $loanAmount) * 100;
+
+            return $remainingAmount . ' %';
+        }
+
+        return 0 . ' %';
+    }
+
+
     // Méthode pour valider le prêt
     public function validateLoan($loanId)
     {
@@ -82,6 +99,16 @@ class DetailsLoanComponent extends Component
             }
     }
     //Fin Edit loan doc
+
+    public function calculatePaymentPercentage()
+    {
+        if ($this->loan->totalAmount > 0) {
+            return ($this->loan->amountPaid / $this->loan->totalAmount) * 100;
+        } else {
+            return 0; // Évitez une division par zéro, si nécessaire
+        }
+    }
+
 
     public function render()
     {

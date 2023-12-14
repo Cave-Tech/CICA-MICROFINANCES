@@ -132,8 +132,19 @@
               </div>
 
               <div class="row">
+
+                <div class="col-lg-3 col-md-4 label">Type de carte :</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->id_type === "card" ? "Carte d'identité" : "Passeport" }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Numéro de la carte :</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->id_number }}</div>
+              </div>
+
+              <div class="row">
                 <div class="col-lg-3 col-md-4 label">Date de naissance :</div>
-                <div class="col-lg-9 col-md-8">{{ \Carbon\Carbon::parse($profile->birth_date)->format('d F Y') }}</div>
+                <div class="col-lg-9 col-md-8">{{ strftime('%d %B %Y', strtotime($profile->birth_date)) }}</div>
               </div>
 
               <div class="row">
@@ -181,6 +192,26 @@
                         </select>
                     </div>
                     @error('gender') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="row mb-3">
+                    <label for="gender" class="col-md-4 col-lg-3 col-form-label">Type de carte</label>
+                    <div class="col-md-8 col-lg-9">
+                        <select wire:model="id_type" class="form-select" value="{{ $profile->id_type }}" id="id_type">
+                            <option >selectionnez le type de carte</option>
+                            <option value="card">Carte d'identité</option>
+                            <option value="passport">Passeport</option>
+                        </select>
+                    </div>
+                    @error('id_type') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="row mb-3">
+                    <label for="id_number" class="col-md-4 col-lg-3 col-form-label">Numéro de la carte</label>
+                    <div class="col-md-8 col-lg-9">
+                        <input wire:model="id_number" type="id_number" value="{{ $profile->id_number }}" class="form-control" id="id_number">
+                    </div>
+                    @error('id_number') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="row mb-3">

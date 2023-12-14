@@ -17,6 +17,8 @@ class EditProfileComponent extends Component
     public $gender;
     public $address;
     public $phone;
+    public $id_type;
+    public $id_number;
 
     public $currentPassword;
     public $newPassword;
@@ -33,7 +35,9 @@ class EditProfileComponent extends Component
         $this->birth_date = $this->profile->birth_date;
         $this->gender = $this->profile->gender; 
         $this->address = $this->profile->address;
-        $this->phone = $this->profile->phone;      
+        $this->phone = $this->profile->phone; 
+        $this->id_type = $this->profile->id_type;
+        $this->id_number = $this->profile->id_number;
         return view('livewire.profile.edit-profile-component');
     }
 
@@ -70,7 +74,9 @@ class EditProfileComponent extends Component
                 'birth_date' => 'required|date',
                 'nationality' => 'required|string',
                 'gender' => 'required|in:male,female',
+                'id_type' => 'required|in:card,passport',
                 'address' => 'required|string',
+                'id_number' => 'required|string',
                 'phone' => 'required|string',
             ]);
     
@@ -80,6 +86,8 @@ class EditProfileComponent extends Component
                 'birth_date' => $this->birth_date,
                 'nationality' => $this->nationality,
                 'gender' => $this->gender,
+                'id_type' => $this->id_type,
+                'id_number' => $this->id_number,
                 'address' => $this->address,
                 'phone' => $this->phone,
             ]);

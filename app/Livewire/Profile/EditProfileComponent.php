@@ -83,14 +83,15 @@ class EditProfileComponent extends Component
                 'address' => $this->address,
                 'phone' => $this->phone,
             ]);
-    
-        }catch (\Exception $e) {
-                // Ajoutez des messages de débogage
-                dd($e->getMessage());
-        }
 
-        return redirect('/profile')->with("success", "Informations mise à jours avec succès !.");
-        
+            return redirect('/profile')->with("success", "Informations mise à jours avec succès !.");
+        }catch (ValidationException $e) {
+            // Erreurs de validation
+            return redirect('/profile')->with("fail", "Remplissez tous les champs !");
+        } catch (\Exception $e) {
+            // Autres erreurs
+            return redirect('/profile')->with("fail", "Remplissez tous les champs !"); 
+        }
         
     }
 

@@ -68,36 +68,50 @@ class PayementComponent extends Component
     
     public function makePayment($loanId)
     {
-         // Récupérez le prêt associé à l'ID du prêt
+        // Récupérez le prêt associé à l'ID du prêt
         $loan = Loan::find($loanId);
+    
         // Valider le montant du paiement
         $this->validate([
             'paymentAmount' => 'required|numeric|min:0',
         ]);
-
-        // Vérifiez si le montant du paiement est inférieur ou égal au montant du prêt
-        if ($this->paymentAmount <= $loan->loan_amount && $this->paymentAmount != 0) {
-        // Enregistrez le paiement dans votre base de données avec les informations nécessaires
-        $paye = Payment::create([
-            'loan_id' => $loanId,
-            'user_id' => auth()->id(),
-            'status'  => "payer",
-            'transaction_channel'  => "neutre",
-            'payment_amount' => $this->paymentAmount,
-            'payment_date' => now(), // Utilisez la date actuelle pour la date du paiement
-        ]);
-
-        // Vous pouvez également mettre à jour d'autres propriétés ou effectuer des actions supplémentaires ici
-
-        // Effacez le champ du montant du paiement après l'enregistrement
-        $this->paymentAmount = null;
-
-        // Émettez un message de réussite ou d'échec selon les besoins
+    
+        // Récupérez tous les paiements associés à ce prêt et calculez la somme
+        $totalPayments = Payment::where('loan_id', $loanId)->sum('payment_amount');
+    
+        // Calculez le montant restant à payer pour le prêt
+        $remainingAmount = $loan->loan_amount - $totalPayments;
+    
+        // Vérifiez si le montant du nouveau paiement est inférieur ou égal au montant restant à payer
+        if ($this->paymentAmount <= $remainingAmount && $this->paymentAmount != 0) {
+            // Enregistrez le paiement dans votre base de données avec les informations nécessaires
+            $payment = Payment::create([
+                'loan_id' => $loanId,
+                'user_id' => auth()->id(),
+                'status' => "payer",
+                'transaction_channel' => "neutre",
+                'payment_amount' => $this->paymentAmount,
+                'payment_date' => now(), // Utilisez la date actuelle pour la date du paiement
+            ]);
+    
+            // Calculez à nouveau le montant total des paiements après l'enregistrement du nouveau paiement
+            $newTotalPayments = Payment::where('loan_id', $loanId)->sum('payment_amount');
+    
+            // Si la somme des paiements est égale au montant initial du prêt, mettez à jour le statut du prêt
+            if ($newTotalPayments == $loan->loan_amount) {
+                $loan->update(['status' => 'completed']);
+            }
+    
+            // Effacez le champ du montant du paiement après l'enregistrement
+            $this->paymentAmount = null;
+    
+            // Émettez un message de réussite
             return redirect('/payement-loan')->with("success", "Paiement effectué avec succès !");
         } else {
-            // Le montant du paiement est supérieur au montant du prêt
+            // Le montant du paiement est supérieur au montant restant à payer pour le prêt
             return redirect('/payement-loan')->with("fail", "Montant du paiement incorrect.");
         }
     }
+    
 
 }

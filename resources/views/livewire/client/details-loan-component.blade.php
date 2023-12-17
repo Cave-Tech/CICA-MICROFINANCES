@@ -60,11 +60,11 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Détails du Garant</h5>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush">{{ $loan->relation_warrantor == 1 ? 'Parents' : 'Prêt Immobilier' }}
                         <li class="list-group-item"><strong>Nom du Garant:</strong> {{ $loan->name_warrantor }}</li>
                         <li class="list-group-item"><strong>Numéro du Garant:</strong> {{ $loan->number_warrantor }}</li>
                         <li class="list-group-item"><strong>Adresse du Garant:</strong> {{ $loan->address_warrantor }}</li>
-                        <li class="list-group-item"><strong>Relation avec le Garant:</strong> {{ $loan->relation_warrantor }}</li>
+                        <li class="list-group-item"><strong>Relation avec le Garant:</strong> {{ $loan->relation_warrantor == 1 ? 'Parents' : ($loan->relation_warrantor == 2 ? 'Amis' : 'Autre') }}</li>
                     </ul>
                 </div>
             </div>
@@ -153,7 +153,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th scope="col">Id</th>
+                            <!--<th scope="col">Id</th>-->
                             <th scope="col">Montant paye</th>
                             <th scope="col">Status</th>
                             <th scope="col">Date</th>
@@ -163,10 +163,10 @@
                         <tbody>
                         @foreach($loan->payment as $payment)
                             <tr>
-                            <td>
+                            <!--<td>
                                 {{ $payment->id }}
                                 
-                            </td>
+                            </td>-->
                             <td>{{ number_format($payment->payment_amount, 2, ',', ' ') }} FCFA</td>
                             <td>
                                 @if ($payment->status == "pending")

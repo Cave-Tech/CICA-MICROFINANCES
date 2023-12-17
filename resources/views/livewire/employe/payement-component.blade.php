@@ -74,7 +74,7 @@
                     </tr>
                 @else
                     <tr>
-                        <td colspan="7" class="text-center">Aucun prêt trouvé.</td>
+                        <td colspan="7" class="text-center">Aucun prêt en cours.</td>
                     </tr>
                 @endif
 

@@ -71,7 +71,8 @@
 <div class="container">
         
 
-    @if ($user->loan->where('status', 'pending')->isNotEmpty() || $user->loan->where('status', 'in progress')->isNotEmpty())
+    @if ($user->loan->where('status', 'pending')->isNotEmpty() || $user->loan->where('status', 'in progress')->isNotEmpty()
+    || $user->loan->where('status', 'validated')->isNotEmpty())
 
         @elseif (!$user->loan->where('status', 'pending')->isNotEmpty())
         <!-- Pas de demande de prêt en attente -->
@@ -140,8 +141,9 @@
                                 <label for="interestRate"></label>
                                     <select wire:model="relationWarrantor" class="form-select" aria-label="Type d'opération" required>
                                         <option >Relation du temoins</option>
-                                        <option value="1">Bien immobilier</option>
-                                        <option value="2">Autres biens</option>
+                                        <option value="1">Parents</option>
+                                        <option value="2">Amis</option>
+                                        <option value="3">Autres</option>
                                     </select>
                                 </div><br>
 

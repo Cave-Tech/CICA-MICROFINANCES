@@ -51,7 +51,7 @@
     
     <!-- Message de succes ou d'erreur -->
     @if($message = Session::get('success'))
-        <div id="success-alert" class="alert alert-success">
+        <div id="success-alert" class="alertt alert-success">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             <p>{{$message}}</p>
         </div>
@@ -82,7 +82,6 @@
             </button>
         </div>
     @endif
-
 
         <div class="modal fade" id="loanModal" tabindex="-1" role="dialog" aria-labelledby="loanModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -207,7 +206,7 @@
                     @elseif ($loan->status === 'in progress')
                         <span class="badge bg-info">En cours</span>
                     @elseif ($loan->status === 'completed')
-                        <span class="badge bg-success">Terminé</span> 
+                        <span class="badge bg-success">Solder</span> 
                     @else
                         <span class="badge bg-danger">Rejeté</span>
                     @endif

@@ -46,7 +46,7 @@
                             @elseif ($loan->status === 'in progress')
                                 <span class="badge bg-info">En cours</span>
                             @elseif ($loan->status === 'completed')
-                                <span class="badge bg-success">Terminé</span> 
+                                <span class="badge bg-success">Solder</span> 
                             @else
                                 <span class="badge bg-danger">Rejeté</span>
                             @endif
@@ -60,7 +60,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Détails du Garant</h5>
-                    <ul class="list-group list-group-flush">{{ $loan->relation_warrantor == 1 ? 'Parents' : 'Prêt Immobilier' }}
+                    <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Nom du Garant:</strong> {{ $loan->name_warrantor }}</li>
                         <li class="list-group-item"><strong>Numéro du Garant:</strong> {{ $loan->number_warrantor }}</li>
                         <li class="list-group-item"><strong>Adresse du Garant:</strong> {{ $loan->address_warrantor }}</li>
@@ -76,7 +76,6 @@
     
     @if($loan->status === 'pending')
         <form wire:submit.prevent="EditLoanDoc" enctype="multipart/form-data">
-
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
@@ -121,41 +120,59 @@
     @endif
 
     
-    @if($loan->payment && $loan->status === 'validated')
+    @if($loan->payment && $loan->status === 'validated' || $loan->status === 'completed')
         <div class="pagetitle">
             <h1>Historique des paiements</h1>
         </div>
+    <div class="card">
+        <div class="card-body">
+        <h5 class="card-title">Pourcentage de paiement :</h5>
 
-        <div id="success-alert" class="alertt alert-success">
-    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-    <p class="font-weight-bold">
-        Vous êtes à 
-        <span class="{{ $this->remainingAmount($loan) >= 90 ? 'text-danger' : ($this->remainingAmount($loan) >= 75 ? 'text-warning' : 'text-success') }}">
-            {{ $this->remainingAmount($loan) }}
-        </span>
-        de votre paiement.
-    </p>
+        <!-- Progress Bar with label -->
+                @if($this->remainingAmount($loan) <= 25)
+                <div class="progress mt-3">
+                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ $this->remainingAmount($loan) }} %</div>
+              </div>
+                @elseif($this->remainingAmount($loan) <= 50)
+                <div class="progress mt-3">
+                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 55%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ $this->remainingAmount($loan) }} %</div>
+              </div>
+                @elseif($this->remainingAmount($loan) <= 75)
+                <div class="progress mt-3">
+                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ $this->remainingAmount($loan) }} %</div>
+              </div>
+                @elseif($this->remainingAmount($loan) < 100)
+                <div class="progress mt-3">
+                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 90%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ $this->remainingAmount($loan) }} %</div>
+              </div>
+              @elseif($this->remainingAmount($loan) == 100)
+                <div class="progress mt-3">
+                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ $this->remainingAmount($loan) }} %</div>
+              </div>
+            @endif
+            </div>
+        </div>
+        <!-- End Progress Bar with label -->
+    </div>
 </div>
 
 
         <br>
 
         <div class="row">
-        
-            
-
             <div class="col-lg-12">
 
                 <div class="card">
                     <div class="card-body">
 
                     <!-- Table with stripped rows -->
-                    <table class="table">
+                    <table class="table datatable">
                         <thead>
                         <tr>
                             <!--<th scope="col">Id</th>-->
                             <th scope="col">Montant paye</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Agent</th>
                             <th scope="col">Date</th>
 
                         </tr>
@@ -175,10 +192,8 @@
                                     <span class='badge bg-success'>Valider</span>
                                 @endif
                             </td>
-                            <td>{{ $payment->created_at->toDateString() }}</td>
-                            <!-- <td>
-                                <a href="{{ route('client.details-loan', ['loanId' => $loan->id]) }}"><button  class="btn btn-primary"><i class='bi bi-eye'></i></button></a>
-                            </td> -->
+                            <td>{{ $loan->agent->name }}</td>
+                            <td>{{ date('d F Y', strtotime($payment->payment_date)) }}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -189,12 +204,5 @@
             </div>
         </div>
     @endif
-
-
-       
-
-
-   
-
 
 </main><!-- End #main -->

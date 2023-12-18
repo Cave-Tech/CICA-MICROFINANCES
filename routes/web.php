@@ -81,6 +81,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payement-loan', function () {
         return view('employe.payement-loan');
     })->name('payement-loan')->middleware(['employe']);
+
+    Route::get('/list-payement', function () {
+        return view('employe.list-payement-component');
+    })->name('list-payement')->middleware(['employe']);
     
     Route::get('/customer-list', function () {
         return view('employe.customer-list');

@@ -1,8 +1,4 @@
 <main id="main" class="main">
-
-
-
-
           <!-- Message de succes ou d'erreur -->
     @if($message = Session::get('success'))
         <div id="success-alert" class="alert alert-success">
@@ -109,24 +105,6 @@
                   </div><!-- End Vertically centered Modal-->
               </form>
       </div><br>
-            <!--<div class="container-fluid">
-              <div class="row">
-                  <div class="col-lg-12">
-                      <div class="card">
-                          <div class="card-body">
-                              <h4 class="card-title">Additional content</h4>
-                              <div class="card-content">
-                                  <div class="alert alert-success">
-                                      <h4 class="alert-heading">Well done!</h4>
-                                      <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
-                                      <hr>
-                                      <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-            </div>-->
 <section class="section">
   <div class="row">
     <div class="col-lg-12">
@@ -169,12 +147,12 @@
                       <td>
                       <?php 
                       $statuss = $operation->status;
-                      if($statuss =="achever"){
+                      if($statuss =="completed"){
                         echo "<span class='badge bg-success'>Terminé</span>";
-                      }elseif($statuss =="en cours"){
+                      }elseif($statuss =="pending"){
                         echo "<span class='badge bg-warning'>En cours</span>";
                       }else{
-                        echo"<span class='badge bg-danger'>En instance</span>";
+                        echo"<span class='badge bg-danger'>Annuler</span>";
                       }
                       ?>
                       </td>
@@ -186,11 +164,13 @@
                       <td>
                       <div class="btn-group" role="group">
                         <!--Afficher bouton delete et showedit-->
-                        @if ($operation->status !== "achever")
+                        @if ($operation->status == "pending")
                             <button wire:click="showEdit({{ $operation->id }})" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal1{{ $operation->id }}" class="btn btn-primary"><i class='bi bi-pencil'></i></button>&nbsp
                             <button wire:click="confirmDelete({{ $operation->id }})" class='btn btn-danger' data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ $operation->id }}"><i class='bi bi-trash'></i></button>
+                        @elseif($operation->status == "completed")
+                            <button class='btn btn-success'>Terminé</button>
                         @else
-                            <button class='btn btn-success'><i class='bi bi-x'></i></button>
+                        <button class='btn btn-danger'>Annuler</button>
                         @endif
                         <!--Fin Afficher bouton delete et showedit-->
                     </div>

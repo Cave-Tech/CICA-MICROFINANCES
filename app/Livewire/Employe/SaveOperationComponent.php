@@ -106,6 +106,10 @@ class SaveOperationComponent extends Component
             return;
         }
 
+        if (!$this->selfAccount) {
+            session()->flash('fail', 'Veuillez sélectionner un compte.');
+            return;
+        }
        
 
         // Logique pour mettre à jour le solde en fonction du type d'opération

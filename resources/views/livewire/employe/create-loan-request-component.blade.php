@@ -169,9 +169,10 @@
                         <label for="interestRate"></label>
                         <select wire:model="relationWarrantor" class="form-select" aria-label="Type d'opération"
                             required>
-                            <option>Relation du temoins</option>
-                            <option value="1">Bien immobilier</option>
-                            <option value="2">Autres biens</option>
+                                <option >Relation du temoins</option>
+                                <option value="1">Parents</option>
+                                <option value="2">Amis</option>
+                                <option value="3">Autres</option>
                         </select>
                         @error('relationWarrantor') <span class="text-danger">{{ $message }}</span>@enderror
                     </div><br>

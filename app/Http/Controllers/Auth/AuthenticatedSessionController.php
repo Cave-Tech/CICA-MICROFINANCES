@@ -33,8 +33,18 @@ class AuthenticatedSessionController extends Controller
         
         if($user->profile_id == 3){
             return redirect()->intended(RouteServiceProvider::CLIENT_HOME);
-        }else if($user->profile_id == 4){
+        }else if($user->profile_id == 4 && $user->employee_type_id == 1){
+            return redirect()->intended(RouteServiceProvider::CAISSIER_HOME);
+        }else if($user->profile_id == 4 && $user->employee_type_id == 3){
+            return redirect()->intended(RouteServiceProvider::AGENT_TERRAIN_HOME);
+        }else if($user->profile_id == 4 && $user->employee_type_id == 4){
+                return redirect()->intended(RouteServiceProvider::EMPLOYE_HOME);
+        }else if($user->profile_id == 4 && $user->employee_type_id == 2){
             return redirect()->intended(RouteServiceProvider::EMPLOYE_HOME);
+        }else if($user->profile_id == 4 && $user->employee_type_id == 5){
+            return redirect()->intended(RouteServiceProvider::EMPLOYE_HOME);
+        }else if($user->profile_id == 4 && $user->employee_type_id == 6){
+            return redirect()->intended(RouteServiceProvider::CHARGER_RH);
         }else if($user->profile_id == 1){
             return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
         }else{

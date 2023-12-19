@@ -20,6 +20,10 @@ class EditProfileComponent extends Component
     public $id_type;
     public $id_number;
 
+    public $occupation;
+    public $number_of_dependents;
+    public $marital_status;
+
     public $currentPassword;
     public $newPassword;
     public $renewPassword;
@@ -38,6 +42,10 @@ class EditProfileComponent extends Component
         $this->phone = $this->profile->phone; 
         $this->id_type = $this->profile->id_type;
         $this->id_number = $this->profile->id_number;
+
+        $this->occupation = $this->profile->occupation;
+        $this->number_of_dependents = $this->profile->number_of_dependents;
+        $this->marital_status = $this->profile->marital_status;
         return view('livewire.profile.edit-profile-component');
     }
 
@@ -78,6 +86,10 @@ class EditProfileComponent extends Component
                 'address' => 'required|string',
                 'id_number' => 'required|string',
                 'phone' => 'required|string',
+
+                'occupation' => 'required|string',
+                'number_of_dependents' => 'required|numeric',
+                'marital_status' => 'required|string',
             ]);
     
             // Mise à jour des autres informations du profil
@@ -90,6 +102,10 @@ class EditProfileComponent extends Component
                 'id_number' => $this->id_number,
                 'address' => $this->address,
                 'phone' => $this->phone,
+
+                'occupation' => $this->occupation,
+                'number_of_dependents' => $this->number_of_dependents,
+                'marital_status' => $this->marital_status,
             ]);
 
             return redirect('/profile')->with("success", "Informations mise à jours avec succès !.");
@@ -97,8 +113,9 @@ class EditProfileComponent extends Component
             // Erreurs de validation
             return redirect('/profile')->with("fail", "Remplissez tous les champs !");
         } catch (\Exception $e) {
+            //dd($e);
             // Autres erreurs
-            return redirect('/profile')->with("fail", "Remplissez tous les champs !"); 
+            return redirect('/profile')->with("fail", " tous les champs !"); 
         }
         
     }

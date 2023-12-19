@@ -69,7 +69,6 @@
                                 <option value="">Sélectionnez le sexe</option>
                                 <option value="male">Homme</option>
                                 <option value="female">Femme</option>
-                                <option value="other">Autre</option>
                             </select>
                             <x-input-error :messages="$errors->get('gender')" class="mt-2" />
                         </div>

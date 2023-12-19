@@ -51,7 +51,7 @@
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
           <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <div class="col-lg-10 col-md-14 d-flex flex-column align-items-center justify-content-center">
 
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
@@ -71,36 +71,146 @@
                   <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('register') }}">
                   @csrf
                     <div class="col-12">
-                      <label for="yourName" class="form-label">Votre nom</label>
+                      <label for="yourName" class="card-title">Votre nom et prenom</label>
                       <input type="text" name="name" class="form-control" id="yourName" required>
-                      <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                      <div class="invalid-feedback">Entrer votre nom complet s'il vous plait !</div>
+                      <x-input-error :messages="$errors->get('name')" class="mt-2 alert alert-danger" />
+                      <div class="invalid-feedback">Veuillez entrer votre nom et prenom !</div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourEmail" class="form-label">Votre Email</label>
+                      <label for="yourName" class="card-title">Nationalité</label>
+                      <div class="form-group">
+                            <input type="text" name="nationality" class="form-control" id="yourNationality" required>
+                            <x-input-error :messages="$errors->get('nationality')" class="mt-2 alert alert-danger" />
+                            <div class="invalid-feedback">Veuillez entrer nationalité !</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourGender" class="card-title">Genre</label>
+                      <div class="form-group">
+                        <select name="gender" class="form-control" id="yourGender" required>
+                              <option value="">Sélectionnez le sexe</option>
+                              <option value="male">Homme</option>
+                              <option value="female">Femme</option>
+                        </select>
+                        <x-input-error :messages="$errors->get('gender')" class="mt-2 alert alert-danger" />
+                        <div class="invalid-feedback">Veuillez entrer genre !</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourName" class="card-title">Date de naissance</label>
+                      <div class="form-group">
+                            <input type="date" name="birthdate" class="form-control" id="yourBirthdate" required>
+                            <x-input-error :messages="$errors->get('birthdate')" class="mt-2 alert alert-danger" />
+                            <div class="invalid-feedback">Veuillez entrer votre date de naissance !</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourName" class="card-title">Type de carte</label>
+                      <div class="form-group">
+                          <select name="type_card" class="form-control" id="yourGender" required>
+                              <option value="">Sélectionnez le type de carte</option>
+                              <option value="card">NPI</option>
+                              <option value="passport">Passeport</option>
+                          </select>
+                          <x-input-error :messages="$errors->get('type_card')" class="mt-2 alert alert-danger" />
+                          <div class="invalid-feedback">Veuillez choissir le type de carte !</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourName" class="card-title">Numéro de la carte</label>
+                      <div class="form-group">
+                            <input type="texte" name="number_carte" class="form-control" id="yourBirthdate" required>
+                            <x-input-error :messages="$errors->get('number_carte')" class="mt-2 alert alert-danger" />
+                            <div class="invalid-feedback">Veuillez entrer le numéro de la carte !</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                    <h5 class="card-title">Nombre de personne en charge</h5>
+                        <div class="form-group">
+                            <select name="number_of_dependents" class="form-control" id="yourGender" required>
+                                <option value="">Sélectionnez le nombre de personne en charge</option>
+                                <option value="0">0</option>
+                                <option value="15">1-5</option>
+                                <option value="510">5-10</option>
+                                <option value="10000">10+</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('number_of_dependents')" class="mt-2 alert alert-danger" />
+                            <div class="invalid-feedback">Veuillez entrer le nombre de personne en charge !</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                    <h5 class="card-title">Profession</h5>
+                        <div class="form-group">
+                            <input type="texte" name="Profession" class="form-control" id="yourBirthdate" required>
+                            <x-input-error :messages="$errors->get('Profession')" class="mt-2 alert alert-danger" />
+                            <div class="invalid-feedback">Veuillez entrer votre profession !</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                    <h5 class="card-title">Phone</h5>
+                        <div class="form-group">
+                            <input type="number" name="phone" class="form-control" id="phone" required>
+                            <x-input-error :messages="$errors->get('phone')" class="mt-2 alert alert-danger" />
+                            <div class="invalid-feedback">Veuillez entrer votre numéro de téléphone !</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                    <h5 class="card-title">Situation matrimoniale</h5>
+                        <div class="form-group">
+                        <select name="marital_status" class="form-control" id="yourGender" required>
+                                <option value="">Situation matrimoniale</option>
+                                <option value="single">Célibataire</option>
+                                <option value="married">Marié</option>
+                                <option value="divorced">Divorcé</option>
+                                <option value="widowed">Veuve / Veuf</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('marital_status')" class="mt-2 alert alert-danger" />
+                            <div class="invalid-feedback">Veuillez entrer situation matrimoniale !</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                    <h5 class="card-title">Adresse de résidence</h5>
+                        <div class="form-group">
+                            <input type="text" name="adresse" class="form-control" id="yourEmail" required>
+                            <x-input-error :messages="$errors->get('adresse')" class="mt-2 alert alert-danger" />
+                            <div class="invalid-feedback">Veuillez entrer adresse de résidence !</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourEmail" class="card-title">Votre Email</label>
                       <input type="email" name="email" class="form-control" id="yourEmail" required>
-                      <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                      <x-input-error :messages="$errors->get('email')" class="mt-2 alert alert-danger" />
                       <div class="invalid-feedback">Enter une address mail valide !</div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label">Mot de passe </label>
+                      <label for="yourPassword" class="card-title">Mot de passe </label>
                       <input type="password" name="password" class="form-control" id="yourPassword" required>
-                      <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                      <x-input-error :messages="$errors->get('password')" class="mt-2 alert alert-danger" />
                       <div class="invalid-feedback">Veuillez entrer un mot de passe !</div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label">Confirmer mot de passe</label>
+                      <label for="yourPassword" class="card-title">Confirmer mot de passe</label>
                       <input type="password" name="password_confirmation" class="form-control" id="yourPassword" required>
-                      <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                      <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 alert alert-danger" />
                       <div class="invalid-feedback">Confirmer votre mot de passe s'il vous plait !</div>
                     </div>
 
                     <div class="col-12">
                       <div class="form-check">
-                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
+                        <input class="form-check-input" name="terms" type="checkbox" value="true" id="acceptTerms" required>
                         <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
                         <div class="invalid-feedback">You must agree before submitting.</div>
                       </div>

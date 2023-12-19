@@ -75,13 +75,15 @@
                                 <div class="col-12">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" name="email" class="form-control" id="email" required>
-                                    <div class="invalid-feedback">Please enter your email.</div>
+                                    <x-input-error :messages="$errors->get('email')" class="mt-2 alert alert-danger" />
+                                    <div class="invalid-feedback">Veuillez entrer votre email.</div>
                                 </div>
 
                                 <div class="col-12">
                                     <label for="password" class="form-label">Mot de passe</label>
                                     <input type="password" name="password" class="form-control" id="password" required>
-                                    <div class="invalid-feedback">Please enter your password.</div>
+                                    <x-input-error :messages="$errors->get('password')" class="mt-2 alert alert-danger" />
+                                    <div class="invalid-feedback">Veuillez entrer un mot de passe !</div>
                                 </div>
 
                                 <div class="col-12">

@@ -2,15 +2,6 @@
 
 <main id="main" class="main">
 
-    <h1>Créer un client</h1>
-    <nav>
-        <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Acceuil</a></li>
-        <li class="breadcrumb-item">Page</li>
-        <li class="breadcrumb-item active">Céer un client</li>
-        </ol>
-    </nav>
-
     @if($message = Session::get('success'))
     <div class="alertt">
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
@@ -34,6 +25,14 @@
 
     <form wire:submit.prevent="createClient">
         <div class="container">
+        <h1>Créer un client</h1>
+    <nav>
+        <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acceuil</a></li>
+        <li class="breadcrumb-item">Page</li>
+        <li class="breadcrumb-item active">Céer un client</li>
+        </ol>
+    </nav>
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
@@ -109,7 +108,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Numéro de la carte</h5>
                         <div class="form-group">
-                            <input type="texte" wire:model="number_carte" class="form-control" id="yourBirthdate" required>
+                            <input type="text" wire:model="number_carte" class="form-control" id="yourBirthdate" required>
                             <x-input-error :messages="$errors->get('number_carte')" class="mt-2" />
                         </div>
                     </div>
@@ -140,7 +139,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Profession</h5>
                         <div class="form-group">
-                            <input type="texte" wire:model="Profession" class="form-control" id="yourBirthdate" required>
+                            <input type="text" wire:model="Profession" class="form-control" id="yourBirthdate" required>
                             <x-input-error :messages="$errors->get('Profession')" class="mt-2" />
                         </div>
                     </div>

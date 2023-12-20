@@ -14,6 +14,7 @@ class Loan extends Model
     protected $fillable = [
         'borrower_id',
         'agent_id',
+        'agent_terain_id',
         'loan_type_id',
         'loan_amount',
         'interest_rate',
@@ -46,6 +47,11 @@ class Loan extends Model
     public function agent()
     {
         return $this->belongsTo(User::class, 'agent_id');
+    }
+
+    public function agent_terain()
+    {
+        return $this->belongsTo(User::class, 'agent_terain_id');
     }
 
     public function loanType()

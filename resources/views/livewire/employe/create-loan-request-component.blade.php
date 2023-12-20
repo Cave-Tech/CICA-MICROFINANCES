@@ -46,8 +46,6 @@
         background-color: #0056b3;
     }
 
-    
-
     .closebtn {
         margin-left: 15px;
         color: white;
@@ -89,6 +87,12 @@
 
                 </div>
                 <form wire:submit.prevent="createLoan" class="php-email-form" enctype="multipart/form-data">
+                    
+                    <!-- Informations sur le prêt -->
+                    <div class="form-group">
+                        <h3>Informations sur le prêt</h3>
+                    </div>
+
                     <div class="form-group">
                         <input type="text" class="form-control" wire:model.live="name" name="name"
                             placeholder="Entrez le nom" autocomplete="off">
@@ -108,10 +112,20 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="number" wire:model="amount" class="form-control" id="loanAmount"
-                            placeholder="Montant du Prêt">
+                        <input type="number" wire:model.live.debounce.500ms="amount" class="form-control" id="loanAmount" placeholder="Montant du Prêt">
                         @error('amount') <span class="text-danger">{{ $message }}</span>@enderror
+
+                        <!-- Affichage du taux d'intérêt calculé -->
+                        @if (!is_null($interestRate))
+                            <p>Taux d'intérêt: {{ $interestRate }}%</p>
+                        @endif
                     </div>
+
+                    <div class="form-group">
+                        <input type="number" wire:model="loanTerm" class="form-control" placeholder="Durée du Prêt (mois)">
+                        @error('loanTerm') <span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+
                     <div class="col-md-12">
                         <select wire:model="typeloan" class="form-select" aria-label="Type d'opération" required>
                             <option>Choisissez le type de prêt</option>
@@ -120,6 +134,12 @@
                         </select>
                         @error('typeloan') <span class="text-danger">{{ $message }}</span>@enderror
                     </div><br>
+
+                    <!-- Informations sur la garantie -->
+                    <div class="form-group">
+                        <h3>Informations sur la garantie</h3>
+                    </div>
+
                     <div class="col-md-12">
                         <select wire:model="typeWarranty" class="form-select" aria-label="Type d'opération" required>
                             <option>Type de garantie</option>
@@ -136,31 +156,32 @@
                     </div><br>
 
                     <div class="form-group">
-                        <textarea class="form-control" wire:model="detailsWarranty" placeholder="Details du garantie"
+                        <textarea class="form-control" wire:model="detailsWarranty" placeholder="Details sur la garantie"
                             style="height: 100px"></textarea>
                         @error('detailsWarranty') <span class="text-danger">{{ $message }}</span>@enderror
                     </div><br>
 
+                   
+
+                    <!-- Informations sur le témoin -->
                     <div class="form-group">
-                        <textarea class="form-control" wire:model="purposeWarranty" placeholder="Plan de remboussement"
-                            style="height: 100px"></textarea>
-                        @error('purposeWarranty') <span class="text-danger">{{ $message }}</span>@enderror
-                    </div><br>
+                        <h3>Informations sur le témoin</h3>
+                    </div>
 
                     <div class="form-group">
-                        <input type="text" class="form-control" wire:model="nameWarrantor" placeholder="Nom & Prénom du temoins"
+                        <input type="text" class="form-control" wire:model="nameWarrantor" placeholder="Nom & Prénom du témoin"
                             id="interestRate">
                         @error('nameWarrantor') <span class="text-danger">{{ $message }}</span>@enderror
                     </div><br>
 
                     <div class="form-group">
-                        <input type="number" class="form-control" wire:model="numWarrantor" placeholder="Numéro du temoins"
+                        <input type="number" class="form-control" wire:model="numWarrantor" placeholder="Numéro du témoin"
                             id="interestRate">
                         @error('numWarrantor') <span class="text-danger">{{ $message }}</span>@enderror
                     </div><br>
 
                     <div class="form-group">
-                        <input type="text" class="form-control" wire:model="addressWarrantor" placeholder="Address du témoins"
+                        <input type="text" class="form-control" wire:model="addressWarrantor" placeholder="Adresse du témoin"
                             id="interestRate">
                         @error('addressWarrantor') <span class="text-danger">{{ $message }}</span>@enderror
                     </div>
@@ -169,13 +190,38 @@
                         <label for="interestRate"></label>
                         <select wire:model="relationWarrantor" class="form-select" aria-label="Type d'opération"
                             required>
-                                <option >Relation du temoins</option>
+                                <option>Relation du témoin</option>
                                 <option value="1">Parents</option>
                                 <option value="2">Amis</option>
                                 <option value="3">Autres</option>
                         </select>
                         @error('relationWarrantor') <span class="text-danger">{{ $message }}</span>@enderror
                     </div><br>
+
+                    <!-- Informations sur le témoin -->
+                    <div class="form-group">
+                        <h3>Agent de terrain chargé du client</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" wire:model.live.debounce.500ms="agentTerrain" name="agentTerrain"
+                            placeholder="Rechercher un agent" autocomplete="off">
+                            <div>
+                                @if(!empty($agentTerrain) && !$agentSelected)
+                                    <div class="list-group">
+                                        @foreach($filteredAgents as $agent)
+                                            <a href="#" wire:click.prevent="selectAgent({{ $agent->id }})"
+                                            class="list-group-item list-group-item-action">
+                                                {{ $agent->name }}
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+                        @error('agentTerrain') <span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+
+
 
                     <div class="text-center"><br>
                         <button type="submit" class="btn btn-primary">Enregistrer</button>

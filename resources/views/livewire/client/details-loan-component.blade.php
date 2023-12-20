@@ -110,6 +110,25 @@
                                 <div class="col-lg-5 col-md-6">{{ number_format($loan->loan_amount, 2, ',', ' ') }} FCFA</div>
                             </div>
                         </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-4 label"><strong>Taux d'interet:</strong></div>
+                                <div class="col-lg-5 col-md-6">{{ $loan->interest_rate }} %</div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-4 label"><strong>Montant à payer:</strong></div>
+                                <div class="col-lg-5 col-md-6">
+                                    {{ number_format($loan->loan_amount * (1 + ($loan->interest_rate / 100)), 2, ',', ' ') }} FCFA
+                                </div>
+                            </div>
+                        </li>
+
+                        
+            
                         <li class="list-group-item"> 
                             
 
@@ -145,7 +164,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Détails du Garant</h5>
-                    <ul class="list-group list-group-flush">{{ $loan->relation_warrantor == 1 ? 'Parents' : '' }}
+                    <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-lg-7 col-md-4 label "><strong>Nom du Garant:</strong></div>
@@ -174,6 +193,82 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Informations sur le remboursement</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-2 label "><strong>Durée du pret:</strong></div>
+                                <div class="col-lg-3 col-md-4">{{ $loan->payment_frequency }} mois</div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-2 label "><strong>Date de decaissement du pret</strong></div>
+                                <div class="col-lg-3 col-md-4">{{ date('d F Y', strtotime($loan->loan_date)) ?  date('d F Y', strtotime($loan->loan_date)) : 'Pas encore defini'}} </div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-2 label "><strong>Date d'echeance du pret</strong></div>
+                                <div class="col-lg-3 col-md-4">{{ date('d F Y', strtotime($loan->due_date)) ?  date('d F Y', strtotime($loan->due_date)) : 'Pas encore defini'}} </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-2 label "><strong>Frequence de paiement:</strong></div>
+                                <div class="col-lg-3 col-md-4">Chaque mois</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-2 label "><strong>Montant a payer par mois:</strong></div>
+                                <div class="col-lg-3 col-md-4">{{ number_format(($loan->loan_amount * (1 + ($loan->interest_rate / 100))) / $loan->payment_frequency, 2, ',', ' ') }} FCFA</div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-2 label "><strong>Agent de terrain a charge:</strong></div>
+                                <div class="col-lg-3 col-md-4">
+                                    {{$loan->agent_terain}}
+                                    @if($loan->agent_terrain)
+                                        {{ $loan->agent_terrain->name }}
+                                    @else
+                                        <!-- Afficher le champ de formulaire pour ajouter un nouvel agent de terrain -->
+                                        <form wire:submit.prevent="updateAgentTerrain" class="php-email-form">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" wire:model.live="name" name="name"
+                                                    placeholder="Entrez le nom" autocomplete="off">
+                                                <div>
+                                                    @if(!empty($name))
+                                                    <div class="list-group">
+                                                        @foreach($filteredUsers as $user)
+                                                        <a href="#" wire:click.prevent="selectUser({{ $user->id }})"
+                                                            class="list-group-item list-group-item-action">
+                                                            {{ $user->name }}
+                                                        </a>
+                                                        @endforeach
+                                                    </div>
+                                                    @endif
+                                                </div>
+                                                @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                                            </div>
+                                        </form>
+                                    @endif
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
 
         @if($loan->status === 'rejected')
 

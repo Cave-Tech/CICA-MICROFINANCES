@@ -25,15 +25,38 @@ class DetailsLoanComponent extends Component
     public $id;
     public $loanId;
     public $rejectReason;
+    public $selectedUserId;
+    public $name = '';
+    public $filteredUsers = [];
+    public $selectedAgent;
+
 
     protected $rules = [
         'rejectReason' => 'required',
     ];
     
+    public function updatedName($value)
+    {
+        if (strlen($value) > 1) {
+            $this->filteredUsers = User::where('name', 'like', '%' . $value . '%')
+                ->where('profile_id', 3)->get();
+        } else {
+            $this->filteredUsers = [];
+        }
+    }
+
+    public function selectUser($userId)
+    {
+        $this->selectedUserId = $userId;
+        $user = User::find($userId);
+        $this->name = $user->name;
+        $this->filteredUsers = [];
+    }
+
 
     public function mount($loanId)
     {
-        $this->loan = Loan::with(['borrower', 'agent', 'payment'])
+        $this->loan = Loan::with(['borrower', 'agent', 'payment', 'agent_terain'])
         ->find($loanId);
         $this->id = $loanId;
         //dd($this->loan->agent->name);
@@ -89,7 +112,21 @@ class DetailsLoanComponent extends Component
         $this->dispatch('loanStatusUpdated');
         
     }
-    //Edit loan doc
+    
+    public function updateAgentTerrain()
+    {
+        $this->validate([
+            'selectedAgent' => 'required|exists:agents,id',
+        ]);
+
+        $this->loan->agent_terrain_id = $this->selectedAgent;
+        $this->loan->save();
+
+        session()->flash('success', 'Agent de terrain mis à jour avec succès.');
+
+        // Réinitialiser la propriété selectedAgent pour effacer la sélection précédente.
+        $this->reset('selectedAgent');
+    }
     
     public function EditLoanDoc()
     {

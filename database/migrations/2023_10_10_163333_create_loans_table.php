@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('borrower_id');
             $table->unsignedBigInteger('agent_id');
+            $table->unsignedBigInteger('agent_terain_id')->nullable();
             $table->unsignedBigInteger('loan_type_id');
             $table->double('loan_amount');
             $table->double('interest_rate');
@@ -27,6 +28,7 @@ return new class extends Migration
 
             $table->foreign('borrower_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('agent_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('agent_terain_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('loan_type_id')->references('id')->on('loan_types')->onDelete('cascade');
         });
     }

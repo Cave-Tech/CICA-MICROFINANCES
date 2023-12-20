@@ -23,6 +23,13 @@ class DetailsLoanComponent extends Component
     public $doc_files_warrantor;
     public $doc_files;
     public $id;
+    public $loanId;
+    public $rejectReason;
+
+    protected $rules = [
+        'rejectReason' => 'required',
+    ];
+    
 
     public function mount($loanId)
     {
@@ -70,12 +77,17 @@ class DetailsLoanComponent extends Component
      }
 
     // Méthode pour rejeter le prêt
-    public function rejectLoan($loanId)
+    public function rejectLoan()
     {
-        $loan = Loan::findOrFail($loanId);
+        // Validez les données du formulaire
+        $this->validate();
+
+        $loan = Loan::findOrFail($this->loanId);
         $loan->status = "rejected";
+        $loan->reject_reason = $this->rejectReason;
         $loan->save();
         $this->dispatch('loanStatusUpdated');
+        
     }
     //Edit loan doc
     

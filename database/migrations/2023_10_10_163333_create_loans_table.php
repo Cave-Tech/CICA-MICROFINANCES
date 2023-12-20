@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('interest_rate');
             $table->integer('payment_frequency');
             $table->string('status');
+            $table->string('reject_reason')->nullable();
             $table->date('loan_date');
             $table->date('due_date');    
             $table->timestamps();

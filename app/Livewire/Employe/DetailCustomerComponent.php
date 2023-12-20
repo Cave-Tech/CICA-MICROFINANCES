@@ -12,8 +12,11 @@ class DetailCustomerComponent extends Component
     {
         $this->customer = User::with(['account', 'operation', 'loan', 'profile', 'employeType'])
             ->find($customerId);
-
-        // dd($this->customer);
+        
+        // Ajoutez la relation pour récupérer les prêts triés par ordre décroissant de loan_amount
+        $this->customer->load(['loan' => function ($query) {
+            $query->orderBy('loan_amount', 'desc');
+        }]);
     }
 
     public function render()

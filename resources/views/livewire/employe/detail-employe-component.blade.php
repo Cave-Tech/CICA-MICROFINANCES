@@ -34,7 +34,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#employe-formation-informations">Information sur le poste</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#employe-formation-informations">Formations</button>
                         </li>
 
                         <li class="nav-item">

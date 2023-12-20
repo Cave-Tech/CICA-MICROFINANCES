@@ -46,13 +46,6 @@
                     <span>Gérer mes prêts</span>
                 </a>
             </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#">
-                    <i class="bi bi-envelope"></i>
-                    <span>Demande d'assistance</span>
-                </a>
-            </li><!-- End Contact Page Nav -->
         @endif
 
 
@@ -155,7 +148,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="{{ url('/list-payement') }}">
                             <i class="bi bi-circle"></i><span>Mes paiements</span>
                             </a>
                         </li>

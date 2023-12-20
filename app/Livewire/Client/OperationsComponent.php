@@ -26,7 +26,7 @@ class OperationsComponent extends Component
     public $typeAccount;
     public $montant;
     public $method = "neutre";
-    public $status = "en cours";
+    public $status = "pending";
     public $beneficiaire;
     public $compte_de_destination;
     public $motif;

@@ -39,24 +39,10 @@
                     </div>
 
                 </form>
-
-            <!--<button class="btn btn-primary" onclick="document.getElementById('photo').click();">Modifier</button>
-            <input type="file" id="photo" style="display: none;" wire:model="newProfileImage">-->
-          <div class="social-links mt-2">
-            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-          </div>
+          
         </div>
       </div>
     </div>
-        <!--<script>
-        window.livewire.on('photoUpdated', () => {
-            // Recharger le composant pour afficher la nouvelle photo
-            window.livewire.dispatch('load');
-        });
-        </script>-->
     <div class="col-xl-8">
 
       <div class="card">
@@ -71,10 +57,6 @@
 
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Modifier le profil</button>
-            </li>
-
-            <li class="nav-item">
-              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Paramètres</button>
             </li>
 
             <li class="nav-item">
@@ -100,10 +82,12 @@
           <div class="tab-content pt-2">
 
             <div class="tab-pane fade show active profile-overview" id="profile-overview">
-              <h5 class="card-title">Info !</h5>
-              <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. 
-                Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. 
-                Fuga sequi sed ea saepe at unde.</p>
+            <div class="card border-danger">
+                <div class="card-body">
+                    <h5 class="card-title text-danger"><i class="bi bi-exclamation-triangle-fill text-danger"></i> Avertissement !</h5>
+                    <p class="small ">Merci de fournir des informations correctes et véridiques. La fourniture d'informations frauduleuses ou incorrectes peut entraîner des conséquences légales et lourdes. Assurez-vous de mettre à jour vos données avec précision !</p>
+                </div>
+            </div>
               <h5 class="card-title">Details profil</h5>
 
               <div class="row">
@@ -128,7 +112,13 @@
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Genre :</div>
-                <div class="col-lg-9 col-md-8">{{ $profile->gender }}</div>
+                <div class="col-lg-9 col-md-8">
+                @if($profile->gender == "male")
+                <div>Homme</div>
+                @elseif($profile->gender == "female")
+                <div>Femme</div>
+                @endif 
+              </div>
               </div>
 
               <div class="row">
@@ -141,6 +131,31 @@
                 <div class="col-lg-3 col-md-4 label">Numéro de la carte :</div>
                 <div class="col-lg-9 col-md-8">{{ $profile->id_number }}</div>
               </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Personne en charge :</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->number_of_dependents }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Profession :</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->occupation }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">situation matrimoniale :</div>
+                <div class="col-lg-9 col-md-8">
+                    @if($profile->marital_status == "single")
+                    <div>Célibataire</div>
+                    @elseif($profile->marital_status == "married")
+                    <div>Marié (e)</div>
+                    @elseif($profile->marital_status == "divorced")
+                    <div>Divorcé (e)</div>
+                    @elseif($profile->marital_status == "widowed")
+                    <div>Veuf (ve)</div>
+                    @endif
+                </div>
+                </div>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Date de naissance :</div>
@@ -163,7 +178,8 @@
                     <div class="col-md-8 col-lg-9">
                         <input wire:model="name" type="text" class="form-control" value="{{ $name }}" id="fullName">
                     </div>
-                    @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                    <x-input-error :messages="$errors->get('name')" class="mt-2 alert alert-danger" />
+                    <div class="invalid-feedback">Veuillez votre Nom & Prénom !</div>
                 </div>
 
                 <div class="row mb-3">
@@ -171,7 +187,8 @@
                     <div class="col-md-8 col-lg-9">
                         <input wire:model="birth_date" type="date" class="form-control" id="birthDate" value="{{ $birth_date }}">
                     </div>
-                    @error('birthDate') <span class="text-danger">{{ $message }}</span> @enderror
+                    <x-input-error :messages="$errors->get('birth_date')" class="mt-2 alert alert-danger" />
+                    <div class="invalid-feedback">Veuillez votre date de naissance !</div>
                 </div>
 
                 <div class="row mb-3">
@@ -179,7 +196,8 @@
                     <div class="col-md-8 col-lg-9">
                         <input wire:model="nationality" type="text" class="form-control" value="{{ $nationality }}" id="nationality">
                     </div>
-                    @error('nationality') <span class="text-danger">{{ $message }}</span> @enderror
+                    <x-input-error :messages="$errors->get('nationality')" class="mt-2 alert alert-danger" />
+                    <div class="invalid-feedback">Veuillez votre nationalité !</div>
                 </div>
 
                 <div class="row mb-3">
@@ -191,7 +209,8 @@
                             <option value="female">Femme</option>
                         </select>
                     </div>
-                    @error('gender') <span class="text-danger">{{ $message }}</span> @enderror
+                    <x-input-error :messages="$errors->get('gender')" class="mt-2 alert alert-danger" />
+                    <div class="invalid-feedback">Veuillez choisir le type de sex !</div>
                 </div>
 
                 <div class="row mb-3">
@@ -203,7 +222,8 @@
                             <option value="passport">Passeport</option>
                         </select>
                     </div>
-                    @error('id_type') <span class="text-danger">{{ $message }}</span> @enderror
+                    <x-input-error :messages="$errors->get('id_type')" class="mt-2 alert alert-danger" />
+                    <div class="invalid-feedback">Veuillez entrer le type de carte !</div>
                 </div>
 
                 <div class="row mb-3">
@@ -211,7 +231,38 @@
                     <div class="col-md-8 col-lg-9">
                         <input wire:model="id_number" type="id_number" value="{{ $profile->id_number }}" class="form-control" id="id_number">
                     </div>
-                    @error('id_number') <span class="text-danger">{{ $message }}</span> @enderror
+                    <x-input-error :messages="$errors->get('id_number')" class="mt-2 alert alert-danger" />
+                    <div class="invalid-feedback">Veuillez entrer le numéro de la carte !</div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="phone" class="col-md-4 col-lg-3 col-form-label">Nombre de personne en charge</label>
+                    <div class="col-md-8 col-lg-9">
+                    <select wire:model="number_of_dependents" class="form-control" id="yourGender" required>
+                        <option value="">Sélectionnez le nombre de personne en charge</option>
+                        <option value="0">0</option>
+                        <option value="15">1-5</option>
+                        <option value="510">5-10</option>
+                        <option value="10000">10+</option>
+                    </select>
+                   </div>
+                    <x-input-error :messages="$errors->get('number_of_dependents')" class="mt-2 alert alert-danger" />
+                    <div class="invalid-feedback">Veuillez entrer le nombre de personne en charge !</div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="phone" class="col-md-4 col-lg-3 col-form-label">Situation matrimoniale</label>
+                    <div class="col-md-8 col-lg-9">
+                    <select wire:model="marital_status" class="form-control" id="yourGender" required>
+                        <option value="">Situation matrimoniale</option>
+                        <option value="single">Célibataire</option>
+                        <option value="married">Marié</option>
+                        <option value="divorced">Divorcé</option>
+                        <option value="widowed">Veuve / Veuf</option>
+                    </select>
+                    </div>
+                    <x-input-error :messages="$errors->get('marital_status')" class="mt-2 alert alert-danger" />
+                    <div class="invalid-feedback">Veuillez entrer situation matrimoniale !</div>
                 </div>
 
                 <div class="row mb-3">
@@ -219,7 +270,8 @@
                     <div class="col-md-8 col-lg-9">
                         <input wire:model="address" type="text" value="{{ $profile->address }}" class="form-control" id="address">
                     </div>
-                    @error('address') <span class="text-danger">{{ $message }}</span> @enderror
+                    <x-input-error :messages="$errors->get('address')" class="mt-2 alert alert-danger" />
+                    <div class="invalid-feedback">Veuillez entrer l'adresse de domicile !</div>
                 </div>
 
                 <div class="row mb-3">
@@ -227,7 +279,17 @@
                     <div class="col-md-8 col-lg-9">
                         <input wire:model="phone" type="number" value="{{ $profile->phone }}" class="form-control" id="phone">
                     </div>
-                    @error('phone') <span class="text-danger">{{ $message }}</span> @enderror
+                    <x-input-error :messages="$errors->get('phone')" class="mt-2 alert alert-danger" />
+                    <div class="invalid-feedback">Veuillez entrer le numéro de Téléphone !</div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="phone" class="col-md-4 col-lg-3 col-form-label">Profession</label>
+                    <div class="col-md-8 col-lg-9">
+                    <input type="texte" wire:model="occupation" class="form-control" id="yourBirthdate" required>
+                    </div>
+                    <x-input-error :messages="$errors->get('occupation')" class="mt-2 alert alert-danger" />
+                    <div class="invalid-feedback">Veuillez entrer votre profession !</div>
                 </div>
 
                 <div class="text-center">
@@ -239,50 +301,6 @@
             <!-- End Profile Edit Form -->
 
             </div>
-
-            <div class="tab-pane fade pt-3" id="profile-settings">
-            <!-- livewire/edit-profile-component.blade.php -->
-
-              <!-- Settings Form -->
-              <form>
-
-                <div class="row mb-3">
-                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
-                  <div class="col-md-8 col-lg-9">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="changesMade" checked>
-                      <label class="form-check-label" for="changesMade">
-                        Mot de passe actuel
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="newProducts" checked>
-                      <label class="form-check-label" for="newProducts">
-                        Information on new products and services
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="proOffers">
-                      <label class="form-check-label" for="proOffers">
-                        Marketing and promo offers
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
-                      <label class="form-check-label" for="securityNotify">
-                        Security alerts
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-              </form>
-              <!-- End settings Form -->
-            </div>
-
             <div class="tab-pane fade pt-3" id="profile-change-password">
               <!-- Change Password Form -->
               <form wire:submit.prevent="changePassword">

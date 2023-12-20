@@ -36,7 +36,7 @@ class DetailsLoanComponent extends Component
         $this->loan = Loan::with(['borrower', 'agent', 'payment'])
         ->find($loanId);
         $this->id = $loanId;
-        // dd($this->loan);
+        //dd($this->loan->agent->name);
     }
 
     public function remainingAmount($loan)
@@ -49,7 +49,7 @@ class DetailsLoanComponent extends Component
             //dd($totalPayments);
             $remainingAmount = ($totalPayments / $loanAmount) * 100;
 
-            return $remainingAmount . ' %';
+            return $remainingAmount;
         }
 
         return 0 . ' %';

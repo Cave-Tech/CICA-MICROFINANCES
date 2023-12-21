@@ -122,6 +122,11 @@
                             <i class="bi bi-circle"></i><span>Enregistrer une operation</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ url('/validated-loan')}}">
+                            <i class="bi bi-circle"></i><span>Liste de pret en attente de decaissement</span>
+                            </a>
+                        </li>
                        
                     </ul>
                 </li><!-- End Components Nav -->

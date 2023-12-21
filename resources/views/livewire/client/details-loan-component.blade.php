@@ -152,27 +152,23 @@
                             <div class="row">
                                 <div class="col-lg-7 col-md-4 label "><strong>Status:</strong></div>
                                 <div class="col-lg-5 col-md-6">
-                                @if ($loan->status === 'validated')
-                                    <span class="badge bg-success">Valider</span>
-                                @elseif ($loan->status === 'pending')
-                                    <span class="badge bg-warning text-dark">En attente</span>
-                                @elseif ($loan->status === 'in progress')
-                                    <span class="badge bg-info">En cours</span>
-                                @elseif ($loan->status === 'completed')
-                                    <span class="badge bg-success">Terminé</span> 
-                                @else
-                                    <span class="badge bg-danger">Rejeté</span>
-                                @endif
+                                    @if ($loan->status === 'validated')
+                                        <span class="badge bg-success">Valider</span>
+                                    @elseif ($loan->status === 'pending')
+                                        <span class="badge bg-warning text-dark">En attente</span>
+                                    @elseif ($loan->status === 'in progress')
+                                        <span class="badge bg-info">En cours</span>
+                                    @elseif ($loan->status === 'completed')
+                                        <span class="badge bg-success">Terminé</span> 
+                                    @elseif ($loan->status === 'rejected')
+                                        <span class="badge bg-danger">Rejeté</span>
+                                    @elseif ($loan->status === 'in payment')
+                                        <span class="badge bg-success">En cours de paiement</span>
+                                    @endif
                                 </div>
                             </div>
                         </li>
-                        <li class="list-group-item">
-                             
-                            <div class="row">
-                                <div class="col-lg-7 col-md-4 label "><strong>Date d'échéance:</strong></div>
-                                <div class="col-lg-5 col-md-6">{{ date('d F Y', strtotime($loan->loan_date)) }}</div>
-                            </div>
-                        </li>
+                       
                     </ul>
                 </div>
             </div>
@@ -372,7 +368,7 @@
     @endif
 
     
-    @if(($loan->payment && $loan->status === 'validated') || $loan->status === 'completed')
+    @if(($loan->payment && $loan->status === 'validated') || $loan->status === 'completed' || $loan->status === 'in payment')
         <div class="pagetitle">
             <h1>Historique des paiements</h1>
         </div>
@@ -384,6 +380,10 @@
                 
             <div class="progress mt-3">
                 <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: {{$this->remainingAmount($loan)}}%" aria-valuenow="{{$this->remainingAmount($loan)}}" aria-valuemin="0" aria-valuemax="100">{{ $this->remainingAmount($loan) }} %</div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <h5>Il vous reste {{ $this->remainingAmountToPay($loan) }} à payer</h5>
             </div>
                 
                 
@@ -407,7 +407,6 @@
                         <tr>
                             <!--<th scope="col">Id</th>-->
                             <th scope="col">Montant paye</th>
-                            <th scope="col">Status</th>
                             <th scope="col">Agent</th>
                             <th scope="col">Date</th>
 
@@ -421,13 +420,7 @@
                                 
                             </td>-->
                             <td>{{ number_format($payment->payment_amount, 2, ',', ' ') }} FCFA</td>
-                            <td>
-                                @if ($payment->status == "pending")
-                                    <span class='badge bg-warning'>En attente</span>
-                                @else($payment->status == "completed")
-                                    <span class='badge bg-success'>Valider</span>
-                                @endif
-                            </td>
+                           
                             <td>{{ $loan->agent->name }}</td>
                             <td>{{ date('d F Y', strtotime($payment->payment_date)) }}</td>
                             </tr>

@@ -21,6 +21,8 @@
     @endif
     <!--Fin Message de succes ou d'erreur -->
 
+
+
     <div class="card">
         <div class="card-body"><br>
             <section class="section">
@@ -90,6 +92,7 @@
                         </div>
                     </div>
  
+                   
                     <!-- Modal -->
                     <div class="modal fade" id="ExtralargeModal" tabindex="-1" aria-labelledby="ExtralargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl">
@@ -101,43 +104,88 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="card">
+                                            
                                             <ul class="list-group list-group-flush">
-                                                <li class="list-group-item"><strong>Numéro de compte:</strong> {{ $detailsCurrentAccount->account_number }}</li>
-                                                <li class="list-group-item"><strong>Nom et Prénom:</strong> {{ $detailsCurrentAccount->user->name }}</li>
-                                                <li class="list-group-item"><strong>Email:</strong> {{ $detailsCurrentAccount->user->email }}</li>
-                                                <li class="list-group-item"><strong>Solde:</strong> {{ $detailsCurrentAccount->balance }} FCFA<br></li>
+                                            
                                                 <li class="list-group-item">
-                                                    <strong>Status:</strong>
-                                                    @if ($detailsCurrentAccount->status == "activated")
-                                                        <span class='badge bg-success'>Activer</span>
-                                                    @elseif ($detailsCurrentAccount->status == "blocked")
-                                                        <span class='badge bg-danger'>Bloquer</span>
-                                                    @elseif ($detailsCurrentAccount->status == "pending")
-                                                        <span class='badge bg-warning'>En attente</span>
-                                                    @endif
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-4 label "><strong>Numéro de compte:</strong> </div>
+                                                        <div class="col-lg-9 col-md-8"> {{ $detailsCurrentAccount->account_number }}</div>
+                                                    </div>
                                                 </li>
-                                                <li class="list-group-item"><strong>Date de creation:</strong> {{ strftime('%d %B %Y', strtotime($detailsCurrentAccount->opening_date)) }}</li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-4 label "><strong>Nom et Prénom:</strong> </div>
+                                                        <div class="col-lg-9 col-md-8"> {{ $detailsCurrentAccount->user->name }}</div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-4 label "><strong>Email:</strong> </div>
+                                                        <div class="col-lg-9 col-md-8"> {{ $detailsCurrentAccount->user->email }}</div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-4 label "><strong>Solde:</strong> </div>
+                                                        <div class="col-lg-9 col-md-8"> {{ $detailsCurrentAccount->balance }} FCFA</div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-4 label "><strong>Status:</strong> </div>
+                                                        <div class="col-lg-9 col-md-8">
+                                                            @if ($detailsCurrentAccount->status == "activated")
+                                                                <span class='badge bg-success'>Activer</span>
+                                                            @elseif ($detailsCurrentAccount->status == "blocked")
+                                                                <span class='badge bg-danger'>Bloquer</span>
+                                                            @elseif ($detailsCurrentAccount->status == "pending")
+                                                                <span class='badge bg-warning'>En attente</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-4 label "><strong>Date de creation:</strong> </div>
+                                                        <div class="col-lg-9 col-md-8"> {{ strftime('%d %B %Y', strtotime($detailsCurrentAccount->opening_date)) }}</div>
+                                                    </div>
+                                                </li>
 
                                                 <!-- Afficher le document PDF pour la pièce d'identité -->
                                                 <li class="list-group-item">
-                                                    <strong>Pièce d'identité:</strong>
-                                                    @if($detailsCurrentAccount->user->identity_piece)
-                                                        <embed src="{{ Storage::url($detailsCurrentAccount->user->identity_piece) }}" type="application/pdf" width="100%" height="600px" />
-                                                        
-                                                    @else
-                                                        Aucun document
-                                                    @endif
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-4 label "><strong>Pièce d'identité:</strong> </div>
+                                                        @if($detailsCurrentAccount->user->identity_piece)
+                                                            <embed src="{{ Storage::url($detailsCurrentAccount->user->identity_piece) }}" type="application/pdf" width="100%" height="600px" />
+                                                        @else
+                                                            <div class="col-lg-9 col-md-8">Aucun document</div>
+                                                        @endif
+                                                    </div>
+                                                </li>
+
+                                                <!-- Afficher le document PDF pour la photo d'identité -->
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-4 label "><strong>Photo d'identité:</strong> </div>
+                                                        @if($detailsCurrentAccount->user->identity_picture)
+                                                            <embed src="{{ Storage::url($detailsCurrentAccount->user->identity_picture) }}" type="application/pdf" width="100%" height="600px" />
+                                                        @else
+                                                            <div class="col-lg-9 col-md-8">Aucun document</div>
+                                                        @endif
+                                                    </div>
                                                 </li>
 
                                                 <!-- Afficher le document PDF pour le justificatif de domicile -->
                                                 <li class="list-group-item">
-                                                    <strong>Justificatif de domicile:</strong>
-                                                    
-                                                    @if($detailsCurrentAccount->user->proof_of_address)
-                                                        <embed src="{{ Storage::url($detailsCurrentAccount->user->proof_of_address) }}" type="application/pdf" width="100%" height="600px" />
-                                                    @else
-                                                        Aucun document
-                                                    @endif
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-4 label "><strong>Justificatif de domicile:</strong> </div>
+                                                        @if($detailsCurrentAccount->user->proof_of_address)
+                                                            <embed src="{{ Storage::url($detailsCurrentAccount->user->proof_of_address) }}" type="application/pdf" width="100%" height="600px" />
+                                                        @else
+                                                            <div class="col-lg-9 col-md-8">Aucun document</div>
+                                                        @endif
+                                                    </div>
                                                 </li>
 
                                             </ul>

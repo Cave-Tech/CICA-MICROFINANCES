@@ -104,7 +104,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/operation-list', function () {
         return view('employe.operation-list');
-    })->name('employe.operartion-list')->middleware(['caissier']);
+    })->name('employe.operartion-list')->middleware(['agent_caisse']);
     
     Route::get('/current-accounts', function () {
         return view('employe.current-accounts');
@@ -135,7 +135,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/save-operation', function () {
         return view('employe.save-operation');
-    })->name('employe.save-operation')->middleware(['caissier']);
+    })->name('employe.save-operation')->middleware(['agent_caisse']);
     
     Route::get('/details', function () {
         return view('employe.details');

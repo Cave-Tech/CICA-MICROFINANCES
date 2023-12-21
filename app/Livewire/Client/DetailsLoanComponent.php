@@ -23,10 +23,40 @@ class DetailsLoanComponent extends Component
     public $doc_files_warrantor;
     public $doc_files;
     public $id;
+    public $loanId;
+    public $rejectReason;
+    public $selectedUserId;
+    public $name = '';
+    public $filteredUsers = [];
+    public $selectedAgent;
+
+
+    protected $rules = [
+        'rejectReason' => 'required',
+    ];
+    
+    public function updatedName($value)
+    {
+        if (strlen($value) > 1) {
+            $this->filteredUsers = User::where('name', 'like', '%' . $value . '%')
+                ->where('employee_type_id', 3)->get();
+        } else {
+            $this->filteredUsers = [];
+        }
+    }
+
+    public function selectUser($userId)
+    {
+        $this->selectedUserId = $userId;
+        $user = User::find($userId);
+        $this->name = $user->name;
+        $this->filteredUsers = [];
+    }
+
 
     public function mount($loanId)
     {
-        $this->loan = Loan::with(['borrower', 'agent', 'payment'])
+        $this->loan = Loan::with(['borrower', 'agent', 'payment', 'agent_terain'])
         ->find($loanId);
         $this->id = $loanId;
         //dd($this->loan->agent->name);
@@ -70,14 +100,31 @@ class DetailsLoanComponent extends Component
      }
 
     // Méthode pour rejeter le prêt
-    public function rejectLoan($loanId)
+    public function rejectLoan()
     {
-        $loan = Loan::findOrFail($loanId);
+        // Validez les données du formulaire
+        $this->validate();
+
+        $loan = Loan::findOrFail($this->loanId);
         $loan->status = "rejected";
+        $loan->reject_reason = $this->rejectReason;
         $loan->save();
         $this->dispatch('loanStatusUpdated');
+        
     }
-    //Edit loan doc
+    
+    public function updateAgentTerrain()
+    {
+
+
+        $this->loan->agent_terain_id = $this->selectedUserId;
+        $this->loan->save();
+
+        session()->flash('success1', 'Agent de terrain ajouter avec succès.');
+
+        // Réinitialiser la propriété selectedAgent pour effacer la sélection précédente.
+        $this->reset('name');
+    }
     
     public function EditLoanDoc()
     {

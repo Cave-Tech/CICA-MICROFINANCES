@@ -14,6 +14,8 @@ class CreateLoanRequestComponent extends Component
 
     public $name = '';
     public $filteredUsers = [];
+    public $filteredAgents = [];
+    public $selectedAgentId;
     public $selectedUserId;
     public $amount;
     public $typeloan;
@@ -25,6 +27,15 @@ class CreateLoanRequestComponent extends Component
     public $numWarrantor;
     public $addressWarrantor;
     public $relationWarrantor;
+    public $interestRate; 
+    public $loanTerm;
+    public $agentName = '';
+
+    public $agentTerrain = '';
+
+    public $agentSelected = false;
+
+
 
     protected $rules = [
         'name' => 'required',
@@ -33,11 +44,13 @@ class CreateLoanRequestComponent extends Component
         'typeWarranty' => 'required',
         'valueWarranty' => 'required|numeric|min:0',
         'detailsWarranty' => 'required',
-        'purposeWarranty' => 'required',
+        // 'purposeWarranty' => 'required',
         'nameWarrantor' => 'required',
         'numWarrantor' => 'required|numeric',
         'addressWarrantor' => 'required',
         'relationWarrantor' => 'required',
+        'loanTerm' => 'required|numeric|min:1',
+        'agentTerrain' => 'nullable|string',
     ];
 
     public function updatedName($value)
@@ -58,6 +71,40 @@ class CreateLoanRequestComponent extends Component
         $this->filteredUsers = [];
     }
 
+
+    public function selectAgent($userId)
+    {
+        $this->selectedAgentId = $userId;
+        $user = User::find($userId);
+        $this->agentTerrain = $user->name;
+        $this->filteredAgents = [];
+        $this->agentSelected = true;
+    }
+
+    
+
+    public function calculateInterestRate()
+    {
+        if ($this->amount >= 1000 && $this->amount <= 100000) {
+            $this->interestRate = 5;
+        } elseif ($this->amount > 100000 && $this->amount <= 200000) {
+            $this->interestRate = 10;
+        }elseif ($this->amount > 200000) {
+            $this->interestRate = 15;  
+        }else{
+            $this->interestRate = 0;
+        }
+
+
+        // Vous pouvez également définir une valeur par défaut si aucune condition n'est satisfaite
+        // $this->interestRate = 0;
+    }
+
+    public function updatedAmount()
+    {
+        $this->calculateInterestRate(); // Appel de la méthode de calcul du taux d'intérêt
+    }
+
     public function createLoan()
     {
         $this->validate();
@@ -74,16 +121,19 @@ class CreateLoanRequestComponent extends Component
         Loan::create([
             'borrower_id' => $this->selectedUserId,
             'agent_id' => Auth::user()->id,
+            'agent_terain_id' => $this->selectedAgentId,
             'loan_amount' => $this->amount,
             'loan_type_id' => $this->typeloan,
             'type_warranty' => $this->typeWarranty,
             'value_warranty' => $this->valueWarranty,
             'details_warranty' => $this->detailsWarranty,
-            'purpose_warranty' => $this->purposeWarranty,
+            // 'purpose_warranty' => $this->purposeWarranty,
             'name_warrantor' => $this->nameWarrantor,
             'number_warrantor' => $this->numWarrantor,
             'address_warrantor' => $this->addressWarrantor,
             'relation_warrantor' => $this->relationWarrantor,
+            'payment_frequency' => $this->loanTerm,
+            'interest_rate' => $this->interestRate,
             'status' => 'in progress',
         ]);
 
@@ -100,6 +150,13 @@ class CreateLoanRequestComponent extends Component
 
     public function render()
     {
+        if (strlen($this->agentTerrain) > 1) {
+            $this->filteredAgents = User::where('name', 'like', '%' . $this->agentTerrain . '%')
+                ->where('employee_type_id', 3)->get();
+        } else {
+            $this->filteredAgents = [];
+        }
+
         return view('livewire.employe.create-loan-request-component');
     }
 }

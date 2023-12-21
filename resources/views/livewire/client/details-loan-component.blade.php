@@ -2,6 +2,23 @@
 
 <main id="main" class="main">
 
+    <!-- Message de succes ou d'erreur -->
+    @if($message = Session::get('success'))
+        <div id="success-alert" class="alertt alert-success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <p>{{$message}}</p>
+        </div>
+    @endif
+
+    @if($message = Session::get('fail'))
+        <div id="fail-alert" class="alert alert-danger">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <p>{{$message}}</p>
+        </div>
+    @endif
+    <!--Fin Message de succes ou d'erreur -->
+
+
     <h1>Détails du Prêt</h1>
     <nav>
         <ol class="breadcrumb">
@@ -15,14 +32,76 @@
         <!-- Boutons pour valider ou rejeter le prêt -->
         <div class="left-align">
             <button wire:click="validateLoan({{$loan->id}})" class="btn btn-success">Valider</button>
-            <button wire:click="rejectLoan({{$loan->id}})" class="btn btn-danger">Rejeter</button>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">Rejeter</button>
+        </div>
+
+        <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form wire:submit.prevent="rejectLoan">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="rejectModalLabel">Formulaire de Prêt</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                                <input type="hidden" wire:model="loanId" value="{{$loan->id}}">
+                        
+                                <div class="form-group">
+                                    <label for="rejectReason" class="form-label">Expliquez le motif du refus :</label>
+                                    <textarea wire:model="rejectReason" class="form-control" id="rejectReason" rows="4"></textarea>
+                                </div><br>
+                       
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary">Envoyer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
         <br>
     @elseif(auth()->user()->employee_type_id == 5 && $loan->status === 'pending')
         <!-- Boutons pour valider ou rejeter le prêt -->
         <div class="left-align">
             <button wire:click="preValidateLoan({{$loan->id}})" class="btn btn-success">Pre-Valider</button>
-            <button wire:click="rejectLoan({{$loan->id}})" class="btn btn-danger">Rejeter</button>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">Rejeter</button>
+        </div>
+
+        <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form wire:submit.prevent="rejectLoan">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="rejectModalLabel">Formulaire de Prêt</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                                <input type="hidden" wire:model="loanId" value="{{$loan->id}}">
+                        
+                                <div class="form-group">
+                                    <label for="rejectReason" class="form-label">Expliquez le motif du refus :</label>
+                                    <textarea wire:model="rejectReason" class="form-control" id="rejectReason" rows="4" required></textarea>
+                                </div><br>
+
+                                @error('rejectReason')
+                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                @enderror
+                       
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">Envoyer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
         <br>
     @endif
@@ -36,22 +115,64 @@
                 <div class="card-body">
                     <h5 class="card-title">Informations du Prêt</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Type de Prêt:</strong> {{ $loan->loan_type_id == 1 ? 'Prêt Automobile' : 'Prêt Immobilier' }}</li>
-                        <li class="list-group-item"><strong>Montant:</strong> {{ number_format($loan->loan_amount, 2, ',', ' ') }} FCFA</li>
-                        <li class="list-group-item"><strong>Status:</strong> 
-                            @if ($loan->status === 'validated')
-                                <span class="badge bg-success">Valider</span>
-                            @elseif ($loan->status === 'pending')
-                                <span class="badge bg-warning text-dark">En attente</span>
-                            @elseif ($loan->status === 'in progress')
-                                <span class="badge bg-info">En cours</span>
-                            @elseif ($loan->status === 'completed')
-                                <span class="badge bg-success">Solder</span> 
-                            @else
-                                <span class="badge bg-danger">Rejeté</span>
-                            @endif
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-4 label "><strong>Type de Prêt:</strong> </div>
+                                <div class="col-lg-5 col-md-6"> {{ $loan->loan_type_id == 1 ? 'Prêt Automobile' : '' }}</div>
+                            </div>
                         </li>
-                        <li class="list-group-item"><strong>Date d'échéance:</strong> {{ date('d F Y', strtotime($loan->loan_date)) }}</li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-4 label "><strong>Montant:</strong></div>
+                                <div class="col-lg-5 col-md-6">{{ number_format($loan->loan_amount, 2, ',', ' ') }} FCFA</div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-4 label"><strong>Taux d'interet:</strong></div>
+                                <div class="col-lg-5 col-md-6">{{ $loan->interest_rate }} %</div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-4 label"><strong>Montant à payer:</strong></div>
+                                <div class="col-lg-5 col-md-6">
+                                    {{ number_format($loan->loan_amount * (1 + ($loan->interest_rate / 100)), 2, ',', ' ') }} FCFA
+                                </div>
+                            </div>
+                        </li>
+
+                        
+            
+                        <li class="list-group-item"> 
+                            
+
+                            <div class="row">
+                                <div class="col-lg-7 col-md-4 label "><strong>Status:</strong></div>
+                                <div class="col-lg-5 col-md-6">
+                                @if ($loan->status === 'validated')
+                                    <span class="badge bg-success">Valider</span>
+                                @elseif ($loan->status === 'pending')
+                                    <span class="badge bg-warning text-dark">En attente</span>
+                                @elseif ($loan->status === 'in progress')
+                                    <span class="badge bg-info">En cours</span>
+                                @elseif ($loan->status === 'completed')
+                                    <span class="badge bg-success">Terminé</span> 
+                                @else
+                                    <span class="badge bg-danger">Rejeté</span>
+                                @endif
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                             
+                            <div class="row">
+                                <div class="col-lg-7 col-md-4 label "><strong>Date d'échéance:</strong></div>
+                                <div class="col-lg-5 col-md-6">{{ date('d F Y', strtotime($loan->loan_date)) }}</div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -61,14 +182,145 @@
                 <div class="card-body">
                     <h5 class="card-title">Détails du Garant</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Nom du Garant:</strong> {{ $loan->name_warrantor }}</li>
-                        <li class="list-group-item"><strong>Numéro du Garant:</strong> {{ $loan->number_warrantor }}</li>
-                        <li class="list-group-item"><strong>Adresse du Garant:</strong> {{ $loan->address_warrantor }}</li>
-                        <li class="list-group-item"><strong>Relation avec le Garant:</strong> {{ $loan->relation_warrantor == 1 ? 'Parents' : ($loan->relation_warrantor == 2 ? 'Amis' : 'Autre') }}</li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-4 label "><strong>Nom du Garant:</strong></div>
+                                <div class="col-lg-5 col-md-6">{{ $loan->name_warrantor }}</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-4 label "><strong>Numéro du Garant:</strong></div>
+                                <div class="col-lg-5 col-md-6">{{ $loan->number_warrantor }}</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-4 label "><strong>Adresse du Garant:</strong></div>
+                                <div class="col-lg-5 col-md-6">{{ $loan->address_warrantor }}</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-4 label "><strong>Relation avec le Garant:</strong></div>
+                                <div class="col-lg-5 col-md-6">{{ $loan->relation_warrantor == 1 ? 'Parents' : ($loan->relation_warrantor == 2 ? 'Amis' : 'Autre') }}</div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
+
+        @if($message = Session::get('success1'))
+            <div id="success-alert" class="alertt alert-success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <p>{{$message}}</p>
+            </div>
+        @endif
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Informations sur le remboursement</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-2 label "><strong>Durée du pret:</strong></div>
+                                <div class="col-lg-3 col-md-4">{{ $loan->payment_frequency }} mois</div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-2 label "><strong>Date de decaissement du pret</strong></div>
+                                <div class="col-lg-3 col-md-4">{{ date('d F Y', strtotime($loan->loan_date)) ?  date('d F Y', strtotime($loan->loan_date)) : 'Pas encore defini'}} </div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-2 label "><strong>Date d'echeance du pret</strong></div>
+                                <div class="col-lg-3 col-md-4">{{ date('d F Y', strtotime($loan->due_date)) ?  date('d F Y', strtotime($loan->due_date)) : 'Pas encore defini'}} </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-2 label "><strong>Frequence de paiement:</strong></div>
+                                <div class="col-lg-3 col-md-4">Chaque mois</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-2 label "><strong>Montant a payer par mois:</strong></div>
+                                <div class="col-lg-3 col-md-4">{{ number_format(($loan->loan_amount * (1 + ($loan->interest_rate / 100))) / $loan->payment_frequency, 2, ',', ' ') }} FCFA</div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-2 label "><strong>Agent de terrain a charge:</strong></div>
+                                <div class="col-lg-3 col-md-4">
+                                 
+                                    @if($loan->agent_terain)
+                                        {{ $loan->agent_terain->name }}
+                                    @else
+                                        @if(auth()->user()->employee_type_id == 5)
+                                            <!-- Afficher le champ de formulaire pour ajouter un nouvel agent de terrain -->
+                                            <form wire:submit.prevent="updateAgentTerrain" class="php-email-form">
+                                            
+                                                <div class="row">
+                                                
+                                                    <div class="form-group col-lg-10 col-md-5 ">
+                                                        <input type="text" class="form-control" wire:model.live="name" name="name"
+                                                            placeholder="Entrez le nom" autocomplete="off" required>
+                                                        <div>
+                                                            @if(!empty($name))
+                                                            <div class="list-group">
+                                                                @foreach($filteredUsers as $user)
+                                                                <a href="#" wire:click.prevent="selectUser({{ $user->id }})"
+                                                                    class="list-group-item list-group-item-action">
+                                                                    {{ $user->name }}
+                                                                </a>
+                                                                @endforeach
+                                                            </div>
+                                                            @endif
+                                                        </div>
+                                                        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-5">
+                                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        @else
+                                            <p>Non assigné</p>
+                                        @endif
+                                    @endif
+                                    
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        @if($loan->status === 'rejected')
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Motif de refus du pret</h5>
+                        <div class="row">
+                            <!-- <div class="col-lg-7 col-md-4 label "><strong>Relation avec le Garant:</strong></div> -->
+                            <div class="col-lg-5 col-md-6">{{ $loan->reject_reason}}</div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 
     
@@ -206,3 +458,24 @@
     @endif
 
 </main><!-- End #main -->
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let modalEl = document.getElementById('rejectModal');
+        let modal = new bootstrap.Modal(modalEl);
+
+
+        window.addEventListener('loanStatusUpdated', (event) => {
+            modal.hide();
+        });
+
+        modalEl.addEventListener('hidden.bs.modal', () => {
+            // Cette fonction est appelée après que le modal est complètement fermé
+            window.livewire.dispatch('resetListener');
+        });
+
+    
+    });
+</script>

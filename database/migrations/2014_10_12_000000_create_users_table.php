@@ -73,11 +73,6 @@ return new class extends Migration
             $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('cascade');  // Lien vers la table des profils
             $table->foreign('employee_type_id')->references('id')->on('employee_types')->onDelete('cascade');  // Lien vers la table des types d'employés
             $table->foreign('agent_id')->references('id')->on('users')->onDelete('cascade');  // Relation auto-référencée pour l'agent
-        
-
-
-
-
 
             });
     }

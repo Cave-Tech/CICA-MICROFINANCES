@@ -100,12 +100,12 @@
 
             <!-- Section pour les Agents à la Caisse -->
             @if(auth()->user()->employee_type_id == 1)
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="{{ url('/employe-dashboard')}}">
                         <i class="bi bi-person"></i>
                         <span>Dashboard</span>
                     </a>
-                </li>
+                </li> -->
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#operation-nav" data-bs-toggle="collapse" href="#">
@@ -129,13 +129,13 @@
 
             <!-- Section pour les Agents de Terrain -->
             @if(auth()->user()->employee_type_id == 3)
-                <li class="nav-item">
-                    <!-- Lien ou sous-menu pour les Agents de Terrain -->
+                <!-- <li class="nav-item">
+                   
                     <a class="nav-link" href="agent-terrain-dashboard.html">
                         <i class="bi bi-person"></i>
                         <span>Dashboard Agent de Terrain</span>
                     </a>
-                </li>
+                </li> -->
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#operation-nav" data-bs-toggle="collapse" href="#">
@@ -180,12 +180,12 @@
 
             <!-- Section pour les Chargés de la Clientèle -->
             @if(auth()->user()->employee_type_id == 5)
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="{{ url('/employe-dashboard')}}">
                         <i class="bi bi-person"></i>
                         <span>Dashboard</span>
                     </a>
-                </li>
+                </li> -->
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#compte-nav" data-bs-toggle="collapse" href="#">
@@ -233,14 +233,12 @@
 
             <!-- Section pour les Chargés des Ressources Humaines -->
             @if(auth()->user()->employee_type_id == 6)
-                <li class="nav-item">
-                    <!-- Lien ou sous-menu pour les Chargés des Ressources Humaines -->
-
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="charge-ressources-humaines-dashboard.html">
                         <i class="bi bi-person"></i>
                         <span>Dashboard Chargé des Ressources Humaines</span>
                     </a>
-                </li>
+                </li> -->
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="{{ url('/inscription-employer')}}">

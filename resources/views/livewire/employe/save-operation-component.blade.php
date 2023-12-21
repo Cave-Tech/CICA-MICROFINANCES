@@ -41,7 +41,7 @@
                                 <div class="list-group">
                                     @foreach($filteredUsers as $user)
                                         <a href="#" wire:click.prevent="selectUser({{ $user->id }})" class="list-group-item list-group-item-action">
-                                            {{ $user->name }} - {{$user->phone}}
+                                            {{ $user->name }} - Tel: {{$user->phone}}
                                         </a>
                                     @endforeach
                                 </div>

@@ -33,6 +33,16 @@ class OperationsComponent extends Component
     public $date;
     public $userId;
 
+    protected $rules = [
+        'typeOperation' => 'required',
+        'typeAccount' => 'required',
+        'montant' => 'required|numeric|min:1',
+        'beneficiaire' => 'required',
+        'compte_de_destination' => 'required',
+        'motif' => 'required',
+        // Ajoutez d'autres règles au besoin...
+    ];
+
     public function saveOperation()
     {
         $user = Auth::user();

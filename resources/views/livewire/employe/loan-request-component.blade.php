@@ -76,8 +76,10 @@
                                         <span class="badge bg-info">En cours</span>
                                     @elseif ($loan->status === 'completed')
                                         <span class="badge bg-success">Terminé</span> 
-                                    @else
+                                    @elseif ($loan->status === 'rejected')
                                         <span class="badge bg-danger">Rejeté</span>
+                                    @elseif ($loan->status === 'in payment')
+                                        <span class="badge bg-success">En cours de paiement</span>
                                     @endif
                                     </td>
                                     <td>{{ $loan->created_at->toDateString() }}</td>

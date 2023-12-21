@@ -39,7 +39,7 @@ class DetailsLoanComponent extends Component
     {
         if (strlen($value) > 1) {
             $this->filteredUsers = User::where('name', 'like', '%' . $value . '%')
-                ->where('profile_id', 3)->get();
+                ->where('employee_type_id', 3)->get();
         } else {
             $this->filteredUsers = [];
         }
@@ -115,17 +115,15 @@ class DetailsLoanComponent extends Component
     
     public function updateAgentTerrain()
     {
-        $this->validate([
-            'selectedAgent' => 'required|exists:agents,id',
-        ]);
 
-        $this->loan->agent_terrain_id = $this->selectedAgent;
+
+        $this->loan->agent_terain_id = $this->selectedUserId;
         $this->loan->save();
 
-        session()->flash('success', 'Agent de terrain mis à jour avec succès.');
+        session()->flash('success1', 'Agent de terrain ajouter avec succès.');
 
         // Réinitialiser la propriété selectedAgent pour effacer la sélection précédente.
-        $this->reset('selectedAgent');
+        $this->reset('name');
     }
     
     public function EditLoanDoc()

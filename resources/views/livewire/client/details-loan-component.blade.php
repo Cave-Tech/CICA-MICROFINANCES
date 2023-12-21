@@ -2,6 +2,23 @@
 
 <main id="main" class="main">
 
+    <!-- Message de succes ou d'erreur -->
+    @if($message = Session::get('success'))
+        <div id="success-alert" class="alertt alert-success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <p>{{$message}}</p>
+        </div>
+    @endif
+
+    @if($message = Session::get('fail'))
+        <div id="fail-alert" class="alert alert-danger">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <p>{{$message}}</p>
+        </div>
+    @endif
+    <!--Fin Message de succes ou d'erreur -->
+
+
     <h1>Détails du Prêt</h1>
     <nav>
         <ol class="breadcrumb">
@@ -194,6 +211,13 @@
             </div>
         </div>
 
+        @if($message = Session::get('success1'))
+            <div id="success-alert" class="alertt alert-success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <p>{{$message}}</p>
+            </div>
+        @endif
+
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -236,31 +260,43 @@
                             <div class="row">
                                 <div class="col-lg-5 col-md-2 label "><strong>Agent de terrain a charge:</strong></div>
                                 <div class="col-lg-3 col-md-4">
-                                    {{$loan->agent_terain}}
-                                    @if($loan->agent_terrain)
-                                        {{ $loan->agent_terrain->name }}
+                                 
+                                    @if($loan->agent_terain)
+                                        {{ $loan->agent_terain->name }}
                                     @else
-                                        <!-- Afficher le champ de formulaire pour ajouter un nouvel agent de terrain -->
-                                        <form wire:submit.prevent="updateAgentTerrain" class="php-email-form">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" wire:model.live="name" name="name"
-                                                    placeholder="Entrez le nom" autocomplete="off">
-                                                <div>
-                                                    @if(!empty($name))
-                                                    <div class="list-group">
-                                                        @foreach($filteredUsers as $user)
-                                                        <a href="#" wire:click.prevent="selectUser({{ $user->id }})"
-                                                            class="list-group-item list-group-item-action">
-                                                            {{ $user->name }}
-                                                        </a>
-                                                        @endforeach
+                                        @if(auth()->user()->employee_type_id == 5)
+                                            <!-- Afficher le champ de formulaire pour ajouter un nouvel agent de terrain -->
+                                            <form wire:submit.prevent="updateAgentTerrain" class="php-email-form">
+                                            
+                                                <div class="row">
+                                                
+                                                    <div class="form-group col-lg-10 col-md-5 ">
+                                                        <input type="text" class="form-control" wire:model.live="name" name="name"
+                                                            placeholder="Entrez le nom" autocomplete="off" required>
+                                                        <div>
+                                                            @if(!empty($name))
+                                                            <div class="list-group">
+                                                                @foreach($filteredUsers as $user)
+                                                                <a href="#" wire:click.prevent="selectUser({{ $user->id }})"
+                                                                    class="list-group-item list-group-item-action">
+                                                                    {{ $user->name }}
+                                                                </a>
+                                                                @endforeach
+                                                            </div>
+                                                            @endif
+                                                        </div>
+                                                        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                                                     </div>
-                                                    @endif
+                                                    <div class="col-lg-2 col-md-5">
+                                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                                    </div>
                                                 </div>
-                                                @error('name') <span class="text-danger">{{ $message }}</span>@enderror
-                                            </div>
-                                        </form>
+                                            </form>
+                                        @else
+                                            <p>Non assigné</p>
+                                        @endif
                                     @endif
+                                    
                                 </div>
                             </div>
                         </li>

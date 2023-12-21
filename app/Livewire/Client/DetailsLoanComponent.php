@@ -67,10 +67,10 @@ class DetailsLoanComponent extends Component
         // Vérifiez si la relation payments existe
         if ($loan->payment) {
             $totalPayments = $loan->payment->sum('payment_amount');
-            $loanAmount = $loan->loan_amount;
+            $loanAmount = $loan->loan_amount * $loan->interest_rate;
             //dd($loanAmount);
             //dd($totalPayments);
-            $remainingAmount = ($totalPayments / $loanAmount) * 100;
+            $remainingAmount = ($totalPayments / ($loan->loan_amount + ($loan->loan_amount * $loan->interest_rate / 100))) * 100;
 
             return $remainingAmount;
         }

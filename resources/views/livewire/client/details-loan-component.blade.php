@@ -381,28 +381,9 @@
         <h5 class="card-title">Pourcentage de paiement :</h5>
 
         <!-- Progress Bar with label -->
-                @if($this->remainingAmount($loan) <= 25)
                 <div class="progress mt-3">
-                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ $this->remainingAmount($loan) }} %</div>
+                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: {{ $this->remainingAmount($loan) }} %" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ $this->remainingAmount($loan) }} %</div>
               </div>
-                @elseif($this->remainingAmount($loan) <= 50)
-                <div class="progress mt-3">
-                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 55%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ $this->remainingAmount($loan) }} %</div>
-              </div>
-                @elseif($this->remainingAmount($loan) <= 75)
-                <div class="progress mt-3">
-                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ $this->remainingAmount($loan) }} %</div>
-              </div>
-                @elseif($this->remainingAmount($loan) < 100)
-                <div class="progress mt-3">
-                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 90%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ $this->remainingAmount($loan) }} %</div>
-              </div>
-              @elseif($this->remainingAmount($loan) == 100)
-                <div class="progress mt-3">
-                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ $this->remainingAmount($loan) }} %</div>
-              </div>
-            @endif
-            </div>
         </div>
         <!-- End Progress Bar with label -->
     </div>

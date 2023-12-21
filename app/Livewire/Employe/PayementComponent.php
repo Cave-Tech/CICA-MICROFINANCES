@@ -51,17 +51,20 @@ class PayementComponent extends Component
     }
     
 
-    public function remainingAmount($loan)
+public function remainingAmount($loan)
     {
         // Vérifiez si la relation payments existe
         if ($loan->payment) {
             $totalPayments = $loan->payment->sum('payment_amount');
-            $remainingAmount = $loan->loan_amount - $totalPayments;
+            $loanAmount = $loan->loan_amount * $loan->interest_rate;
+            //dd($loanAmount);
+            //dd($totalPayments);
+            $remainingAmount = ($totalPayments / ($loan->loan_amount + ($loan->loan_amount * $loan->interest_rate / 100))) * 100;
 
-            return number_format($remainingAmount, 2, ',', ' ') . ' FCFA';
+            return $remainingAmount;
         }
 
-        return number_format($loan->loan_amount, 2, ',', ' ') . ' FCFA';
+        return 0 . ' %';
     }
 
     // Assurez-vous d'avoir la propriété suivante dans votre composant Livewire
@@ -80,7 +83,7 @@ class PayementComponent extends Component
         $totalPayments = Payment::where('loan_id', $loanId)->sum('payment_amount');
     
         // Calculez le montant restant à payer pour le prêt
-        $remainingAmount = $loan->loan_amount - $totalPayments;
+        $remainingAmount = ($loan->loan_amount * $loan->interest_rate) - $totalPayments;
     
         // Vérifiez si le montant du nouveau paiement est inférieur ou égal au montant restant à payer
         if ($this->paymentAmount <= $remainingAmount && $this->paymentAmount != 0) {

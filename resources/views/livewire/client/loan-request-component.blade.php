@@ -80,6 +80,23 @@
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loanModal">
                 Nouveau Prêt
             </button>
+        </div><br>
+
+        <div class="card border-danger">
+            <div class="card-body">
+                <h5 class="card-title text-danger"><i class="bi bi-exclamation-triangle-fill text-danger"></i> Informations sur les taux d'intérêt !</h5>
+                <p>
+                    Nous proposons les taux d'intérêt suivants en fonction du montant de votre prêt :
+                </p>
+                <ul>
+                    <li>Entre 1000 Fcfa et 100000 Fcfa : <span class="text-danger">Taux d'intérêt de 5% </span> </li>
+                    <li>Entre 100000 Fcfa et 200000 Fcfa : <span class="text-danger">Taux d'intérêt de 10%</span></li>
+                    <li>Plus de 200000 Fcfa : <span class="text-danger">Taux d'intérêt de 15%</span></li>
+                </ul>
+                <p>
+                    Ces taux sont appliqués en fonction de la plage dans laquelle se situe le montant de votre prêt.
+                </p>
+            </div>
         </div>
     @endif
 
@@ -95,55 +112,71 @@
                         </div>
                         <div class="modal-body">
                                 <div class="form-group">
-                                    <input type="number" wire:model="amount" class="form-control" id="loanAmount" placeholder="Montant du Prêt">
+                                    <input type="number" wire:model="amount" class="form-control" id="loanAmount" placeholder="Montant du Prêt" required>
+                                    <x-input-error :messages="$errors->get('amount')" class="mt-2 alert alert-danger" />
                                 </div><br>
+
+                                <div class="form-group">
+                                    <input type="number" wire:model="loanTerm" class="form-control" placeholder="Durée du Prêt (mois)" required>
+                                    <x-input-error :messages="$errors->get('loanTerm')" class="mt-2 alert alert-danger" />
+                                </div>
+
                                 <div class="col-md-12">
                                     <select wire:model="typeloan" class="form-select" aria-label="Type d'opération" required>
-                                        <option >Choisissez le type de prêt</option>
+                                        <option value="">Choisissez le type de prêt</option>
                                         <option value="1">Prêt hypothécaire</option>
                                         <option value="2">Prêt étudiant</option>
                                     </select>
+                                    <x-input-error :messages="$errors->get('typeloan')" class="mt-2 alert alert-danger" />
                                 </div><br>
                                 <div class="col-md-12">
                                     <select wire:model="typeWarranty" class="form-select" aria-label="Type d'opération" required>
-                                        <option >Type de garantie</option>
+                                        <option value="">Type de garantie</option>
                                         <option value="1">Bien immobilier</option>
                                         <option value="2">Autre bien</option>
                                     </select>
+                                    <x-input-error :messages="$errors->get('typeWarranty')" class="mt-2 alert alert-danger" />
                                 </div><br>
 
                                 <div class="form-group">
-                                    <input type="number" class="form-control" wire:model="valueWarranty" placeholder="Valeur du garantie en FCFA" id="interestRate">
+                                    <input type="number" class="form-control" wire:model="valueWarranty" placeholder="Valeur du garantie en FCFA" id="interestRate" required>
+                                    <x-input-error :messages="$errors->get('valueWarranty')" class="mt-2 alert alert-danger" />
                                 </div><br>
 
                                 <div class="form-group">
-                                    <textarea class="form-control" wire:model="detailsWarranty" placeholder="Details du garantie" style="height: 100px"></textarea>
+                                    <textarea class="form-control" wire:model="detailsWarranty" placeholder="Details du garantie" style="height: 100px" required></textarea>
+                                    <x-input-error :messages="$errors->get('detailsWarranty')" class="mt-2 alert alert-danger" />
                                 </div><br>
 
                                 <div class="form-group">
-                                    <textarea class="form-control" wire:model="purposeWarranty" placeholder="Plan de remboussement" style="height: 100px"></textarea>
+                                    <textarea class="form-control" wire:model="purposeWarranty" placeholder="Plan de remboussement" style="height: 100px" required></textarea>
+                                    <x-input-error :messages="$errors->get('purposeWarranty')" class="mt-2 alert alert-danger" />
                                 </div><br>
 
                                 <div class="form-group">
-                                    <input type="text" class="form-control" wire:model="nameWarrantor" placeholder="Nom & Prénom du temoins" id="interestRate">
+                                    <input type="text" class="form-control" wire:model="nameWarrantor" placeholder="Nom & Prénom du temoins" id="interestRate" required>
+                                    <x-input-error :messages="$errors->get('nameWarrantor')" class="mt-2 alert alert-danger" />
                                 </div><br>
 
                                 <div class="form-group">
-                                    <input type="number" class="form-control" wire:model="numWarrantor" placeholder="Numéro du temoins" id="interestRate">
+                                    <input type="number" class="form-control" wire:model="numWarrantor" placeholder="Numéro du temoins" id="interestRate" required>
+                                    <x-input-error :messages="$errors->get('numWarrantor')" class="mt-2 alert alert-danger" />
                                 </div><br>
 
                                 <div class="form-group">
-                                    <input type="text" class="form-control" wire:model="addressWarrantor" placeholder="Address du témoins" id="interestRate">
+                                    <input type="text" class="form-control" wire:model="addressWarrantor" placeholder="Address du témoins" id="interestRate" required>
+                                    <x-input-error :messages="$errors->get('addressWarrantor')" class="mt-2 alert alert-danger" />
                                 </div>
 
                                 <div class="col-md-12">
                                 <label for="interestRate"></label>
                                     <select wire:model="relationWarrantor" class="form-select" aria-label="Type d'opération" required>
-                                        <option >Relation du temoins</option>
+                                        <option value="">Relation du temoins</option>
                                         <option value="1">Parents</option>
                                         <option value="2">Amis</option>
                                         <option value="3">Autres</option>
                                     </select>
+                                    <x-input-error :messages="$errors->get('relationWarrantor')" class="mt-2 alert alert-danger" />
                                 </div><br>
 
                                 <!--<div class="form-group">
@@ -239,44 +272,58 @@
                                 <div class="modal-body">
                                             <!--<input type="" wire:model="idloan" value="{{$loan->id}}" class="form-control" id="loanAmount">-->
                                         <div class="form-group">
-                                            <input type="number" wire:model="amount" value="{{$loan->loan_amount}}" class="form-control" id="loanAmount">
+                                            <input type="number" wire:model="amount" value="{{$loan->loan_amount}}" class="form-control" id="loanAmount" required>
+                                            <x-input-error :messages="$errors->get('amount')" class="mt-2 alert alert-danger" />
                                         </div><br>
+
+                                        <div class="form-group">
+                                            <input type="number" wire:model="loanTerm" value="{{$loan->loanTerm}}" class="form-control" placeholder="Durée du Prêt (mois)" required>
+                                            <x-input-error :messages="$errors->get('loanTerm')" class="mt-2 alert alert-danger" />
+                                        </div>
+
                                         <div class="col-md-12">
                                             <select wire:model="typeloan" class="form-select" value="{{$loan->loan_type_id}}" aria-label="Type d'opération" required>
                                                 <option value="1">Prêt hypothécaire</option>
                                                 <option value="2">Prêt étudiant</option>
                                             </select>
+                                            <x-input-error :messages="$errors->get('typeloan')" class="mt-2 alert alert-danger" />
                                         </div><br>
                                         <div class="col-md-12">
                                             <select wire:model="typeWarranty" value="{{$loan->type_warranty}}" class="form-select" aria-label="Type d'opération" required>
-                                                <option >Type de garantie</option>
                                                 <option value="1">Bien immobilier</option>
                                                 <option value="2">Autre bien</option>
                                             </select>
+                                            <x-input-error :messages="$errors->get('typeWarranty')" class="mt-2 alert alert-danger" />
                                         </div><br>
 
                                         <div class="form-group">
-                                            <input type="number" class="form-control" wire:model="valueWarranty" value="{{$loan->value_warranty}}" id="interestRate">
+                                            <input type="number" class="form-control" wire:model="valueWarranty" value="{{$loan->value_warranty}}" id="interestRate" required>
+                                            <x-input-error :messages="$errors->get('valueWarranty')" class="mt-2 alert alert-danger" />
                                         </div><br>
 
                                         <div class="form-group">
-                                            <textarea class="form-control" wire:model="detailsWarranty" value="{{$loan->details_warranty}}" style="height: 100px"></textarea>
+                                            <textarea class="form-control" wire:model="detailsWarranty" value="{{$loan->details_warranty}}" style="height: 100px" required></textarea>
+                                            <x-input-error :messages="$errors->get('detailsWarranty')" class="mt-2 alert alert-danger" />
                                         </div><br>
 
                                         <div class="form-group">
-                                            <textarea class="form-control" wire:model="purposeWarranty" value="{{$loan->purpose_warranty}}"  style="height: 100px"></textarea>
+                                            <textarea class="form-control" wire:model="purposeWarranty" value="{{$loan->purpose_warranty}}"  style="height: 100px" required></textarea>
+                                            <x-input-error :messages="$errors->get('purposeWarranty')" class="mt-2 alert alert-danger" />
                                         </div><br>
 
                                         <div class="form-group">
-                                            <input type="text" class="form-control" wire:model="nameWarrantor" value="{{$loan->name_warrantor}}" id="interestRate">
+                                            <input type="text" class="form-control" wire:model="nameWarrantor" value="{{$loan->name_warrantor}}" id="interestRate" required>
+                                            <x-input-error :messages="$errors->get('nameWarrantor')" class="mt-2 alert alert-danger" />
                                         </div><br>
 
                                         <div class="form-group">
-                                            <input type="number" class="form-control"  wire:model="numWarrantor" value="{{$loan->number_warrantor}}" id="interestRate">
+                                            <input type="number" class="form-control"  wire:model="numWarrantor" value="{{$loan->number_warrantor}}" id="interestRate" required>
+                                            <x-input-error :messages="$errors->get('numWarrantor')" class="mt-2 alert alert-danger" />
                                         </div><br>
 
                                         <div class="form-group">
-                                            <input type="text" class="form-control" wire:model="addressWarrantor" value="{{$loan->address_warrantor}}" id="interestRate">
+                                            <input type="text" class="form-control" wire:model="addressWarrantor" value="{{$loan->address_warrantor}}" id="interestRate" required>
+                                            <x-input-error :messages="$errors->get('addressWarrantor')" class="mt-2 alert alert-danger" />
                                         </div>
 
                                         <div class="col-md-12">
@@ -287,6 +334,7 @@
                                                 <option value="Amis">Autres biens</option>
                                                 <option value="Autre">Autres biens</option>
                                             </select>
+                                            <x-input-error :messages="$errors->get('relationWarrantor')" class="mt-2 alert alert-danger" />
                                         </div><br>
 
                                         <!--<div class="form-group">

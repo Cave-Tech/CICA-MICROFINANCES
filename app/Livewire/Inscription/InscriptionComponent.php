@@ -63,10 +63,11 @@ class InscriptionComponent extends Component
             'emergency_contact_phone' => 'required|string',
         ]);
 
-
         $user = Auth::user();
         $userId = $user->id;
         $temporaryPassword = Str::random(8);
+        Mail::to($this->email)->send(new TemporaryPasswordMail($temporaryPassword));
+        
         $user = User::create([
             'name' => $this->name,
             'email' => $this->email,
@@ -93,7 +94,6 @@ class InscriptionComponent extends Component
             'emergency_contact_phone' => $this->emergency_contact_phone,
         ]);
 
-        Mail::to($user->email)->send(new TemporaryPasswordMail($temporaryPassword));
         return redirect('/inscription-employer')->with('success', 'Votre compte a été créé avec succès. Vérifiez votre e-mail !');
         
 

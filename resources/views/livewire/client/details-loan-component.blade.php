@@ -310,7 +310,7 @@
                         <h5 class="card-title">Motif de refus du pret</h5>
                         <div class="row">
                             <!-- <div class="col-lg-7 col-md-4 label "><strong>Relation avec le Garant:</strong></div> -->
-                            <div class="col-lg-5 col-md-6">{{ $loan->reject_reason}}</div>
+                            <div class="col-lg-5 col-md-6"><span class="badge bg-danger">{{ $loan->reject_reason}}</span></div>
                         </div>
                         
                     </div>
@@ -383,7 +383,7 @@
             </div>
 
             <div style="margin-top: 20px;">
-                <h5>Il vous reste {{ $this->remainingAmountToPay($loan) }} à payer</h5>
+                <h5>Il vous reste {{ number_format(floatval($this->remainingAmountToPay($loan)), 2) }} à payer</h5>
             </div>
                 
                 

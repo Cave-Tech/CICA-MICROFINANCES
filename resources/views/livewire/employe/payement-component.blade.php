@@ -57,7 +57,7 @@
                         <td>{{ $loan->borrower->phone }}</td>
                         <td><img src="{{ asset('storage/' . $loan->borrower->profile_picture) }}" alt="Photo de profil" width="80" height="80"></td>
                         <td>{{ number_format($loan->loan_amount, 2, ',', ' ') }} FCFA</td>
-                        <td>{{ $this->remainingAmount($loan) }}</td>
+                        <td>{{ number_format(floatval($remainingAmount), 2) }}</td>
                         <td>
                             @unless (floatval($this->remainingAmount($loan)) == 0)
                                 <!-- Formulaire de paiement -->

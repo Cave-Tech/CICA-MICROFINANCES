@@ -91,8 +91,6 @@ class DetailsLoanComponent extends Component
             // Calculer le montant restant à payer
             $remainingAmountToPay = $loanAmount - $totalPayments;
 
-           
-
             return $remainingAmountToPay . ' FCFA';
         }
 

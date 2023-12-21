@@ -160,6 +160,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/loan-in-progress', function () {
         return view('employe.loan-in-progress');
     })->name('employe.loan-in-progress')->middleware(['directeur']);
+
+    Route::get('/validated-loan', function () {
+        return view('employe.validated-loan');
+    })->name('employe.validated-loan')->middleware(['agent_caisse']);
     
     
     Route::get('/customer/{customerId}', DetailCustomerComponent::class)->name('customer.detail')->middleware(['directeur']);

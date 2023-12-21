@@ -67,16 +67,39 @@ class DetailsLoanComponent extends Component
         // Vérifiez si la relation payments existe
         if ($loan->payment) {
             $totalPayments = $loan->payment->sum('payment_amount');
-            $loanAmount = $loan->loan_amount * $loan->interest_rate;
-            //dd($loanAmount);
-            //dd($totalPayments);
-            $remainingAmount = ($totalPayments / ($loan->loan_amount + ($loan->loan_amount * $loan->interest_rate / 100))) * 100;
+            $loanAmount = $loan->loan_amount * (1 + ($loan->interest_rate / 100));
 
-            return $remainingAmount;
+            // Calculer le pourcentage restant
+            $remainingAmount = ($totalPayments / $loanAmount) * 100;
+
+            // Formater le pourcentage avec deux chiffres après la virgule
+            $formattedRemainingAmount = number_format($remainingAmount, 2);
+
+            return $formattedRemainingAmount;
         }
 
-        return 0 . ' %';
+        return '0 %';
     }
+
+    public function remainingAmountToPay($loan)
+    {
+        // Vérifiez si la relation payments existe
+        if ($loan->payment) {
+            $totalPayments = $loan->payment->sum('payment_amount');
+            $loanAmount = $loan->loan_amount * (1 + ($loan->interest_rate / 100));
+
+            // Calculer le montant restant à payer
+            $remainingAmountToPay = $loanAmount - $totalPayments;
+
+           
+
+            return $remainingAmountToPay . ' FCFA';
+        }
+
+        return number_format($loan->loan_amount, 2) . ' FCFA'; // Montant total du prêt si aucun paiement n'a été effectué
+    }
+
+
 
 
     // Méthode pour valider le prêt

@@ -108,7 +108,7 @@ class OperationsComponent extends Component
 
             $this->reset(); // Réinitialiser les champs du formulaire après l'ajout
 
-            return redirect('/client-operations')->with("success", "Demande envoyée aec succes");
+            return redirect('/client-operations')->with("success", "Demande envoyée avec succes");
         }else{
             return redirect('/client-operations')->with("fail", "Impossible de faire un dépôt de 0 FCFA.");
         }

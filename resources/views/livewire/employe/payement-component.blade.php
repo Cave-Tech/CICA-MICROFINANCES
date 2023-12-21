@@ -42,7 +42,7 @@
                         <th scope="col">Email</th>
                         <th scope="col">Phone</th>
                         <th scope="col">Photo</th>
-                        <th scope="col">Montant</th>
+                        <th scope="col">Total à payer</th>
                         <th scope="col">Reste</th>
                         <th scope="col">Action</th>
                         <th></th>
@@ -56,8 +56,8 @@
                         <td>{{ $loan->borrower->email }}</td>
                         <td>{{ $loan->borrower->phone }}</td>
                         <td><img src="{{ asset('storage/' . $loan->borrower->profile_picture) }}" alt="Photo de profil" width="80" height="80"></td>
-                        <td>{{ number_format($loan->loan_amount, 2, ',', ' ') }} FCFA</td>
-                        <td>{{ number_format(floatval($remainingAmount), 2) }}</td>
+                        <td>{{ number_format($loan->loan_amount * (1 + ($loan->interest_rate / 100))) }} FCFA</td>
+                        <td>{{ $this->remainingAmount($loan) }} FCFA</td>
                         <td>
                             @unless (floatval($this->remainingAmount($loan)) == 0)
                                 <!-- Formulaire de paiement -->

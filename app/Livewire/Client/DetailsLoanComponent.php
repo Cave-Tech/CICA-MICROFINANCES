@@ -73,7 +73,7 @@ class DetailsLoanComponent extends Component
             $remainingAmount = ($totalPayments / $loanAmount) * 100;
 
             // Formater le pourcentage avec deux chiffres après la virgule
-            $formattedRemainingAmount = number_format($remainingAmount, 2);
+            $formattedRemainingAmount = number_format($remainingAmount);
 
             return $formattedRemainingAmount;
         }
@@ -94,7 +94,7 @@ class DetailsLoanComponent extends Component
             return $remainingAmountToPay . ' FCFA';
         }
 
-        return number_format($loan->loan_amount, 2) . ' FCFA'; // Montant total du prêt si aucun paiement n'a été effectué
+        return number_format($loan->loan_amount) . ' FCFA'; // Montant total du prêt si aucun paiement n'a été effectué
     }
 
 

@@ -1,7 +1,7 @@
 <main id="main" class="main">
           <!-- Message de succes ou d'erreur -->
     @if($message = Session::get('success'))
-        <div id="success-alert" class="alert alert-success">
+        <div id="success-alert" class="alertt alert-success">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             <p>{{$message}}</p>
         </div>

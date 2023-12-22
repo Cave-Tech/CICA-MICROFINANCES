@@ -2,12 +2,39 @@
 
 namespace App\Livewire\Employe;
 
+use App\Models\Loan;
+use App\Models\Operation;
+use App\Models\User;
 use Livewire\Component;
 
 class DashboardComponent extends Component
 {
     public function render()
     {
-        return view('livewire.employe.dashboard-component');
+        $totalClients = User::where('employee_type_id', null)->count();
+        $totalCashiers = User::where('employee_type_id', 1)->count();
+        $totalFieldAgents = User::where('employee_type_id', 3)->count();
+        $totalHrManagers = User::where('employee_type_id', 6)->count();
+        $totalClientManagers = User::where('employee_type_id', 5)->count();
+
+        $totalLoans = Loan::count();
+        $totalLoanAmount = Loan::sum('loan_amount');
+
+        $totalOperations = Operation::count();
+        $totalOperationAmount = Operation::sum('withdrawal_amount');
+
+        return view('livewire.employe.dashboard-component', [
+            'totalClients' => $totalClients,
+            'totalCashiers' => $totalCashiers,
+            'totalFieldAgents' => $totalFieldAgents,
+            'totalHrManagers' => $totalHrManagers,
+            'totalClientManagers' => $totalClientManagers,
+            'totalLoans' => $totalLoans,
+            'totalLoanAmount' => $totalLoanAmount,
+            'totalOperations' => $totalOperations,
+            'totalOperationAmount' => $totalOperationAmount,
+        ]);
+
+       
     }
 }

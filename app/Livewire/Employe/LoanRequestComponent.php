@@ -9,6 +9,34 @@ class LoanRequestComponent extends Component
 {
     public $search = '';
     public $loans;
+
+     //Methode d'appel à la confirmation de suppression
+     public $loanToDelete;
+     public function confirmDelete($loanId)
+     {
+         $this->loanToDelete = $loanId;
+     }
+     //Fin Methode d'appel à la confirmation de suppression
+ 
+     //Suppression d'loan
+     public function deleteLoan()
+     {
+         // Assurez-vous que l'enregistrement existe avant de le supprimer
+         if ($this->loanToDelete) {
+             $loan = Loan::find($this->loanToDelete);
+ 
+             if ($loan){
+                $loan->delete();
+              
+                return redirect('/loan-request')->with("success", "Demande de pret supprimée avec succes !");
+            }
+         }
+         
+         // Réinitialisez la variable d'opération à supprimer
+         $this->loanToDelete = null;
+     }
+
+
     public function render()
     {
         $this->loans= Loan::with(['borrower', 'agent', 'payment', 'loanType'])

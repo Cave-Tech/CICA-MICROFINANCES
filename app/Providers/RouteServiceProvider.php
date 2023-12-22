@@ -27,6 +27,7 @@ class RouteServiceProvider extends ServiceProvider
     public const CAISSIER_HOME = '/operation-list';
     public const AGENT_TERRAIN_HOME = '/payement-loan';
     public const CHARGER_RH = '/inscription-employer';
+    public const CHARGER_CLIENT = '/inscription-employer';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

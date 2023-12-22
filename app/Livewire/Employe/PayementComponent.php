@@ -14,6 +14,7 @@ class PayementComponent extends Component
     public $loanInProgress;
 
     public $paymentAmount;
+    public $loanAmount;
 
     public function render()
     {
@@ -51,20 +52,21 @@ class PayementComponent extends Component
     }
     
 
-public function remainingAmount($loan)
+    public function remainingAmount($loan)
     {
         // Vérifiez si la relation payments existe
         if ($loan->payment) {
             $totalPayments = $loan->payment->sum('payment_amount');
-            $loanAmount = $loan->loan_amount * $loan->interest_rate;
-            //dd($loanAmount);
-            //dd($totalPayments);
-            $remainingAmount = ($totalPayments / ($loan->loan_amount + ($loan->loan_amount * $loan->interest_rate / 100))) * 100;
+            $loanAmountTopay = ($loan->loan_amount * (1 + ($loan->interest_rate / 100))) - $totalPayments;
 
-            return $remainingAmount;
+            $this->loanAmount = $loan->loan_amount * (1 + ($loan->interest_rate / 100));
+            // Formater le pourcentage avec deux chiffres après la virgule
+            $formattedRemainingAmount = number_format($loanAmountTopay);
+
+            return $formattedRemainingAmount;
         }
 
-        return 0 . ' %';
+        return '0 %';
     }
 
     // Assurez-vous d'avoir la propriété suivante dans votre composant Livewire
@@ -83,8 +85,8 @@ public function remainingAmount($loan)
         $totalPayments = Payment::where('loan_id', $loanId)->sum('payment_amount');
     
         // Calculez le montant restant à payer pour le prêt
-        $remainingAmount = $loan->loan_amount * (1 + ($loan->interest_rate / 100));
-    dd($remainingAmount);
+        $remainingAmountToPay = ($loan->loan_amount * (1 + ($loan->interest_rate / 100)));
+        $remainingAmount = $remainingAmountToPay - $totalPayments;
         // Vérifiez si le montant du nouveau paiement est inférieur ou égal au montant restant à payer
         if ($this->paymentAmount <= $remainingAmount && $this->paymentAmount != 0) {
             // Enregistrez le paiement dans votre base de données avec les informations nécessaires
@@ -99,11 +101,15 @@ public function remainingAmount($loan)
     
             // Calculez à nouveau le montant total des paiements après l'enregistrement du nouveau paiement
             $newTotalPayments = Payment::where('loan_id', $loanId)->sum('payment_amount');
-    
+            // Définir une tolérance
+            $tolerance = 0.50;
+
+            $loanAmountTopay = $this->loanAmount;
             // Si la somme des paiements est égale au montant initial du prêt, mettez à jour le statut du prêt
-            if ($newTotalPayments == $loan->loan_amount) {
-                $loan->update(['status' => 'completed']);
+            if (abs($loanAmountTopay - $newTotalPayments) < $tolerance) {
+                Loan::where('id', $loan->id)->update(['status' => 'completed']);
             }
+            
     
             // Effacez le champ du montant du paiement après l'enregistrement
             $this->paymentAmount = null;

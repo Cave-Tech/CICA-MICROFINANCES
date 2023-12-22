@@ -124,7 +124,7 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-lg-7 col-md-4 label "><strong>Montant:</strong></div>
-                                <div class="col-lg-5 col-md-6">{{ number_format($loan->loan_amount, 2, ',', ' ') }} FCFA</div>
+                                <div class="col-lg-5 col-md-6">{{ number_format($loan->loan_amount) }} FCFA</div>
                             </div>
                         </li>
 
@@ -139,7 +139,7 @@
                             <div class="row">
                                 <div class="col-lg-7 col-md-4 label"><strong>Montant à payer:</strong></div>
                                 <div class="col-lg-5 col-md-6">
-                                    {{ number_format($loan->loan_amount * (1 + ($loan->interest_rate / 100)), 2, ',', ' ') }} FCFA
+                                    {{ number_format($loan->loan_amount * (1 + ($loan->interest_rate / 100))) }} FCFA
                                 </div>
                             </div>
                         </li>
@@ -383,7 +383,7 @@
             </div>
 
             <div style="margin-top: 20px;">
-                <h5>Il vous reste {{ number_format(floatval($this->remainingAmountToPay($loan)), 2) }} à payer</h5>
+                <h5>Il vous reste {{ number_format(floatval($this->remainingAmountToPay($loan))) }} FCFA à payer</h5>
             </div>
                 
                 

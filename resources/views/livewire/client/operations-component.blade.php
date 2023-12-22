@@ -1,7 +1,7 @@
 <main id="main" class="main">
           <!-- Message de succes ou d'erreur -->
     @if($message = Session::get('success'))
-        <div id="success-alert" class="alert alert-success">
+        <div id="success-alert" class="alertt alert-success">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             <p>{{$message}}</p>
         </div>
@@ -47,8 +47,8 @@
                   <form wire:submit.prevent="saveOperation" class="php-email-form">
                       <div class="row gy-4">
                       <div class="col-md-12">
-                          <select id="typeOperation" wire:model="typeOperation" class="form-select" aria-label="Default select example">
-                              <option selected>Choisissez le type d'opération</option>
+                          <select id="typeOperation" wire:model="typeOperation" class="form-select" aria-label="Default select example" required>
+                              <option value="" disabled selected>Choisissez le type d'opération</option>
                               <option value="1">Dépôt</option>
                               <option value="2">Retrait</option>
                               <option value="3">Virement</option>
@@ -56,16 +56,16 @@
                       </div>
 
                       <div class="col-md-12" id="champsSupplementaires" style="display: none;">
-                          <input id="beneficiaire" wire:model="beneficiaire"  class="form-control" type="text" placeholder="Bénéficiaire"><br>
-                          <input id="compteDestination" wire:model="compte_de_destination"  class="form-control" type="text" placeholder="Compte de destination"><br>
-                          <input id="motif" wire:model="motif"  class="form-control" type="text" placeholder="Motif">
+                          <input id="beneficiaire" wire:model="beneficiaire"  class="form-control" type="text" placeholder="Bénéficiaire" ><br>
+                          <input id="compteDestination" wire:model="compte_de_destination"  class="form-control" type="text" placeholder="Compte de destination" ><br>
+                          <input id="motif" wire:model="motif"  class="form-control" type="text" placeholder="Motif" >
                       </div>
                       <div class="col-md-12">
                         <input type="number" class="form-control" wire:model="montant" placeholder="Entrer le montant" required>
                       </div>
                       <div class="col-md-12" id="champsSupplementaires2">
                         <select id="typeAccount" wire:model="typeAccount" class="form-select" aria-label="Default select example" required>
-                          <option seleted>Choisir un compte</option>
+                        <option value="" disabled selected>Choisir un compte</option>
                             @if(!is_null($userAccounts))
                                 @foreach($userAccounts as $userAccount)
                                     <option value="{{ $userAccount->id }}">
@@ -222,17 +222,17 @@
                                       </div>
                                       @if($operation->operation_type_id == 3)
                                       <div class="col-md-12">
-                                          <input class="form-control" type="text" wire:model="beneficiaire" >
+                                          <input class="form-control" type="text" wire:model="beneficiaire" required>
                                       </div>
                                       <div class="col-md-12">
-                                          <input class="form-control" type="text" wire:model="compte_de_destination">
+                                          <input class="form-control" type="text" wire:model="compte_de_destination" required>
                                       </div>
                                       <div class="col-md-12">
-                                          <input type="text" class="form-control" wire:model="motif">
+                                          <input type="text" class="form-control" wire:model="motif" required>
                                       </div>
                                       @endif
                                       <div class="col-md-12">
-                                          <input type="number" class="form-control" wire:model="montant">
+                                          <input type="number" class="form-control" wire:model="montant" required>
                                       </div>
                                       <input type="hidden" value="{{ $typeAccount }}" class="form-control" wire:model="typeAccount">
                                   </div>

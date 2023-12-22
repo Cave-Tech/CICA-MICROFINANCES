@@ -33,6 +33,16 @@ class OperationsComponent extends Component
     public $date;
     public $userId;
 
+    protected $rules = [
+        'typeOperation' => 'required',
+        'typeAccount' => 'required',
+        'montant' => 'required|numeric|min:1',
+        'beneficiaire' => 'required',
+        'compte_de_destination' => 'required',
+        'motif' => 'required',
+        // Ajoutez d'autres règles au besoin...
+    ];
+
     public function saveOperation()
     {
         $user = Auth::user();
@@ -108,7 +118,7 @@ class OperationsComponent extends Component
 
             $this->reset(); // Réinitialiser les champs du formulaire après l'ajout
 
-            return redirect('/client-operations')->with("success", "Demande envoyée aec succes");
+            return redirect('/client-operations')->with("success", "Demande envoyée avec succes");
         }else{
             return redirect('/client-operations')->with("fail", "Impossible de faire un dépôt de 0 FCFA.");
         }

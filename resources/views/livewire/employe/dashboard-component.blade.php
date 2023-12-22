@@ -85,7 +85,7 @@
             </div>
 
 
-            <div class="col-xxl-6 col-md-8">
+            <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
 
           
@@ -95,10 +95,10 @@
                   <div class="d-flex align-items-center">
 
                     <div class="ps-3">
-                      <h5 class="fw-bold">Total Cashiers: {{ $totalCashiers }}</h5 >
-                      <h5 class="fw-bold">Total Field Agents: {{ $totalFieldAgents }}</h5 >
-                      <h5 class="fw-bold">Total HR Managers: {{ $totalHrManagers }}</h5 >
-                      <h5 class="fw-bold">Total Client Managers: {{ $totalClientManagers }}</h5 >
+                      <p><span class="fw-bold">Total Cashiers:</span> {{ $totalCashiers }}</p >
+                      <p><span class="fw-bold">Total Field Agents:</span> {{ $totalFieldAgents }}</p >
+                      <p><span class="fw-bold">Total HR Managers:</span> {{ $totalHrManagers }}</p >
+                      <p><span class="fw-bold">Total Client Managers:</span> {{ $totalClientManagers }}</p >
                     </div>
                   </div>
 
@@ -108,7 +108,65 @@
               </div>
             </div>
 
-           
+          <div class="card">
+            
+          <div class="card-body pb-0">
+              <h5 class="card-title">Répartition des Opérations</h5>
+
+              <div id="operationChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                  document.addEventListener("DOMContentLoaded", () => {
+                      var operationChart = echarts.init(document.querySelector("#operationChart"));
+
+                      operationChart.setOption({
+                          tooltip: {
+                              trigger: 'item'
+                          },
+                          legend: {
+                              top: '5%',
+                              left: 'center'
+                          },
+                          series: [{
+                              name: 'Type d\'opération',
+                              type: 'pie',
+                              radius: ['40%', '70%'],
+                              avoidLabelOverlap: false,
+                              label: {
+                                  show: false,
+                                  position: 'center'
+                              },
+                              emphasis: {
+                                  label: {
+                                      show: true,
+                                      fontSize: '18',
+                                      fontWeight: 'bold'
+                                  }
+                              },
+                              labelLine: {
+                                  show: false
+                              },
+                              data: [
+                                  {
+                                      value: {{ $totalDeposits }},
+                                      name: 'Dépôts'
+                                  },
+                                  {
+                                      value: {{ $totalWithdrawalAmount }},
+                                      name: 'Retraits'
+                                  },
+                                  {
+                                      value: {{ $totalVirementAmount }},
+                                      name: 'Virements'
+                                  }
+                              ]
+                          }]
+                      });
+                  });
+              </script>
+          </div>
+
+          </div>
 
         
            

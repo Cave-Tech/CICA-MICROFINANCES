@@ -17,6 +17,13 @@ class DashboardComponent extends Component
         $totalHrManagers = User::where('employee_type_id', 6)->count();
         $totalClientManagers = User::where('employee_type_id', 5)->count();
 
+        $totalDeposits = Operation::where('operation_type_id', 1)->count();
+        $totalDepositAmount = Operation::where('operation_type_id', 1)->sum('withdrawal_amount');
+        $totalWithdrawals = Operation::where('operation_type_id', 2)->count();
+        $totalWithdrawalAmount = Operation::where('operation_type_id', 2)->sum('withdrawal_amount');
+        $totalVirements = Operation::where('operation_type_id', 3)->count();
+        $totalVirementAmount = Operation::where('operation_type_id', 3)->sum('withdrawal_amount');
+
         $totalLoans = Loan::count();
         $totalLoanAmount = Loan::sum('loan_amount');
 
@@ -33,6 +40,12 @@ class DashboardComponent extends Component
             'totalLoanAmount' => $totalLoanAmount,
             'totalOperations' => $totalOperations,
             'totalOperationAmount' => $totalOperationAmount,
+            'totalDeposits' => $totalDeposits,
+            'totalDepositAmount' => $totalDepositAmount,
+            'totalWithdrawals' => $totalWithdrawals,
+            'totalWithdrawalAmount' => $totalWithdrawalAmount,
+            'totalVirements' => $totalVirements,
+            'totalVirementAmount' => $totalVirementAmount,
         ]);
 
        

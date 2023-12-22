@@ -222,13 +222,13 @@
                                       </div>
                                       @if($operation->operation_type_id == 3)
                                       <div class="col-md-12">
-                                          <input class="form-control" type="text" wire:model="beneficiaire" >
+                                          <input class="form-control" type="text" wire:model="beneficiaire" required>
                                       </div>
                                       <div class="col-md-12">
-                                          <input class="form-control" type="text" wire:model="compte_de_destination" >
+                                          <input class="form-control" type="text" wire:model="compte_de_destination" required>
                                       </div>
                                       <div class="col-md-12">
-                                          <input type="text" class="form-control" wire:model="motif" >
+                                          <input type="text" class="form-control" wire:model="motif" required>
                                       </div>
                                       @endif
                                       <div class="col-md-12">

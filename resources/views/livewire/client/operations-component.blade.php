@@ -48,7 +48,7 @@
                       <div class="row gy-4">
                       <div class="col-md-12">
                           <select id="typeOperation" wire:model="typeOperation" class="form-select" aria-label="Default select example" required>
-                              <option value="" disabled selected>Choisissez le type d'opération</option>
+                              <option value="" >Choisissez le type d'opération</option>
                               <option value="1">Dépôt</option>
                               <option value="2">Retrait</option>
                               <option value="3">Virement</option>
@@ -65,7 +65,7 @@
                       </div>
                       <div class="col-md-12" id="champsSupplementaires2">
                         <select id="typeAccount" wire:model="typeAccount" class="form-select" aria-label="Default select example" required>
-                        <option value="" disabled selected>Choisir un compte</option>
+                        <option value="" >Choisir un compte</option>
                             @if(!is_null($userAccounts))
                                 @foreach($userAccounts as $userAccount)
                                     <option value="{{ $userAccount->id }}">

@@ -127,7 +127,22 @@
                             <i class="bi bi-circle"></i><span>Liste de pret en attente de decaissement</span>
                             </a>
                         </li>
-                       
+                    </ul>
+
+                    <a class="nav-link collapsed" data-bs-target="#operation-navv" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-menu-button-wide"></i><span>Gestion des paiements</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="operation-navv" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="{{ url('/payement-loan') }}">
+                            <i class="bi bi-circle"></i><span>Fait un paiement </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/list-payement') }}">
+                            <i class="bi bi-circle"></i><span>Mes paiements</span>
+                            </a>
+                        </li>
                     </ul>
                 </li><!-- End Components Nav -->
             @endif
@@ -157,7 +172,6 @@
                             <i class="bi bi-circle"></i><span>Mes paiements</span>
                             </a>
                         </li>
-                       
                     </ul>
                 </li><!-- End Components Nav -->
 
@@ -253,10 +267,6 @@
                 </li>
             @endif
         @endif <!-- Fin de la section réservée aux Employés -->
-
-
-
-
 
     </ul>
 

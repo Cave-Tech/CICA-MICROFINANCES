@@ -48,9 +48,16 @@ class OperationsComponent extends Component
         $user = Auth::user();
         $userId = $user->id;
         $userAccount = Account::where('id', $this->typeAccount)->first(); 
-        $destinationAccount = Account::where('account_number', $this->compte_de_destination)->first();
-        
-        //dd($destinationAccount);
+        //$destinationAccount = Account::where('account_number', $this->compte_de_destination)->first();
+        //$userDestination = User::find($destinationAccount->user_id);
+        // Effectuer une jointure entre les tables Account et User pour récupérer le nom de l'utilisateur
+        $destinationAccount = Account::where('account_number', $this->compte_de_destination)
+        ->join('users', 'accounts.user_id', '=', 'users.id')
+        ->select('accounts.*', 'users.name as user_name')
+        ->first();
+
+        //dd($destinationAccount->user_name);
+
         $montant = $this->montant;
         $typeOperation = $this->typeOperation;
         $solde = $userAccount->balance;
@@ -80,7 +87,7 @@ class OperationsComponent extends Component
                 }
         }elseif($typeOperation == 3 && !$destinationAccount){
                 return redirect('/client-operations')->with("fail", "Numéro de compte introuvable !.");
-        }elseif($typeOperation == 3 && $destinationAccount){
+        }elseif($typeOperation == 3 && $destinationAccount && $this->beneficiaire === $destinationAccount->user_name){
                 if ($solde < $montant or $montant == 0) {
                     return redirect('/client-operations')->with("fail", "Virement impossible - montant du virement incorrect ou trop élevé.");
                 }else{
@@ -122,6 +129,8 @@ class OperationsComponent extends Component
             return redirect('/client-operations')->with("success", "Demande envoyée avec succes");
         }elseif($montant == 0){
             return redirect('/client-operations')->with("fail", "Impossible de faire un dépôt de 0 FCFA.");
+        }else{
+            return redirect('/client-operations')->with("fail", "Nom du bénéficiaire incorrect ! .");
         }
     }
 
@@ -172,7 +181,10 @@ class OperationsComponent extends Component
         $typeOperation = $this->typeOperation;
         $operationToEdit = Operation::find($this->operationId); 
         $solde = $userAccount->balance;
-        $destinationAccount = Account::where('account_number', $this->compte_de_destination)->first();
+        $destinationAccount = Account::where('account_number', $this->compte_de_destination)
+        ->join('users', 'accounts.user_id', '=', 'users.id')
+        ->select('accounts.*', 'users.name as user_name')
+        ->first();
 
             if ($typeOperation == 2) {
                 if ($solde < $montant or $montant == 0) {
@@ -195,7 +207,7 @@ class OperationsComponent extends Component
                 }
         }elseif($typeOperation == 3 && !$destinationAccount){
                 return redirect('/client-operations')->with("fail", "Numéro de compte introuvable !.");
-        }elseif($typeOperation == 3 && $destinationAccount){
+        }elseif($typeOperation == 3 && $destinationAccount && $this->beneficiaire === $destinationAccount->user_name){
                 if ($solde < $montant or $montant == 0) {
                     return redirect('/client-operations')->with("fail", "Mise à jours impossible - montant du virement incorrect ou trop élevé.");
                 }else{
@@ -227,8 +239,10 @@ class OperationsComponent extends Component
 
             // Redirigez l'utilisateur avec un message de succès ou echec
             return redirect('/client-operations')->with("success", "Opération mise à jour avec succès.");
+        }elseif($montant == 0){
+            return redirect('/client-operations')->with("fail", "Impossible de faire un dépôt de 0 FCFA.");
         }else{
-            return redirect('/client-operations')->with("fail", "Mis à jours impossible - Impossible de faire un dépôt de 0 FCFA.");
+            return redirect('/client-operations')->with("fail", "Nom du bénéficiaire incorrect ! .");
         }
     }
     //Fin Edit operation

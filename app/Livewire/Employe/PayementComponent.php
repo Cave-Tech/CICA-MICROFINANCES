@@ -25,7 +25,7 @@ class PayementComponent extends Component
 
 
         $this->loanInProgress = Loan::with(['borrower', 'agent', 'payment', 'loanType'])
-            ->where('status', 'validated')
+            ->where('status', 'in payment')
             ->where(function($query) {
                 $query->where('loan_amount', 'like', '%' . $this->search . '%')
                       ->orWhere('interest_rate', 'like', '%' . $this->search . '%')

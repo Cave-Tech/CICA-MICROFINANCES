@@ -317,6 +317,40 @@
                 </div>
             </div>
         @endif
+
+        <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Documents sur le pret</h5>
+                        <div class="row">
+                           
+                            @if($loan->doc_files)
+                                <embed src="{{ Storage::url($loan->doc_files) }}" type="application/pdf" width="100%" height="600px" />
+                            @else
+                                <div class="col-lg-9 col-md-8">Aucun document</div>
+                            @endif
+                        </div>
+                        
+                    </div>
+                </div>
+        </div>
+
+        <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Documents sur le garant</h5>
+                        <div class="row">
+                           
+                            @if($loan->doc_files)
+                                <embed src="{{ Storage::url($loan->doc_files_warrantor) }}" type="application/pdf" width="100%" height="600px" />
+                            @else
+                                <div class="col-lg-9 col-md-8">Aucun document</div>
+                            @endif
+                        </div>
+                        
+                    </div>
+                </div>
+        </div>
     </div>
 
     
@@ -368,7 +402,7 @@
     @endif
 
     
-    @if(($loan->payment && $loan->status === 'validated') || $loan->status === 'completed' || $loan->status === 'in payment')
+    @if($loan->payment &&   ($loan->status === 'completed' || $loan->status === 'in payment'))
         <div class="pagetitle">
             <h1>Historique des paiements</h1>
         </div>
@@ -421,7 +455,8 @@
                             </td>-->
                             <td>{{ number_format($payment->payment_amount, 2, ',', ' ') }} FCFA</td>
                            
-                            <td>{{ $loan->agent->name }}</td>
+                            <td>{{ $loan->agent ? $loan->agent->name : 'Non assigné' }}</td>
+
                             <td>{{ date('d F Y', strtotime($payment->payment_date)) }}</td>
                             </tr>
                         @endforeach

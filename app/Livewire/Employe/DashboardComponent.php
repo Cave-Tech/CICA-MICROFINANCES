@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Employe;
 
+use App\Models\Account;
 use App\Models\Loan;
 use App\Models\Operation;
 use App\Models\User;
@@ -11,7 +12,7 @@ class DashboardComponent extends Component
 {
     public function render()
     {
-        $totalClients = User::where('employee_type_id', null)->count();
+        $totalClients = User::where('profile_id', 3)->count();
         $totalCashiers = User::where('employee_type_id', 1)->count();
         $totalFieldAgents = User::where('employee_type_id', 3)->count();
         $totalHrManagers = User::where('employee_type_id', 6)->count();
@@ -23,6 +24,11 @@ class DashboardComponent extends Component
         $totalWithdrawalAmount = Operation::where('operation_type_id', 2)->sum('withdrawal_amount');
         $totalVirements = Operation::where('operation_type_id', 3)->count();
         $totalVirementAmount = Operation::where('operation_type_id', 3)->sum('withdrawal_amount');
+
+        $totalSavings = Account::where('account_types_id', 1)->count();
+        $totalSavingsAmount = Account::where('account_types_id', 1)->sum('balance');
+        $totalCurrents = Account::where('account_types_id', 2)->count();
+        $totalCurrentAmount = Account::where('account_types_id', 2)->sum('balance');
 
         $totalLoans = Loan::count();
         $totalLoanAmount = Loan::sum('loan_amount');
@@ -46,6 +52,11 @@ class DashboardComponent extends Component
             'totalWithdrawalAmount' => $totalWithdrawalAmount,
             'totalVirements' => $totalVirements,
             'totalVirementAmount' => $totalVirementAmount,
+            'totalSavings' => $totalSavings,
+            'totalSavingsAmount' => $totalSavingsAmount,
+            'totalCurrents' => $totalCurrents,
+            'totalCurrentAmount' => $totalCurrentAmount,
+
         ]);
 
        

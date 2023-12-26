@@ -49,6 +49,7 @@ class OperationsComponent extends Component
         $userId = $user->id;
         $userAccount = Account::where('id', $this->typeAccount)->first(); 
         $destinationAccount = Account::where('account_number', $this->compte_de_destination)->first();
+        
         //dd($destinationAccount);
         $montant = $this->montant;
         $typeOperation = $this->typeOperation;

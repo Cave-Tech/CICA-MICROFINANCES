@@ -74,7 +74,7 @@
     @if ($user->loan->where('status', 'pending')->isNotEmpty() || $user->loan->where('status', 'in progress')->isNotEmpty()
     || $user->loan->where('status', 'validated')->isNotEmpty() || $user->loan->where('status', 'in payment')->isNotEmpty())
 
-        @elseif (!$user->loan->where('status', 'pending')->isNotEmpty())
+        @elseif (!$user->loan->where('status', 'pending')->isNotEmpty() && $this->user->account->count() != 0)
         <!-- Pas de demande de prêt en attente -->
         <div class="left-align">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loanModal">
@@ -98,8 +98,13 @@
                 </p>
             </div>
         </div>
+        @elseif($this->user->account->count() == 0)
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            Vous n'avez pas un compte ! Veuillez vous rapprocher de notre agence afin de créer un compte courant et/ou épagne pour avoir
+            accès aux demandes de prêts.
+          </div>
     @endif
-
         <div class="modal fade" id="loanModal" tabindex="-1" role="dialog" aria-labelledby="loanModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <form wire:submit.prevent="saveLoan" enctype="multipart/form-data">
@@ -216,7 +221,7 @@
                     <th scope="col">Type du prêt</th>
                     <th scope="col">Montant</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Date</th>
+                    <th scope="col">Teaux</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
@@ -249,7 +254,7 @@
                         @endif
 
                     </td>
-                    <td>{{ strftime('%d %B %Y', strtotime($loan->loan_date)) }}</td>
+                    <td>{{ $loan->interest_rate  }} %</td>
                     <td>    
                     <a href="{{ route('client.details-loan', ['loanId' => $loan->id]) }}"><button  class="btn btn-primary"><i class='bi bi-eye'></i></button></a>
                     @if($loan->status === 'pending')

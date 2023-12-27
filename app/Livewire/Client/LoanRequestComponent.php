@@ -17,6 +17,8 @@ class LoanRequestComponent extends Component
     {
         $userid = Auth::user()->id;
         $this->user = User::with('account', 'operation', 'loan')->find($userid);
+        $userAccountCount = User::with('account')->find($userid);
+        //dd($this->user->account->count());
         return view('livewire.client.loan-request-component');
     }
 
@@ -34,7 +36,6 @@ class LoanRequestComponent extends Component
     public $nameWarrantor;
     public $addressWarrantor;
     public $numWarrantor;
-    public $dateloan;
     public $interestRate; 
     public $relationWarrantor;
     public $docFiles;
@@ -92,7 +93,6 @@ class LoanRequestComponent extends Component
         $saveLoan->relation_warrantor = $this->relationWarrantor;
         $saveLoan->interest_rate = $interestRate; // Utilisation du taux d'intérêt calculé
         $saveLoan->payment_frequency = $this->loanTerm;
-        $saveLoan->loan_date = now();
         $saveLoan->doc_files = $this->docFiles ? $this->docFiles->store('loan_documents', 'public') : ''; // Vérification du fichier avant de l'enregistrer
 
         // Enregistrez le prêt

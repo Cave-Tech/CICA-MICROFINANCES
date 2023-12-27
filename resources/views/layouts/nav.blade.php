@@ -159,7 +159,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#operation-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-menu-button-wide"></i><span>Gestion des paiements</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-menu-button-wide"></i><span>Gestion de paiements des prêts</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="operation-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>

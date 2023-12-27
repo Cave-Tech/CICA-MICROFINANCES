@@ -301,7 +301,7 @@
                             <option value="" >Selectionner le type d'employé</option>
                             <option value="1">Caissier</option>
                             <option value="2">Comptable</option>
-                            <option value="3">Agent de terrain</option>
+                            <option value="3">Charger des prêts</option>
                             <option value="4">Directeur</option>
                             <option value="5">Le charger de la clientele</option>
                             <option value="6">Charger ressource humaine</option>

@@ -114,6 +114,12 @@ class DetailsLoanComponent extends Component
      public function preValidateLoan($loanId)
      {
          $loan = Loan::findOrFail($loanId);
+
+        if($loan->agent_terain_id == null){
+            session()->flash('fail', "Veuillez choisir un agent de terrain.");
+            return;
+        }
+         
          $loan->status = "in progress";
          $loan->save();
          $this->dispatch('loanStatusUpdated');

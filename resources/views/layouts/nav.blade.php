@@ -235,7 +235,7 @@
                     <ul id="pret-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
                             <a href="{{ url('/create-loan-request')}}">
-                            <i class="bi bi-circle"></i><span>Creer un pret</span>
+                            <i class="bi bi-circle"></i><span>Enregistrer une demande de pret</span>
                             </a>
                         </li>
                         <li>

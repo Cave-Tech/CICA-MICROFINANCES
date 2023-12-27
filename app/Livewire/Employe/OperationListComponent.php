@@ -35,10 +35,12 @@ class OperationListComponent extends Component
         switch ($typeOperation) {
             case 1: // Dépôt
                 $userAccount->balance += $montant;
+                $userAccount->save();
                 break;
             case 2: // Retrait
                 if ($userAccount->balance >= $montant) {
                     $userAccount->balance -= $montant;
+                    $userAccount->save();
                 } else {
                     session()->flash('fail', "Solde insuffisant pour effectuer le retrait.");
                     return;
@@ -48,6 +50,7 @@ class OperationListComponent extends Component
                 // Vérifier si l'utilisateur a suffisamment de fonds pour le virement
                 if ($userAccount->balance >= $montant) {
                     $userAccount->balance -= $montant;
+                    $userAccount->save();
                     
                     // Mettre à jour le compte de destination
                     $destinationAccount = Account::where('account_number', $this->compte_de_destination)->first();

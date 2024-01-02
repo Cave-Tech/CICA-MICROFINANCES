@@ -31,6 +31,7 @@ class User extends Authenticatable
         'nationality',
         'email',
         'phone',
+        'localisation',
         'address',
         'id_type',
         'id_number',

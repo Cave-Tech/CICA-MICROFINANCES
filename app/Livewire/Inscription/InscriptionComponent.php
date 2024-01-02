@@ -31,6 +31,7 @@ class InscriptionComponent extends Component
     public $emergency_contact_name;
     public $emergency_contact_relation;
     public $emergency_contact_phone;
+    public $localisation;
 
     public function render()
     {
@@ -47,13 +48,14 @@ class InscriptionComponent extends Component
             'gender' => 'required|string|in:male,female',
             'birthdate' => 'required|date',
             'type_card' => 'required|string|in:card,passport',
-            'number_carte' => 'required|string',
+            'number_carte' => 'required|string|unique:users,number_carte',
             'number_of_dependents' => 'required|in:0,15,510,10000',
             'occupation' => 'required|string|max:500',
             'phone' => 'required|numeric',
             'employee_type_id' => 'required|numeric',
             'department' => 'required|string',
             'address' => 'required|string',
+            'localisation' => 'required|string',
             'marital_status' => 'required|string',
             'hiring_date' => 'required|date',
             'position' => 'required|string',
@@ -80,6 +82,7 @@ class InscriptionComponent extends Component
             'birth_date' => $this->birthdate,
             'id_type' => $this->type_card,
             'id_number' => $this->number_carte,
+            'localisation' => $this->localisation,
             'number_of_dependents' => $this->number_of_dependents,
             'occupation' => $this->occupation,
             'phone' => $this->phone,

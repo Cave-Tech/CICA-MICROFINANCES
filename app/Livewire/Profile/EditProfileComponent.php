@@ -12,6 +12,7 @@ class EditProfileComponent extends Component
 
     public $newProfileImage;
     public $name;
+    public $localisation;
     public $birth_date;
     public $nationality;
     public $gender;
@@ -42,6 +43,7 @@ class EditProfileComponent extends Component
         $this->phone = $this->profile->phone; 
         $this->id_type = $this->profile->id_type;
         $this->id_number = $this->profile->id_number;
+        $this->localisation = $this->profile->localisation;
 
         $this->occupation = $this->profile->occupation;
         $this->number_of_dependents = $this->profile->number_of_dependents;
@@ -84,6 +86,7 @@ class EditProfileComponent extends Component
                 'gender' => 'required|in:male,female',
                 'id_type' => 'required|in:card,passport',
                 'address' => 'required|string',
+                'localisation' => 'required|string',
                 'id_number' => 'required|string',
                 'phone' => 'required|string',
 
@@ -101,6 +104,7 @@ class EditProfileComponent extends Component
                 'id_type' => $this->id_type,
                 'id_number' => $this->id_number,
                 'address' => $this->address,
+                'localisation' => $this->localisation,
                 'phone' => $this->phone,
 
                 'occupation' => $this->occupation,

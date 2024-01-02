@@ -163,6 +163,11 @@
               </div>
 
               <div class="row">
+                <div class="col-lg-3 col-md-4 label">Localisation :</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->localisation }}</div>
+              </div>
+
+              <div class="row">
                 <div class="col-lg-3 col-md-4 label">Email :</div>
                 <div class="col-lg-9 col-md-8">{{ $profile->email }}</div>
               </div>
@@ -290,6 +295,15 @@
                     </div>
                     <x-input-error :messages="$errors->get('occupation')" class="mt-2 alert alert-danger" />
                     <div class="invalid-feedback">Veuillez entrer votre profession !</div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="localisation" class="col-md-4 col-lg-3 col-form-label">Localisation</label>
+                    <div class="col-md-8 col-lg-9">
+                    <input type="texte" wire:model="localisation" class="form-control" id="yourBirthdate" required>
+                    </div>
+                    <x-input-error :messages="$errors->get('localisation')" class="mt-2 alert alert-danger" />
+                    <div class="invalid-feedback">Veuillez entrer votre localisation !</div>
                 </div>
 
                 <div class="text-center">

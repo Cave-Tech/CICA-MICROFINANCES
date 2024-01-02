@@ -250,6 +250,19 @@
                 </div>
             </div>
         </div>
+        <div class="row mt-8">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Localisation</h5>
+                        <div class="form-group">
+                            <input type="text" wire:model="localisation" class="form-control" id="localisation" required>
+                            <x-input-error :messages="$errors->get('localisation')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="card">

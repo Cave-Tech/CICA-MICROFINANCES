@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('nationality')->nullable();  // Nationalité de l'utilisateur
             $table->string('email')->unique();  // Adresse email unique de l'utilisateur
             $table->string('phone')->nullable();  // Numéro de téléphone de l'utilisateur
+            $table->string('localisation')->nullable();  // Numéro de téléphone de l'utilisateur
             $table->text('address')->nullable();  // Adresse résidentielle de l'utilisateur
             $table->enum('id_type', ['card', 'passport'])->nullable();  // Type de pièce d'identité de l'utilisateur (carte d'identité ou passeport)
             $table->string('id_number')->nullable();  // Numéro de la pièce d'identité

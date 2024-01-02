@@ -23,6 +23,7 @@ class CreateClientComponent extends Component
     public $phone;
     public $marital_status;
     public $adresse;
+    public $localisation;
 
     public function createClient()
     {
@@ -34,9 +35,10 @@ class CreateClientComponent extends Component
             'gender' => 'required|in:male,female,other',
             'birthdate' => 'required|date',
             'type_card' => 'required|in:card,passport',
-            'number_carte' => 'required|string',
+            'number_carte' => 'required|string|unique:users,number_carte',
             'number_of_dependents' => 'required|in:0,15,510,10000',
             'Profession' => 'required|string',
+            'localisation' => 'required|string',
             'phone' => 'required|numeric',
             'marital_status' => 'required|in:single,married,divorced,widowed',
             'adresse' => 'required|string',
@@ -59,6 +61,7 @@ class CreateClientComponent extends Component
             'number_of_dependents' => $this->number_of_dependents,
             'Profession' => $this->Profession,
             'phone' => $this->phone,
+            'localisation' => $this->localisation,
             'marital_status' => $this->marital_status,
             'address' => $this->adresse,
         ]);

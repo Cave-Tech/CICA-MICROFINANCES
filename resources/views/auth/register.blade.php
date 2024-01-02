@@ -131,6 +131,15 @@
                     </div>
 
                     <div class="col-12">
+                      <label for="yourName" class="card-title">Localisation</label>
+                      <div class="form-group">
+                            <input type="texte" name="localisation" class="form-control" id="localisation" required>
+                            <x-input-error :messages="$errors->get('localisation')" class="mt-2 alert alert-danger" />
+                            <div class="invalid-feedback">Veuillez entrer votre localisation !</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
                     <h5 class="card-title">Nombre de personne en charge</h5>
                         <div class="form-group">
                             <select name="number_of_dependents" class="form-control" id="yourGender" required>

@@ -94,10 +94,11 @@
                     </div>
 
                     <div class="form-group">
-                        <select class="form-select" wire:model="applicantType" id="applicantType" required>
+                       
+                        <select class="form-select" wire:model.live="applicantType" required>
                             <option value="">Sélectionnez le type de demandeur</option>
-                            <option value="physique">Personne Physique</option>
-                            <option value="morale">Entreprise (Personne Morale)</option>
+                            <option value="pp">Personne Physique</option>
+                            <option value="pm">Entreprise (Personne Morale)</option>
                         </select>
                         @error('applicantType') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
@@ -105,14 +106,14 @@
 
                     <div class="form-group">
                         <input type="text" class="form-control" wire:model.live="name" name="name"
-                            placeholder="Entrez le nom" autocomplete="off">
+                            placeholder="{{ $applicantType === 'pm' ? 'Entrez le nom de votre entreprise' : 'Entrez le nom' }}" autocomplete="off">
                         <div>
                             @if(!empty($name))
                             <div class="list-group">
                                 @foreach($filteredUsers as $user)
                                 <a href="#" wire:click.prevent="selectUser({{ $user->id }})"
                                     class="list-group-item list-group-item-action">
-                                    {{ $user->name }}
+                                    {{ $applicantType === 'pm' ? $user->name_company : $user->name }}
                                 </a>
                                 @endforeach
                             </div>
@@ -120,15 +121,12 @@
                         </div>
                         @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                     </div>
+                    
+
 
                     <div class="form-group">
-                        <input type="number" wire:model.live.debounce.500ms="amount" class="form-control" id="loanAmount" placeholder="Montant du Prêt">
-                        @error('amount') <span class="text-danger">{{ $message }}</span>@enderror
-
-                        <!-- Affichage du taux d'intérêt calculé -->
-                        @if (!is_null($interestRate))
-                            <p>Taux d'intérêt: {{ $interestRate }}%</p>
-                        @endif
+                        <input type="number" wire:model="amount" class="form-control" id="loanAmount" placeholder="Montant du Prêt">
+                        @error('amount') <span class="text-danger">{{ $message }}</span>@enderror                     
                     </div>
 
                     <div class="form-group">
@@ -138,21 +136,21 @@
 
                     <div class="form-group">
                        
-                        <select class="form-select" wire:model="paymentFrequency" id="paymentFrequency" required>
+                        <select class="form-select" wire:model="repaymentInterval" id="repaymentInterval" required>
                             <option value="">Sélectionnez la fréquence de paiement</option>
                             <option value="daily">Journalière</option>
                             <option value="weekly">Hebdomadaire</option>
                             <option value="monthly">Mensuelle</option>
                         </select>
-                        @error('paymentFrequency') <span class="text-danger">{{ $message }}</span> @enderror
+                        @error('repaymentInterval') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
 
                     <div class="col-md-12">
                         <select wire:model="typeloan" class="form-select" aria-label="Type d'opération" required>
                             <option>Choisissez le type de prêt</option>
-                            <option value="1">Prêt hypothécaire</option>
-                            <option value="2">Prêt étudiant</option>
+                            <option value="1">Prêt long terme</option>
+                            <option value="2">Prêt court terme</option>
                         </select>
                         @error('typeloan') <span class="text-danger">{{ $message }}</span>@enderror
                     </div><br>

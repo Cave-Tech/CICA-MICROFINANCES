@@ -32,6 +32,9 @@ class Loan extends Model
         'number_warrantor',
         'relation_warrantor',
         'doc_files',
+        'applicant_type',
+        'loan_reason',
+        'repayment_interval',
     ];
 
 

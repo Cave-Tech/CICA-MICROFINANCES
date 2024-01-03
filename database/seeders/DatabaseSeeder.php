@@ -37,8 +37,8 @@ class DatabaseSeeder extends Seeder
         EmployeeType::create(['designation' => 'charger_client', 'description' => 'Le charger de la clientele']);
         EmployeeType::create(['designation' => 'charger_rh', 'description' => 'Charger ressource humaine']);
 
-        LoanType::create(['designation' => 'pret_automobile', 'description' => 'pret automobile']);
-        LoanType::create(['designation' => 'pret_immobilier', 'description' => 'pret immobilier']);
+        LoanType::create(['designation' => 'pret_automobile', 'description' => 'pret court terme']);
+        LoanType::create(['designation' => 'pret_immobilier', 'description' => 'pret long terme']);
 
         OperationType::create(['designation' => 'depot', 'description' => 'depot']);
         OperationType::create(['designation' => 'retrait', 'description' => 'retrait']);

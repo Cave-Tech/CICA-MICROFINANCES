@@ -24,6 +24,9 @@ return new class extends Migration
             $table->string('reject_reason')->nullable();
             $table->date('loan_date');
             $table->date('due_date');    
+            $table->string('applicant_type')->nullable();
+            $table->string('loan_reason')->nullable();
+            $table->string('repayment_interval')->nullable();
             $table->timestamps();
 
             $table->foreign('borrower_id')->references('id')->on('users')->onDelete('cascade');

@@ -27,7 +27,7 @@ class CreateLoanRequestComponent extends Component
     public $numWarrantor;
     public $addressWarrantor;
     public $relationWarrantor;
-    public $interestRate; 
+    public $interestRate = 2; 
     public $loanTerm;
     public $agentName = '';
 
@@ -37,7 +37,10 @@ class CreateLoanRequestComponent extends Component
 
     public $applicantType; // Personne physique ou morale
     public $loanReason; // Motif du prêt
-    public $paymentFrequency; // Fréquence de paiement
+    public $repaymentInterval; // Fréquence de paiement
+
+    public $nameCompany = ''; // Nom de la société
+
 
 
 
@@ -57,16 +60,27 @@ class CreateLoanRequestComponent extends Component
         'relationWarrantor' => 'required',
         'loanTerm' => 'required|numeric|min:1',
         'agentTerrain' => 'nullable|string',
-        'applicantType' => 'required|in:physique,morale',
+        'applicantType' => 'required|in:pp,pm',
         'loanReason' => 'required|string',
-        'paymentFrequency' => 'required|in:daily,weekly,monthly',
+        'repaymentInterval' => 'required|in:daily,weekly,monthly',
+        'nameCompany' => 'required_if:applicantType,morale|string',
+
     ];
 
     public function updatedName($value)
     {
         if (strlen($value) > 1) {
-            $this->filteredUsers = User::where('name', 'like', '%' . $value . '%')
-                ->where('profile_id', 3)->get();
+            if($this->applicantType == 'pm'){
+                $this->filteredUsers = User::where('name_company', 'like', '%' . $value . '%')
+                    ->where('profile_id', 3)
+                    ->where('type_client', 'pm')
+                    ->get(); 
+            }elseif($this->applicantType == 'pp'){
+                $this->filteredUsers = User::where('name', 'like', '%' . $value . '%')
+                    ->where('profile_id', 3)
+                    ->where('type_client', 'pp')
+                    ->get();
+            }
         } else {
             $this->filteredUsers = [];
         }
@@ -76,7 +90,12 @@ class CreateLoanRequestComponent extends Component
     {
         $this->selectedUserId = $userId;
         $user = User::find($userId);
-        $this->name = $user->name;
+        if($this->applicantType == 'pm'){
+            $this->name = $user->name_company;
+        }elseif($this->applicantType == 'pp'){
+            $this->name = $user->name;
+        }
+        
         $this->filteredUsers = [];
     }
 
@@ -92,22 +111,22 @@ class CreateLoanRequestComponent extends Component
 
     
 
-    public function calculateInterestRate()
-    {
-        if ($this->amount >= 1000 && $this->amount <= 100000) {
-            $this->interestRate = 5;
-        } elseif ($this->amount > 100000 && $this->amount <= 200000) {
-            $this->interestRate = 10;
-        }elseif ($this->amount > 200000) {
-            $this->interestRate = 15;  
-        }else{
-            $this->interestRate = 0;
-        }
+    // public function calculateInterestRate()
+    // {
+    //     if ($this->amount >= 1000 && $this->amount <= 100000) {
+    //         $this->interestRate = 5;
+    //     } elseif ($this->amount > 100000 && $this->amount <= 200000) {
+    //         $this->interestRate = 10;
+    //     }elseif ($this->amount > 200000) {
+    //         $this->interestRate = 15;  
+    //     }else{
+    //         $this->interestRate = 0;
+    //     }
 
 
-        // Vous pouvez également définir une valeur par défaut si aucune condition n'est satisfaite
-        // $this->interestRate = 0;
-    }
+    //     // Vous pouvez également définir une valeur par défaut si aucune condition n'est satisfaite
+    //     // $this->interestRate = 0;
+    // }
 
     public function updatedAmount()
     {
@@ -146,14 +165,14 @@ class CreateLoanRequestComponent extends Component
             'status' => 'in progress',
             'applicant_type' => $this->applicantType,
             'loan_reason' => $this->loanReason,
-            'payment_frequency' => $this->paymentFrequency,
+            'repayment_interval' => $this->repaymentInterval,
         ]);
 
         $this->reset([
             'name', 'filteredUsers', 'selectedUserId', 'amount', 'typeloan', 'typeWarranty',
             'valueWarranty', 'detailsWarranty', 'purposeWarranty', 'nameWarrantor',
             'numWarrantor', 'addressWarrantor', 'relationWarrantor',
-            'applicantType', 'loanReason', 'paymentFrequency',
+            'applicantType', 'loanReason', 'repaymentInterval',
         ]);
 
         session()->flash('success', 'La demande de prêt a été enregistrée avec succès.');

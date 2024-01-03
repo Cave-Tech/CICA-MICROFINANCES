@@ -34,7 +34,22 @@ return new class extends Migration
             $table->rememberToken();  // Token pour la fonction "Se souvenir de moi"
             $table->timestamps();  // Dates de création et de mise à jour de l'enregistrement
 
-            // Champs spécifiques aux employés
+
+            // Champs spécifiques aux client entreprise 
+            $table->string('type_client')->nullable();  // type de client
+            $table->string('name_company')->nullable();  // nom de la compagnie
+            $table->string('ifu_company')->nullable();  // ifu
+            $table->date('date_create')->nullable();  // date de creation de l'entreprise
+            $table->string('address_company')->nullable();  // Adresse de l'entreprise
+            $table->string('activity_sector')->nullable();  // Secteur d'activité
+            $table->string('number_employed')->nullable();  // Nombre d'employé
+            $table->string('tel_company')->nullable();  // Numéro de l'entreprise
+            $table->string('mail_company')->nullable();  // E-mail de l'entreprise
+            $table->string('capital')->nullable();  // Capitale
+            $table->string('annual_pension')->nullable();  // Revenu annuel
+            $table->string('detail')->nullable();  // Détails de l'entreprise
+            $table->string('post_occupation')->nullable();  // poste occupé
+
 
             $table->unsignedBigInteger('employee_type_id')->nullable();  // Clé étrangère pour le type d'employé (ex. gestionnaire, caissier)
             $table->date('hiring_date')->nullable();  // Date d'embauche de l'employé

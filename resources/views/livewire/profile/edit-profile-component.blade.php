@@ -58,7 +58,11 @@
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Modifier le profil</button>
             </li>
-
+            @if($profile->type_client == "pm")
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Information d'entreprise</button>
+            </li>
+            @endif
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Changer le mot de passe</button>
             </li>
@@ -171,7 +175,64 @@
                 <div class="col-lg-3 col-md-4 label">Email :</div>
                 <div class="col-lg-9 col-md-8">{{ $profile->email }}</div>
               </div>
+              @if($profile->type_client == "pm")
+              <h5 class="card-title">Les informations sur l'entreprise</h5>
 
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Nom de l'entreprise:</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->name_company }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Nom de l'entreprise:</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->date_create }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">IFU de l'entreprise:</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->ifu_company }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Adresse de l'entreprise:</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->address_company }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Secteur d'activitée:</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->activity_sector }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Nombre d'employé:</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->number_employed }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Numéro de téléphone:</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->tel_company }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">E-mail de l'entreprise:</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->mail_company }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Capital de l'entreprise:</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->capital }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Revenu annuel de l'entreprise:</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->annual_pension }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Autre détails sur l'entreprise:</div>
+                <div class="col-lg-9 col-md-8">{{ $profile->detail }}</div>
+              </div>
+            @endif
             </div>
 
             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
@@ -232,11 +293,11 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="id_number" class="col-md-4 col-lg-3 col-form-label">Numéro de la carte</label>
+                    <label for="number_carte" class="col-md-4 col-lg-3 col-form-label">Numéro de la carte</label>
                     <div class="col-md-8 col-lg-9">
-                        <input wire:model="id_number" type="id_number" value="{{ $profile->id_number }}" class="form-control" id="id_number">
+                        <input wire:model="number_carte" type="number_carte" value="{{ $profile->id_number }}" class="form-control" id="id_number">
                     </div>
-                    <x-input-error :messages="$errors->get('id_number')" class="mt-2 alert alert-danger" />
+                    <x-input-error :messages="$errors->get('number_carte')" class="mt-2 alert alert-danger" />
                     <div class="invalid-feedback">Veuillez entrer le numéro de la carte !</div>
                 </div>
 
@@ -315,6 +376,122 @@
             <!-- End Profile Edit Form -->
 
             </div>
+
+            <div class="tab-pane fade pt-3" id="profile-settings">
+                  <!-- Settings Form -->
+                  <form wire:submit.prevent="updateProfileCompany" enctype="multipart/form-data">
+
+                    <!--<div class="row mb-3">
+                        <label for="type_client" class="col-md-4 col-lg-3 col-form-label">Type client</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input wire:model="type_client" type="text" class="form-control" value="{{ $type_client }}" id="type_client">
+                        </div>
+                        <x-input-error :messages="$errors->get('type_client')" class="mt-2 alert alert-danger" />
+                    </div>-->
+
+                    <div class="row mb-3">
+                        <label for="name_company" class="col-md-4 col-lg-3 col-form-label">Nom de l'entreprise </label>
+                        <div class="col-md-8 col-lg-9">
+                            <input wire:model="name_company" type="text" class="form-control" value="{{ $name_company }}" id="name_company">
+                        </div>
+                        <x-input-error :messages="$errors->get('name_company')" class="mt-2 alert alert-danger" />
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="ifu_company" class="col-md-4 col-lg-3 col-form-label">IFU</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input wire:model="ifu_company" type="text" class="form-control" value="{{ $ifu_company }}" id="ifu_company">
+                        </div>
+                        <x-input-error :messages="$errors->get('ifu_company')" class="mt-2 alert alert-danger" />
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="date_create" class="col-md-4 col-lg-3 col-form-label">Date de création</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input wire:model="date_create" type="date" class="form-control" id="date_create" value="{{ $date_create }}">
+                        </div>
+                        <x-input-error :messages="$errors->get('date_create')" class="mt-2 alert alert-danger" />
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="address_company" class="col-md-4 col-lg-3 col-form-label">Addresse de l'entreprise</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input wire:model="address_company" type="text" class="form-control" value="{{ $address_company }}" id="address_company">
+                        </div>
+                        <x-input-error :messages="$errors->get('address_company')" class="mt-2 alert alert-danger" />
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="activity_sector" class="col-md-4 col-lg-3 col-form-label">Secteur d'activitée</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input wire:model="activity_sector" type="text" class="form-control" value="{{ $activity_sector }}" id="activity_sector">
+                        </div>
+                        <x-input-error :messages="$errors->get('activity_sector')" class="mt-2 alert alert-danger" />
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="nationality" class="col-md-4 col-lg-3 col-form-label">Nombre d'employé</label>
+                        <div class="col-md-8 col-lg-9">
+                            <select wire:model="number_employed" value="{{ $profile->number_employed }}" class="form-control" id="number_employed">
+                                <option value="">Sélectionnez d'employé</option>
+                                <option value="0">0</option>
+                                <option value="15">1-5</option>
+                                <option value="510">5-10</option>
+                                <option value="10000">10+</option>
+                            </select>
+                        </div>
+                        <x-input-error :messages="$errors->get('number_employed')" class="mt-2 alert alert-danger" />
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="tel_company" class="col-md-4 col-lg-3 col-form-label">Numéro de téléphone</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input wire:model="tel_company" type="text" class="form-control" value="{{ $tel_company }}" id="tel_company">
+                        </div>
+                        <x-input-error :messages="$errors->get('tel_company')" class="mt-2 alert alert-danger" />
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="mail_company" class="col-md-4 col-lg-3 col-form-label">E-mail</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input wire:model="mail_company" type="text" class="form-control" value="{{ $mail_company }}" id="mail_company">
+                        </div>
+                        <x-input-error :messages="$errors->get('mail_company')" class="mt-2 alert alert-danger" />
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="capital" class="col-md-4 col-lg-3 col-form-label">Capitale</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input wire:model="capital" type="text" class="form-control" value="{{ $capital }}" id="capital">
+                        </div>
+                        <x-input-error :messages="$errors->get('capital')" class="mt-2 alert alert-danger" />
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="annual_pension
+                        " class="col-md-4 col-lg-3 col-form-label">Revenu annuel</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input wire:model="annual_pension" type="text" class="form-control" value="{{ $annual_pension }}" id="annual_pension">
+                        </div>
+                        <x-input-error :messages="$errors->get('annual_pension')" class="mt-2 alert alert-danger" />
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail" class="col-md-4 col-lg-3 col-form-label">Details</label>
+                        <div class="col-md-8 col-lg-9">
+                          <textarea wire:model="detail" class="form-control" value="{{ $detail }}" id="" cols="30" rows="10"></textarea>
+                        </div>
+                        <x-input-error :messages="$errors->get('detail')" class="mt-2 alert alert-danger" />
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Modifier </button>
+                    </div>
+                    </form>
+
+                </div>
+
+
             <div class="tab-pane fade pt-3" id="profile-change-password">
               <!-- Change Password Form -->
               <form wire:submit.prevent="changePassword">

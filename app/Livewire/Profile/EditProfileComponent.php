@@ -29,6 +29,20 @@ class EditProfileComponent extends Component
     public $newPassword;
     public $renewPassword;
 
+    //Données de l'entreprise
+    public $type_client;
+    public $name_company;
+    public $ifu_company;
+    public $date_create;
+    public $address_company;
+    public $activity_sector;
+    public $number_employed;
+    public $tel_company;
+    public $mail_company;
+    public $capital;
+    public $annual_pension;
+    public $detail;
+
     public $profile;
     public function render()
     {
@@ -44,6 +58,20 @@ class EditProfileComponent extends Component
         $this->id_type = $this->profile->id_type;
         $this->id_number = $this->profile->id_number;
         $this->localisation = $this->profile->localisation;
+
+        // Info entreprise
+        $this->type_client = $this->profile->type_client;
+        $this->name_company = $this->profile->name_company; 
+        $this->ifu_company = $this->profile->ifu_company;
+        $this->date_create = $this->profile->date_create; 
+        $this->address_company = $this->profile->address_company;
+        $this->activity_sector = $this->profile->activity_sector;
+        $this->number_employed = $this->profile->number_employed;
+        $this->tel_company = $this->profile->tel_company;
+        $this->mail_company = $this->profile->mail_company; 
+        $this->capital = $this->profile->capital;
+        $this->annual_pension = $this->profile->annual_pension;
+        $this->detail = $this->profile->detail;
 
         $this->occupation = $this->profile->occupation;
         $this->number_of_dependents = $this->profile->number_of_dependents;
@@ -113,6 +141,39 @@ class EditProfileComponent extends Component
             ]);
 
             return redirect('/profile')->with("success", "Informations mise à jours avec succès !.");
+        }catch (ValidationException $e) {
+            // Erreurs de validation
+            return redirect('/profile')->with("fail", "Remplissez tous les champs !");
+        } catch (\Exception $e) {
+            //dd($e);
+            // Autres erreurs
+            return redirect('/profile')->with("fail", " tous les champs !"); 
+        }
+        
+    }
+
+
+    public function updateProfileCompany()
+    {
+        try {
+    
+            // Mise à jour des informations entreprise
+            auth()->user()->update([
+            'type_client' => $this->type_client,
+            'name_company'=> $this->name_company,
+            'ifu_company'=> $this->ifu_company,
+            'date_create'=> $this->date_create,
+            'address_company'=> $this->address_company,
+            'activity_sector'=> $this->activity_sector,
+            'number_employed'=> $this->number_employed,
+            'tel_company'=> $this->tel_company,
+            'mail_company'=> $this->mail_company,
+            'capital'=> $this->capital,
+            'annual_pension'=> $this->annual_pension,
+            'detail'=> $this->detail,
+            ]);
+
+            return redirect('/profile')->with("success", "Informations de l'entreprise mise à jours avec succès !.");
         }catch (ValidationException $e) {
             // Erreurs de validation
             return redirect('/profile')->with("fail", "Remplissez tous les champs !");

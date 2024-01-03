@@ -33,6 +33,186 @@
         <li class="breadcrumb-item active">Céer un client</li>
         </ol>
     </nav>
+        <div class="row mt-8">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title">Type de client</h5>
+                        <div class="form-group">
+                            <select id="type_client" wire:model="type_client" class="form-control" id="yourGender" required>
+                                <option value="">Sélectionnez le type de client</option>
+                                <option value="pp">Personne physique</option>
+                                <option value="pm">Personne morale</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('type_client')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <span id="champsSupplementaires" style="display: none;"> 
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Nom de l'entreprise</h5>
+                        <div class="form-group">
+                            <input type="text" wire:model="name_company" class="form-control" id="name_company" >
+                            <x-input-error :messages="$errors->get('name_company')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">date de création</h5>
+                        <div class="form-group">
+                            <input type="date" wire:model="date_create" class="form-control" id="date_create">
+                            <x-input-error :messages="$errors->get('date_create')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Adresse de l'entreprise </h5>
+                        <div class="form-group">
+                            <input type="text" wire:model="address_company" class="form-control" id="address_company" >
+                            <x-input-error :messages="$errors->get('address_company')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Secteur d'activité</h5>
+                        <div class="form-group">
+                            <input type="text" wire:model="activity_sector" class="form-control" id="activity_sector" >
+                            <x-input-error :messages="$errors->get('activity_sector')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Numéro de téléphone</h5>
+                        <div class="form-group">
+                            <input type="text" wire:model="tel_company" class="form-control" id="tel_company" >
+                            <x-input-error :messages="$errors->get('tel_company')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Adresse mail</h5>
+                        <div class="form-group">
+                            <input type="email" wire:model="mail_company" class="form-control" id="mail_company" >
+                            <x-input-error :messages="$errors->get('mail_company')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Capitale</h5>
+                        <div class="form-group">
+                            <input type="number" wire:model="capital" class="form-control" id="capital" >
+                            <x-input-error :messages="$errors->get('capital')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Revenu annuel</h5>
+                        <div class="form-group">
+                            <input type="number" wire:model="annual_pension" class="form-control" id="annual_pension" >
+                            <x-input-error :messages="$errors->get('annual_pension')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">IFU</h5>
+                        <div class="form-group">
+                            <input type="text" wire:model="ifu_company" class="form-control" id="ifu_company">
+                            <x-input-error :messages="$errors->get('ifu_company')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Nombre d'employé</h5>
+                        <div class="form-group">
+                            <select wire:model="number_employed" class="form-control" id="number_employed">
+                                <option value="">Sélectionnez d'employé</option>
+                                <option value="0">0</option>
+                                <option value="15">1-5</option>
+                                <option value="510">5-10</option>
+                                <option value="10000">10+</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('number_employed')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-8">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title">Autre détails de l'entreprise</h5>
+                        <div class="form-group">
+                            <textarea wire:model="detail" id="detail" cols="30" rows="10" class="form-control" ></textarea>
+                            <x-input-error :messages="$errors->get('detail')" class="mt-2 alert alert-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </span>
+        
+
+        <!-- Code pour afficher les champs supplémentaires quant on selectionne Virement -->
+        <script>
+            const typeOperationSelect = document.getElementById("type_client");
+            const champsSupplementaires = document.getElementById("champsSupplementaires");
+
+            typeOperationSelect.addEventListener("change", function () {
+                if (typeOperationSelect.value === "pm") {
+                    champsSupplementaires.style.display = "block";
+                } else {
+                    champsSupplementaires.style.display = "none";
+                }
+            });
+        </script>
+
+
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
@@ -108,7 +288,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Numéro de la carte</h5>
                         <div class="form-group">
-                            <input type="text" wire:model="number_carte" class="form-control" id="yourBirthdate" required>
+                            <input type="text" wire:model="number_carte" class="form-control" id="number_carte" required>
                             <x-input-error :messages="$errors->get('number_carte')" class="mt-2 alert alert-danger" />
                         </div>
                     </div>

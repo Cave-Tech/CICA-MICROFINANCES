@@ -68,6 +68,20 @@ class User extends Authenticatable
         'identity_piece',
         'identity_picture',
         'proof_of_address',
+
+        'type_client',
+        'name_company',
+        'ifu_company',
+        'date_create',
+        'address_company',
+        'activity_sector',
+        'number_employed',
+        'tel_company',
+        'mail_company',
+        'capital',
+        'annual_pension',
+        'detail',
+        'post_occupation',
     ];
 
     

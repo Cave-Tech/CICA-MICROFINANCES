@@ -35,6 +35,12 @@ class CreateLoanRequestComponent extends Component
 
     public $agentSelected = false;
 
+    public $applicantType; // Personne physique ou morale
+    public $loanReason; // Motif du prêt
+    public $paymentFrequency; // Fréquence de paiement
+
+
+
 
 
     protected $rules = [
@@ -51,6 +57,9 @@ class CreateLoanRequestComponent extends Component
         'relationWarrantor' => 'required',
         'loanTerm' => 'required|numeric|min:1',
         'agentTerrain' => 'nullable|string',
+        'applicantType' => 'required|in:physique,morale',
+        'loanReason' => 'required|string',
+        'paymentFrequency' => 'required|in:daily,weekly,monthly',
     ];
 
     public function updatedName($value)
@@ -135,12 +144,16 @@ class CreateLoanRequestComponent extends Component
             'payment_frequency' => $this->loanTerm,
             'interest_rate' => $this->interestRate,
             'status' => 'in progress',
+            'applicant_type' => $this->applicantType,
+            'loan_reason' => $this->loanReason,
+            'payment_frequency' => $this->paymentFrequency,
         ]);
 
         $this->reset([
             'name', 'filteredUsers', 'selectedUserId', 'amount', 'typeloan', 'typeWarranty',
             'valueWarranty', 'detailsWarranty', 'purposeWarranty', 'nameWarrantor',
-            'numWarrantor', 'addressWarrantor', 'relationWarrantor'
+            'numWarrantor', 'addressWarrantor', 'relationWarrantor',
+            'applicantType', 'loanReason', 'paymentFrequency',
         ]);
 
         session()->flash('success', 'La demande de prêt a été enregistrée avec succès.');

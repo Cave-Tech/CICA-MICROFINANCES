@@ -94,6 +94,16 @@
                     </div>
 
                     <div class="form-group">
+                        <select class="form-select" wire:model="applicantType" id="applicantType" required>
+                            <option value="">Sélectionnez le type de demandeur</option>
+                            <option value="physique">Personne Physique</option>
+                            <option value="morale">Entreprise (Personne Morale)</option>
+                        </select>
+                        @error('applicantType') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+
+
+                    <div class="form-group">
                         <input type="text" class="form-control" wire:model.live="name" name="name"
                             placeholder="Entrez le nom" autocomplete="off">
                         <div>
@@ -126,6 +136,18 @@
                         @error('loanTerm') <span class="text-danger">{{ $message }}</span>@enderror
                     </div>
 
+                    <div class="form-group">
+                       
+                        <select class="form-select" wire:model="paymentFrequency" id="paymentFrequency" required>
+                            <option value="">Sélectionnez la fréquence de paiement</option>
+                            <option value="daily">Journalière</option>
+                            <option value="weekly">Hebdomadaire</option>
+                            <option value="monthly">Mensuelle</option>
+                        </select>
+                        @error('paymentFrequency') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+
+
                     <div class="col-md-12">
                         <select wire:model="typeloan" class="form-select" aria-label="Type d'opération" required>
                             <option>Choisissez le type de prêt</option>
@@ -134,6 +156,13 @@
                         </select>
                         @error('typeloan') <span class="text-danger">{{ $message }}</span>@enderror
                     </div><br>
+
+                    <div class="form-group">
+                        
+                        <textarea class="form-control" wire:model="loanReason" id="loanReason" rows="3" placeholder="Motif du prêt" required></textarea>
+                        @error('loanReason') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+
 
                     <!-- Informations sur la garantie -->
                     <div class="form-group">

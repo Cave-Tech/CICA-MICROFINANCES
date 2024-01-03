@@ -26,6 +26,7 @@ class RegisteredUserController extends Controller
     public $phone;
     public $marital_status;
     public $adresse;
+    public $localisation;
 
     /**
      * Display the registration view.
@@ -48,12 +49,13 @@ class RegisteredUserController extends Controller
             'gender' => ['required', 'string'],
             'birthdate' => ['required', 'date'],
             'type_card' => ['required', 'string'],
-            'number_carte' => ['required', 'string'],
+            'number_carte' => ['required', 'string', 'unique:'.User::class],
             'number_of_dependents' => ['required', 'numeric'],
             'Profession' => ['required', 'string', 'max:500'],
             'phone' => ['required', 'numeric'],
             'marital_status' => ['required', 'string'],
             'adresse' => ['required', 'string'],
+            'localisation' => ['required', 'string'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -71,6 +73,7 @@ class RegisteredUserController extends Controller
             'number_of_dependents' => $request->number_of_dependents,
             'occupation' => $request->Profession,
             'phone' =>$request->phone,
+            'localisation' =>$request->localisation,
             'marital_status' => $request->marital_status,
             'address' => $request->adresse,
             'profile_id' => 3,

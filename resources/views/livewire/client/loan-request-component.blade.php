@@ -221,7 +221,7 @@
                     <th scope="col">Type du prêt</th>
                     <th scope="col">Montant</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Teaux</th>
+                    <th scope="col">Taux</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>

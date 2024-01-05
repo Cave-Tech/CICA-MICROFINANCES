@@ -29,6 +29,13 @@ return new class extends Migration
             $table->string('repayment_interval')->nullable();
             $table->timestamps();
 
+            //Informations pour prêt groupé
+            $table->string('name_crew')->nullable();
+            $table->string('tel_crew')->nullable();
+            $table->string('address_crew')->nullable();
+            $table->string('num')->nullable();
+
+
             $table->foreign('borrower_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('agent_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('agent_terain_id')->references('id')->on('users')->onDelete('cascade');

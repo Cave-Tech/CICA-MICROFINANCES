@@ -34,7 +34,10 @@ class Loan extends Model
         'doc_files',
         'applicant_type',
         'loan_reason',
-        'repayment_interval',
+        'name_crew',
+        'tel_crew',
+        'address_crew',
+        'num_carte',
     ];
 
 
@@ -60,6 +63,11 @@ class Loan extends Model
     public function loanType()
     {
         return $this->belongsTo(LoanType::class, 'loan_type_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'loan_user_pams');
     }
 
 }

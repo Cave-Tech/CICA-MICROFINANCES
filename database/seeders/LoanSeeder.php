@@ -30,7 +30,7 @@ class LoanSeeder extends Seeder
                                     ->inRandomOrder()
                                     ->first()
                                     ->id, 
-                    'loan_type_id' => rand(1, 2),  // Pour varier entre prêt automobile et prêt immobilier
+                    'loan_type_id' => rand(1, 3),  // Pour varier entre prêt automobile, prêt immobilier et prêt groupé
                     'loan_amount' => rand(5000, 20000),  // Montant du prêt entre 5000 et 200000
                     'interest_rate' => rand(3, 7) / 100,  // Taux d'intérêt entre 3% et 7%
                     'payment_frequency' => $paymentFrequency,

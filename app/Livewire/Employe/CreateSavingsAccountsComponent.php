@@ -13,31 +13,48 @@ class CreateSavingsAccountsComponent extends Component
 
     public $balance;
     public $ifu;
-    public $identityPiece;
-    public $identityPicture;
-    public $proofOfAddress;
+    public $accountPieces;
+    public $clientType;
+    // public $identityPiece;
+    // public $identityPicture;
+    // public $proofOfAddress;
     public $name = ''; // Nom entré par l'utilisateur
     public $filteredUsers = []; // Utilisateurs filtrés
     public $selectedUserId; // ID de l'utilisateur sélectionné
-     // Cette méthode met à jour les utilisateurs filtrés à mesure que vous tapez
-     public function updatedName($value)
-     {
-         if(strlen($value) > 1) { // Commencez à filtrer après que l'utilisateur a tapé 2 caractères
-             $this->filteredUsers = User::where('name', 'like', '%' . $value . '%')
-                                        ->where('profile_id', 3)->get();
-         } else {
-             $this->filteredUsers = [];
-         }
-     }
- 
-     // Cette méthode est appelée lorsque vous sélectionnez un utilisateur des résultats filtrés
-     public function selectUser($userId)
-     {
-         $this->selectedUserId = $userId;
-         $user = User::find($userId);
-         $this->name = $user->name; // Met à jour le champ de texte avec le nom complet
-         $this->filteredUsers = []; // Efface les résultats de la recherche
-     }
+    
+
+    public function updatedName($value)
+    {
+        if (strlen($value) > 1) {
+            if($this->clientType == 'pm'){
+                $this->filteredUsers = User::where('name_company', 'like', '%' . $value . '%')
+                    ->where('profile_id', 3)
+                    ->where('type_client', 'pm')
+                    ->get(); 
+            }elseif($this->clientType == 'pp'){
+                $this->filteredUsers = User::where('name', 'like', '%' . $value . '%')
+                    ->where('profile_id', 3)
+                    ->where('type_client', 'pp')
+                    ->get();
+            }
+        } else {
+            $this->filteredUsers = [];
+        }
+    }
+
+    public function selectUser($userId)
+    {
+        $this->selectedUserId = $userId;
+        $user = User::find($userId);
+        if($this->clientType == 'pm'){
+            $this->name = $user->name_company;
+        }elseif($this->clientType == 'pp'){
+            $this->name = $user->name;
+        }
+        
+        $this->filteredUsers = [];
+    }
+
 
      public function createSavingsAccount()
     {
@@ -55,30 +72,32 @@ class CreateSavingsAccountsComponent extends Component
         Account::create([
             'user_id' => $this->selectedUserId,
             'balance' => $this->balance,
-            'ifu' => $this->ifu,
+            // 'ifu' => $this->ifu,
             'agent_id' => auth()->user()->id,
             'account_number' => $this->generateAccountNumber(),
             'account_types_id' => 2,
             'interest_rate' => 0,
             'opening_date' => now(),
             'status' => 'activated',
+            'account_pieces' => $this->accountPieces->store('account_pieces', 'public'),
+            'client_type' => $this->clientType,
         ]);
 
         // Enregistrement des fichiers joints
-        $identityPiecePath = $this->identityPiece->store('identity_piece', 'public');
-        $identityPicturePath = $this->identityPicture->store('identity_picture', 'public');
-        $proofOfAddressPath = $this->proofOfAddress->store('proof_of_address', 'public');
+        // $identityPiecePath = $this->identityPiece->store('identity_piece', 'public');
+        // $identityPicturePath = $this->identityPicture->store('identity_picture', 'public');
+        // $proofOfAddressPath = $this->proofOfAddress->store('proof_of_address', 'public');
 
-        $user = User::find($this->selectedUserId);
-        $user->identity_piece = $identityPiecePath;
-        $user->identity_picture = $identityPicturePath;
-        $user->proof_of_address = $proofOfAddressPath;
+        // $user = User::find($this->selectedUserId);
+        // $user->identity_piece = $identityPiecePath;
+        // $user->identity_picture = $identityPicturePath;
+        // $user->proof_of_address = $proofOfAddressPath;
         
-        $user->save();
+        // $user->save();
 
         // Réinitialise les champs après l'enregistrement
         $this->reset([
-            'name', 'filteredUsers', 'selectedUserId', 'balance', 'identityPiece', 'proofOfAddress', 'identityPicture', 'ifu'
+            'name', 'filteredUsers', 'selectedUserId', 'balance', 'accountPieces', 'clientType'
         ]);
 
         // Émettre un message de succès

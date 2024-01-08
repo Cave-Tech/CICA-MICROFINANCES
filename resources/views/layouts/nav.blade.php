@@ -212,11 +212,11 @@
                     </a>
                     <ul id="compte-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                        
-                        <li>
+                        <!-- <li>
                             <a href="{{ url('/current-accounts')}}">
                             <i class="bi bi-circle"></i><span>Comptes Courants</span>
                             </a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="{{ url('/savings-accounts')}}">
                             <i class="bi bi-circle"></i><span>Compte Epargnes</span>

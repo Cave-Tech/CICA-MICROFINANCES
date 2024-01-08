@@ -152,39 +152,14 @@
                                                     <!-- Afficher le document PDF pour la pièce d'identité -->
                                                     <li class="list-group-item">
                                                         <div class="row">
-                                                            <div class="col-lg-3 col-md-4 label "><strong>Pièce d'identité:</strong> </div>
-                                                            @if($detailsSavingsAccount->user->identity_piece)
-                                                                <embed src="{{ Storage::url($detailsSavingsAccount->user->identity_piece) }}" type="application/pdf" width="100%" height="600px" />
+                                                            <div class="col-lg-3 col-md-4 label "><strong>Document regoupant toute les pieces requisent</strong> </div>
+                                                            @if($detailsSavingsAccount->account_pieces)
+                                                                <embed src="{{ Storage::url($detailsSavingsAccount->account_pieces) }}" type="application/pdf" width="100%" height="600px" />
                                                             @else
                                                                 <div class="col-lg-9 col-md-8">Aucun document</div>
                                                             @endif
                                                         </div>
                                                     </li>
-
-                                                    <!-- Afficher le document PDF pour la photo d'identité -->
-                                                    <li class="list-group-item">
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-4 label "><strong>Photo d'identité:</strong> </div>
-                                                            @if($detailsSavingsAccount->user->identity_picture)
-                                                                <embed src="{{ Storage::url($detailsSavingsAccount->user->identity_picture) }}" type="application/pdf" width="100%" height="600px" />
-                                                            @else
-                                                                <div class="col-lg-9 col-md-8">Aucun document</div>
-                                                            @endif
-                                                        </div>
-                                                    </li>
-
-                                                    <!-- Afficher le document PDF pour le justificatif de domicile -->
-                                                    <li class="list-group-item">
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-4 label "><strong>Justificatif de domicile:</strong> </div>
-                                                            @if($detailsSavingsAccount->user->proof_of_address)
-                                                                <embed src="{{ Storage::url($detailsSavingsAccount->user->proof_of_address) }}" type="application/pdf" width="100%" height="600px" />
-                                                            @else
-                                                                <div class="col-lg-9 col-md-8">Aucun document</div>
-                                                            @endif
-                                                        </div>
-                                                    </li>
-
                                                 </ul>
                                             </div>
                                         </div>

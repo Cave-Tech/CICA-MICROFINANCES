@@ -19,7 +19,9 @@ class Account extends Model
         'account_types_id',
         'interest_rate',
         'opening_date',
-        'status'
+        'status',
+        'account_pieces',
+        'client_type',
     ];
 
     public function user(){

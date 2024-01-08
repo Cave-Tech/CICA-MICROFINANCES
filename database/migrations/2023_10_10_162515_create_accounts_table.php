@@ -22,6 +22,8 @@ return new class extends Migration
             $table->double('interest_rate')->nullable();
             $table->date('opening_date');
             $table->string('status');
+            $table->string('account_pieces');
+            $table->string('client_type');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

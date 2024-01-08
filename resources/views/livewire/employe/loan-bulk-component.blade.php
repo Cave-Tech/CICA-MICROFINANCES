@@ -178,7 +178,6 @@
                             <!-- ... Ajoutez d'autres champs pour la personne additionnelle ... -->
                             <button class="btn btn-primary" wire:click="addMember">Ajouer un membre</button>
                         </div>
-                        
                     @endif
 
                     <div id="tarifList" class="row">
@@ -202,6 +201,7 @@
             </div>
         </div>
     </div>
+</div>
 
     @push('scripts')
     <script>

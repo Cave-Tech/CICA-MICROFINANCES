@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('loan_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->double('payment_amount');
             $table->string('status');
             $table->string('transaction_channel');
-            $table->date('payment_date');
+            $table->date('payment_date')->nullable();
+            $table->date('expected_payment_date');
             $table->timestamps();
 
             $table->foreign('loan_id')->references('id')->on('loans')->onDelete('cascade');

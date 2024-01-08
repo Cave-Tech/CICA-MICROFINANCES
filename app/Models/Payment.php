@@ -16,6 +16,7 @@ class Payment extends Model
         'status',
         'transaction_channel',
         'payment_date',
+        'expected_payment_date',
     ];
 
 

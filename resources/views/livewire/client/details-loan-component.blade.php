@@ -109,6 +109,140 @@
 
     <div class="row">
 
+        @if(auth()->user()->profile_id != 3)
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Informations sur le demandeurs</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-2 label "><strong>{{$loan->borrower->type_client == 'pp' ? "Nom et Prenom" : "Nom de l'entreprise"}}</strong></div>
+                                    <div class="col-lg-3 col-md-4">{{ $loan->borrower->type_client == 'pp' ? $loan->borrower->name : $loan->borrower->name_company}}</div>
+                                </div>
+                            </li>
+
+                            
+                            @if($loan->borrower->type_client == 'pp')
+                            
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Situation matrimonial</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->marital_status }}</div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Profession:</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->occupation}}</div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Personne a charge:</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_of_dependents}}</div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Nombre d'employé:</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_employed}}</div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Numéro de téléphone de l'entreprise</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->activity_sector}}</div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Mail de l'entreprise:</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->mail_company}}</div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Capital de l'entreprise:</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->capital}}</div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Revenu annuelle:</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->annual_pension}}</div>
+                                    </div>
+                                </li>
+                            @elseif($loan->borrower->type_client == 'pm')
+                            
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Date de creation de l'entreprise</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->date_create ? date('j F Y', strtotime($loan->date_create)) : 'Pas encore défini' }}</div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Adresse de l'entreprise:</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->address_company}}</div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Secteur d'activite:</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->activity_sector}}</div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Nombre d'employé:</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_employed}} employés</div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Numéro de téléphone de l'entreprise</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->activity_sector}}</div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Mail de l'entreprise:</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->mail_company}}</div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Capital de l'entreprise:</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->capital}} FCFA</div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-2 label "><strong>Revenu annuelle:</strong></div>
+                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->annual_pension}} FCFA</div>
+                                    </div>
+                                </li>
+                            @endif
+
+
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         <div class="col-md-6">
             
             <div class="card">
@@ -242,13 +376,30 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-lg-5 col-md-2 label "><strong>Frequence de paiement:</strong></div>
-                                <div class="col-lg-3 col-md-4">Chaque mois</div>
+                               
+                                <div class="col-lg-3 col-md-4">
+                                    @if($loan->repayment_interval == 'daily')
+                                        Journalière
+                                    @elseif($loan->repayment_interval == 'weekly')
+                                        Hebdomadaire
+                                    @elseif($loan->repayment_interval == 'monthly')
+                                        Mensuelle
+                                    @endif
+                                </div>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col-lg-5 col-md-2 label "><strong>Montant a payer par mois:</strong></div>
-                                <div class="col-lg-3 col-md-4">{{ number_format(($loan->loan_amount * (1 + ($loan->interest_rate / 100))) / $loan->payment_frequency, 2, ',', ' ') }} FCFA</div>
+                                @if($loan->repayment_interval == 'daily')
+                                    <div class="col-lg-5 col-md-2 label "><strong>Montant a payer par jour:</strong></div>
+                                    <div class="col-lg-3 col-md-4">{{ number_format(($loan->loan_amount * (1 + ($loan->interest_rate / 100))) / ($loan->payment_frequency * 30), 2, ',', ' ') }} FCFA</div>
+                                @elseif($loan->repayment_interval == 'weekly')
+                                    <div class="col-lg-5 col-md-2 label "><strong>Montant a payer par semaine:</strong></div>
+                                    <div class="col-lg-3 col-md-4">{{ number_format(($loan->loan_amount * (1 + ($loan->interest_rate / 100))) / ($loan->payment_frequency * 4), 2, ',', ' ') }} FCFA</div>
+                                @elseif($loan->repayment_interval == 'monthly')
+                                    <div class="col-lg-5 col-md-2 label "><strong>Montant a payer par mois:</strong></div>
+                                    <div class="col-lg-3 col-md-4">{{ number_format(($loan->loan_amount * (1 + ($loan->interest_rate / 100))) / $loan->payment_frequency, 2, ',', ' ') }} FCFA</div>
+                                @endif
                             </div>
                         </li>
 

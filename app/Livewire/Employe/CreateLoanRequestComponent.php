@@ -128,10 +128,10 @@ class CreateLoanRequestComponent extends Component
     //     // $this->interestRate = 0;
     // }
 
-    public function updatedAmount()
-    {
-        $this->calculateInterestRate(); // Appel de la méthode de calcul du taux d'intérêt
-    }
+    // public function updatedAmount()
+    // {
+    //     $this->calculateInterestRate(); // Appel de la méthode de calcul du taux d'intérêt
+    // }
 
     public function createLoan()
     {

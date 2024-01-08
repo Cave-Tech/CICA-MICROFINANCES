@@ -126,13 +126,17 @@ class User extends Authenticatable
         return $this->belongsTo(EmployeeType::class);
     }
 
-
     // public function user(){
     //     return $this->belongsTo(User::class);
     // }
 
     public function useragent(){
         return $this->hasOne(User::class);
+    }
+
+    public function loans()
+    {
+        return $this->belongsToMany(Loan::class, 'loan_user_pams');
     }
 }
 

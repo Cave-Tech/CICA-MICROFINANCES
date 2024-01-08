@@ -239,6 +239,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ url('/pret-groupe')}}">
+                            <i class="bi bi-circle"></i><span>Enregistrer une demande de pret groupé</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ url('/loan-request')}}">
                             <i class="bi bi-circle"></i><span>Demandes de pret</span>
                             </a>

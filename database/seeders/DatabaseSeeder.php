@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
 
         LoanType::create(['designation' => 'pret_automobile', 'description' => 'pret court terme']);
         LoanType::create(['designation' => 'pret_immobilier', 'description' => 'pret long terme']);
+        LoanType::create(['designation' => 'pret_groupe', 'description' => 'pret de groupe']);
 
         OperationType::create(['designation' => 'depot', 'description' => 'depot']);
         OperationType::create(['designation' => 'retrait', 'description' => 'retrait']);
@@ -441,10 +442,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(UserSeeder::class);
-        // $this->call(AccountSeeder::class);
-        // $this->call(OperationSeeder::class);
-        // $this->call(LoanSeeder::class);
-        // $this->call(PaymentSeeder::class);
+        $this->call(AccountSeeder::class);
+        $this->call(OperationSeeder::class);
+        $this->call(LoanSeeder::class);
+        $this->call(PaymentSeeder::class);
 
        
          

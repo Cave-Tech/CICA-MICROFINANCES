@@ -60,6 +60,41 @@
     .closebtn:hover {
         color: black;
     }
+
+    .member-card {
+        border: 1px solid #007bff; /* Couleur de bordure */
+        border-radius: 8px; /* Coins arrondis */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation douce */
+    }
+
+    .member-card:hover {
+        transform: translateY(-5px); /* Légère élévation au survol */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée au survol */
+    }
+
+    .member-card .card-body {
+        padding: 15px; /* Espacement intérieur */
+    }
+
+    .member-card .card-title {
+        color: #007bff; /* Couleur du titre */
+        font-weight: bold; /* Gras pour le titre */
+        margin-bottom: 10px; /* Espacement sous le titre */
+    }
+
+    .member-card .card-info {
+        font-size: 0.9em; /* Taille de police pour les informations */
+        color: #333; /* Couleur de police pour les informations */
+        margin-bottom: 5px; /* Espacement entre les lignes d'information */
+    }
+
+    .member-card .delete-icon {
+        font-size: 1.5em; /* Taille de l'icône de suppression */
+        color: #d9534f; /* Couleur de l'icône de suppression */
+        cursor: pointer; /* Curseur en forme de main */
+    }
+
 </style>
     <!-- Message de succes ou d'erreur -->
     @if($message = Session::get('success'))
@@ -149,50 +184,57 @@
                         @error('loanReason') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
-                    <div class="text-center">
+                    <div style="margin-bottom: 20px;">
                         <button type="button" wire:click="toggleAdditionalForm" class="btn btn-secondary">Ajouter une personne</button>
                     </div>
 
-                    <!-- Formulaire supplémentaire -->
-                    @if($showAdditionalForm)
-                        <div class="form-group">
-                            <h3>Informations sur la personne additionnelle</h3>
-                            <!-- Ajoutez ici les champs pour la personne additionnelle -->
-                            <div class="form-group">
-                                <input type="text" class="form-control" wire:model.live="additionalName" name="additionalName"
-                                    placeholder="{{ $applicantType === 'pm' ? 'Entrez le nom de votre entreprise' : 'Entrez le nom' }}" autocomplete="off" required>
-                                <div>
-                                    @if(!empty($additionalName) && !$memberSelected)
-                                    <div class="list-group">
-                                        @foreach($filteredMembers as $member)
-                                        <a href="#" wire:click.prevent="selectMember({{ $member->id }})"
-                                            class="list-group-item list-group-item-action">
-                                            {{ $applicantType === 'pm' ? $member->name_company : $member->name }}
-                                        </a>
-                                        @endforeach
-                                    </div>
-                                    @endif
+                    <div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel" aria-hidden="true" wire:ignore.self>
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addMemberModalLabel">Ajouter un Membre</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                @error('additionalName') <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="modal-body">
+                                    <input type="text" class="form-control" wire:model.live="additionalName" placeholder="Recherchez par nom...">
+                                    <ul class="list-group mt-2">
+                                        @foreach($filteredMembers as $member)
+                                        <li class="list-group-item list-group-item-action" wire:click="selectMember({{ $member->id }})">
+                                            {{ $member->name }}
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    <button type="button" class="btn btn-primary" wire:click="addMember">Enregistrer</button>
+                                </div>
+
                             </div>
-                            <!-- ... Ajoutez d'autres champs pour la personne additionnelle ... -->
-                            <button class="btn btn-primary" wire:click="addMember">Ajouer un membre</button>
                         </div>
-                    @endif
+                    </div>
+
+
+                    <!-- Formulaire supplémentaire -->
+                   
 
                     <div id="tarifList" class="row">
                         @foreach($allMembers as $allMember)
-                            <div class="col-md-2 col-sm-4 mb-3">
-                                <div class="card border-primary">
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="card member-card">
                                     <div class="card-body">
-                                        <p class="mb-2"><strong>Nom : {{ $allMember['name'] }} </strong> </p>
-                                        <p class="mb-2"><strong>Aadresse :  {{ $allMember['address'] }} jours</strong> </p>
-                                        <a wire:click="deleteAllMember({{ $loop->index }})" class="text-danger ms-2" style="font-size: 24px;"><i class="bx bx-trash"></i></a>
+                                        <h5 class="card-title">Membre</h5>
+                                        <p class="card-info"><strong>Nom :</strong> {{ $allMember['name'] }}</p>
+                                        <p class="card-info"><strong>Adresse :</strong> {{ $allMember['address'] }}</p>
+                                        <a wire:click="deleteAllMember({{ $loop->index }})" class="delete-icon">
+                                            <i class="bx bx-trash"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
+
 
                     <div class="text-center"><br>
                         <button type="submit" class="btn btn-primary">Enregistrer</button>
@@ -214,6 +256,29 @@
         });
     </script>
     @endpush
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let modalEl = document.getElementById('addMemberModal');
+            let modal = new bootstrap.Modal(modalEl);
+
+            window.addEventListener('show-modal', (event) => {
+                
+                modal.show();
+            });
+
+            window.addEventListener('close-modal', () => {
+                modal.hide();
+            });
+
+            modalEl.addEventListener('hidden.bs.modal', () => {
+                // Cette fonction est appelée après que le modal est complètement fermé
+                window.livewire.dispatch('resetListener');
+            });
+
+        
+        });
+    </script>
 
 </main>
 

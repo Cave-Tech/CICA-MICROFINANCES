@@ -34,6 +34,7 @@ class LoanBulkComponent extends Component
     public $numWarrantor;
     public $addressWarrantor;
     public $relationWarrantor;
+
     // pas besoin
 
     public $interestRate = 2; 
@@ -50,16 +51,16 @@ class LoanBulkComponent extends Component
     public $nameCompany = ''; // Nom de la société
 
 
-    public function toggleAdditionalForm()
-    {
-        $this->showAdditionalForm = !$this->showAdditionalForm;
-    }
+
+    // public function toggleAdditionalForm()
+    // {
+    //     $this->showAdditionalForm = !$this->showAdditionalForm;
+    // }
 
 
     protected $rules = [
-        'name' => 'required',
+        'name' => 'required|string',
         'amount' => 'required|numeric|min:1',
-        'purposeWarranty' => 'required',
         'loanTerm' => 'required|numeric|min:1',
         'applicantType' => 'required|in:pp,pm,pr',
         'loanReason' => 'required|string',
@@ -111,6 +112,19 @@ class LoanBulkComponent extends Component
         $this->memberSelected = true;
     }
 
+    public function toggleAdditionalForm()
+    {
+        $this->resetModal();
+        $this->showAdditionalForm = true;
+        $this->dispatch('show-modal');
+    }
+
+    public function resetModal()
+    {
+        $this->reset(['additionalName', 'filteredMembers']);
+        $this->showAdditionalForm = false;
+    }
+
     public function addMember()
     {
         $this->validate([
@@ -131,17 +145,16 @@ class LoanBulkComponent extends Component
         //$newMember = array_push($this->allMembers, ['user_id' => $user->id, 'name'=> $user->name, 'address'=> $user->address]);
         $this->reset(['additionalName']);
 
-         // Réinitialiser les données liées à la personne supplémentaire
-        $this->additionalName = '';
-
+        
         $this->allMembers[] = $newMember;
 
-        // Ajouter le nouveau membre à la liste filtrée
-        $this->filteredMembers[] = '';
 
-        // Masquer la section du formulaire supplémentaire
-        $this->toggleAdditionalForm = false;
+    }
 
+    public function resetInputFields()
+    {
+        $this->additionalName = '';
+        $this->filteredMembers = [];
     }
 
 
@@ -175,58 +188,124 @@ class LoanBulkComponent extends Component
         // $this->calculateInterestRate(); // Appel de la méthode de calcul du taux d'intérêt
     // }
 
+    // public function createLoan()
+    // {
+    //     // Vérifier si la section du formulaire supplémentaire est affichée
+    //     if ($this->showAdditionalForm) {
+    //     // Empêcher la soumission automatique et demander à l'utilisateur d'ajouter tous les membres nécessaires
+    //     $this->addError('showAdditionalForm', 'Veuillez ajouter tous les membres nécessaires avant de soumettre.');
+    //     }else{
+    //         $this->reset(['showAdditionalForm', 'additionalName']);
+    //         $this->validate();
+
+    //         $existingLoan = Loan::where('borrower_id', $this->selectedUserId)
+    //             ->whereIn('status', ['in progress', 'pending', 'validated', 'rejected'])
+    //             ->first();
+
+    //         if ($existingLoan) {
+    //             session()->flash('fail', 'Cet utilisateur a déjà un prêt en cours ou en attente.');
+    //             return redirect()->route('employe.loan-request');
+    //         }
+
+    //         $newLoan = Loan::create([
+    //             'borrower_id' => $this->selectedUserId,
+    //             'agent_id' => Auth::user()->id,
+    //             //'agent_terain_id' => $this->selectedAgentId,
+    //             'loan_amount' => $this->amount,
+    //             'loan_type_id' => $this->typeloan,
+
+    //             'payment_frequency' => $this->loanTerm,
+    //             'interest_rate' => $this->interestRate,
+    //             'status' => 'in progress',
+    //             'applicant_type' => $this->applicantType,
+    //             'loan_reason' => $this->loanReason,
+    //             'repayment_interval' => $this->repaymentInterval,
+    //         ]);
+
+    //         // Enregistrer les tarifs
+    //         foreach ($this->allMembers as $member) {
+    //             LoanUserPams::create([
+    //                 'loan_id' => $newLoan->id,
+    //                 'user_id' => $member['user_id'],
+    //             ]);
+    //         }
+
+    //         $this->reset([
+    //             'name', 'filteredUsers', 'selectedUserId', 'amount', 'typeloan', 'typeWarranty',
+    //             'valueWarranty', 'detailsWarranty', 'purposeWarranty', 'nameWarrantor',
+    //             'numWarrantor', 'addressWarrantor', 'relationWarrantor',
+    //             'applicantType', 'loanReason', 'repaymentInterval',
+    //         ]);
+
+    //         session()->flash('success', 'La demande de prêt a été enregistrée avec succès.');
+
+    //         return redirect()->route('employe.loan-request');
+    //     }
+    // }
+
     public function createLoan()
     {
-        // Vérifier si la section du formulaire supplémentaire est affichée
-    if ($this->showAdditionalForm) {
-        // Empêcher la soumission automatique et demander à l'utilisateur d'ajouter tous les membres nécessaires
-        $this->addError('showAdditionalForm', 'Veuillez ajouter tous les membres nécessaires avant de soumettre.');
-        }else{
-            $this->reset(['showAdditionalForm', 'additionalName']);
-            $this->validate();
+       
+        
+        
+        $this->validate();
 
-            $existingLoan = Loan::where('borrower_id', $this->selectedUserId)
-                ->whereIn('status', ['in progress', 'pending', 'validated', 'rejected'])
-                ->first();
+        if (empty($this->allMembers)) {
+            session()->flash('fail', 'Veuillez ajouter au moins un membre.');
+            return;
+        }
 
-            if ($existingLoan) {
-                session()->flash('fail', 'Cet utilisateur a déjà un prêt en cours ou en attente.');
-                return redirect()->route('employe.loan-request');
-            }
 
-            $newLoan = Loan::create([
-                'borrower_id' => $this->selectedUserId,
-                'agent_id' => Auth::user()->id,
-                //'agent_terain_id' => $this->selectedAgentId,
-                'loan_amount' => $this->amount,
-                'loan_type_id' => $this->typeloan,
+        $existingLoan = Loan::where('borrower_id', $this->selectedUserId)
+                            ->whereIn('status', ['in progress', 'pending', 'validated', 'rejected'])
+                            ->first();
 
-                'payment_frequency' => $this->loanTerm,
-                'interest_rate' => $this->interestRate,
-                'status' => 'in progress',
-                'applicant_type' => $this->applicantType,
-                'loan_reason' => $this->loanReason,
-                'repayment_interval' => $this->repaymentInterval,
-            ]);
-
-            // Enregistrer les tarifs
-            foreach ($this->allMembers as $member) {
-                LoanUserPams::create([
-                    'loan_id' => $newLoan->id,
-                    'user_id' => $member['user_id'],
-                ]);
-            }
-
-            $this->reset([
-                'name', 'filteredUsers', 'selectedUserId', 'amount', 'typeloan', 'typeWarranty',
-                'valueWarranty', 'detailsWarranty', 'purposeWarranty', 'nameWarrantor',
-                'numWarrantor', 'addressWarrantor', 'relationWarrantor',
-                'applicantType', 'loanReason', 'repaymentInterval',
-            ]);
-
-            session()->flash('success', 'La demande de prêt a été enregistrée avec succès.');
-
+        if ($existingLoan) {
+            session()->flash('fail', 'Cet utilisateur a déjà un prêt en cours ou en attente.');
             return redirect()->route('employe.loan-request');
+        }
+
+        $newLoan = Loan::create([
+            'borrower_id' => $this->selectedUserId,
+            'agent_id' => Auth::user()->id,
+            'loan_amount' => $this->amount,
+            'loan_type_id' => $this->typeloan,
+            'payment_frequency' => $this->loanTerm,
+            'interest_rate' => $this->interestRate,
+            'status' => 'in progress',
+            'applicant_type' => $this->applicantType,
+            'loan_reason' => $this->loanReason,
+            'repayment_interval' => $this->repaymentInterval,
+        ]);
+
+        foreach ($this->allMembers as $member) {
+            LoanUserPams::create([
+                'loan_id' => $newLoan->id,
+                'user_id' => $member['user_id'],
+            ]);
+        }
+
+        $this->reset([
+            'name', 'filteredUsers', 'selectedUserId', 'amount', 'typeloan', 'typeWarranty',
+            'valueWarranty', 'detailsWarranty', 'purposeWarranty', 'nameWarrantor',
+            'numWarrantor', 'addressWarrantor', 'relationWarrantor',
+            'applicantType', 'loanReason', 'repaymentInterval', 'allMembers'
+        ]);
+
+        session()->flash('success', 'La demande de prêt a été enregistrée avec succès.');
+        return redirect()->route('employe.loan-request');
+    }
+
+
+    public function updatedAdditionalName()
+    {
+        if (strlen($this->additionalName) > 1) {
+            $this->filteredMembers = User::where('name', 'like', '%' . $this->additionalName . '%')
+                ->where('profile_id', 3)
+                ->where('type_client', 'pp')
+                ->get();
+        } else {
+            $this->filteredMembers = [];
         }
     }
 
@@ -234,14 +313,7 @@ class LoanBulkComponent extends Component
 
     public function render()
     {
-        if (strlen($this->additionalName) > 1) {
-           $this->filteredMembers = User::where('name', 'like', '%' . $this->additionalName . '%')
-                    ->where('profile_id', 3)
-                    ->where('type_client', 'pp')
-                    ->get();
-        } else {
-            $this->filteredMembers = [];
-        }
+        
         return view('livewire.employe.loan-bulk-component');
     }
 }

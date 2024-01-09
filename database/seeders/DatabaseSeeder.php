@@ -86,7 +86,10 @@ class DatabaseSeeder extends Seeder
             'client_since' => '2022-01-01', 
             'previous_loan_details' => null,
             'client_type' =>  'group', 
-            'average_monthly_income' => 4000 
+            'average_monthly_income' => 4000,
+            'type_client' => 'pp'
+            
+            
         ]);
 
         User::create([
@@ -130,7 +133,8 @@ class DatabaseSeeder extends Seeder
             'client_since' => '2021-05-10',
             'previous_loan_details' => null,
             'client_type' => 'individual',
-            'average_monthly_income' => 5800
+            'average_monthly_income' => 5800,
+            'type_client' => 'pp'
         ]);
 
         User::create([
@@ -174,7 +178,99 @@ class DatabaseSeeder extends Seeder
             'client_since' => '2022-01-15',
             'previous_loan_details' => null,
             'client_type' =>  'group',
-            'average_monthly_income' => 4000
+            'average_monthly_income' => 4000,
+            'type_client' => 'pp'
+        ]);
+
+        User::create([
+            'email' => 'client1@gmail.com',
+            'name' => 'Joa Do31',
+            'profile_id' => 3,
+            'password' => Hash::make('admin'),
+            'status' => 'activated',
+            // New attributes
+            'agent_id' => null,
+            'gender' => 'male',
+            'birth_date' => '1990-06-25',
+            'nationality' => 'Unknown',
+            'phone' => '2345678902',
+            'address' => '125 Main St',
+            'id_type' => 'card',
+            'id_number' => 'B23456',
+            'profile_picture' => 'default-profile-icon.png',
+            'email_verified_at' => null,
+            'employee_type_id' => null,
+            'hiring_date' => null,
+            'position' => null,
+            'department' => null,
+            'contract_type' => null,
+            'salary' => null,
+            'education_level' => 'Bachelors',
+            'specific_training' => null,
+            'certifications' => null,
+            'social_security_number' => '235-67-8901',
+            'bank_name' => 'Bank of XYZ',
+            'bank_account_number' => '23456790',
+            'emergency_contact_name' => 'John Doe',
+            'emergency_contact_relation' => 'Brother',
+            'emergency_contact_phone' => '0987654323',
+            'marital_status' => 'single',
+            'occupation' => 'Client',
+            'financial_information' => null,
+            'number_of_dependents' => 0,
+            'source_of_income' => 'Business',
+            'referral' => null,
+            'client_since' => '2022-01-15',
+            'previous_loan_details' => null,
+            'client_type' =>  'group',
+            'average_monthly_income' => 4000,
+            'type_client' => 'pp'
+        ]);
+
+
+        User::create([
+            'email' => 'client2@gmail.com',
+            'name' => 'Joa Do32',
+            'profile_id' => 3,
+            'password' => Hash::make('admin'),
+            'status' => 'activated',
+            // New attributes
+            'agent_id' => null,
+            'gender' => 'male',
+            'birth_date' => '1990-06-25',
+            'nationality' => 'Unknown',
+            'phone' => '2345678902',
+            'address' => '125 Main St',
+            'id_type' => 'card',
+            'id_number' => 'B23456',
+            'profile_picture' => 'default-profile-icon.png',
+            'email_verified_at' => null,
+            'employee_type_id' => null,
+            'hiring_date' => null,
+            'position' => null,
+            'department' => null,
+            'contract_type' => null,
+            'salary' => null,
+            'education_level' => 'Bachelors',
+            'specific_training' => null,
+            'certifications' => null,
+            'social_security_number' => '235-67-8901',
+            'bank_name' => 'Bank of XYZ',
+            'bank_account_number' => '23456790',
+            'emergency_contact_name' => 'John Doe',
+            'emergency_contact_relation' => 'Brother',
+            'emergency_contact_phone' => '0987654323',
+            'marital_status' => 'single',
+            'occupation' => 'Client',
+            'financial_information' => null,
+            'number_of_dependents' => 0,
+            'source_of_income' => 'Business',
+            'referral' => null,
+            'client_since' => '2022-01-15',
+            'previous_loan_details' => null,
+            'client_type' =>  'group',
+            'average_monthly_income' => 4000,
+            'type_client' => 'pp'
         ]);
 
         User::create([
@@ -218,7 +314,8 @@ class DatabaseSeeder extends Seeder
             'client_since' => null,
             'previous_loan_details' => null,
             'client_type' => null,
-            'average_monthly_income' => null
+            'average_monthly_income' => null,
+           
         ]);
         
         User::create([
@@ -262,7 +359,8 @@ class DatabaseSeeder extends Seeder
             'client_since' => null,
             'previous_loan_details' => null,
             'client_type' => null,
-            'average_monthly_income' => null
+            'average_monthly_income' => null,
+           
         ]);
 
         User::create([
@@ -306,7 +404,8 @@ class DatabaseSeeder extends Seeder
             'client_since' => null,
             'previous_loan_details' => null,
             'client_type' => null,
-            'average_monthly_income' => null
+            'average_monthly_income' => null,
+            
         ]);
         
         User::create([
@@ -350,7 +449,8 @@ class DatabaseSeeder extends Seeder
             'client_since' => null,
             'previous_loan_details' => null,
             'client_type' => null,
-            'average_monthly_income' => null
+            'average_monthly_income' => null,
+            
         ]);
 
         User::create([
@@ -394,7 +494,8 @@ class DatabaseSeeder extends Seeder
             'client_since' => null,
             'previous_loan_details' => null,
             'client_type' => null,
-            'average_monthly_income' => null
+            'average_monthly_income' => null,
+            
         ]);
 
         User::create([
@@ -438,14 +539,15 @@ class DatabaseSeeder extends Seeder
             'client_since' => null,
             'previous_loan_details' => null,
             'client_type' => null,
-            'average_monthly_income' => null
+            'average_monthly_income' => null,
+            
         ]);
 
         $this->call(UserSeeder::class);
-        $this->call(AccountSeeder::class);
-        $this->call(OperationSeeder::class);
-        $this->call(LoanSeeder::class);
-        $this->call(PaymentSeeder::class);
+        // $this->call(AccountSeeder::class);
+        // $this->call(OperationSeeder::class);
+        // $this->call(LoanSeeder::class);
+        // $this->call(PaymentSeeder::class);
 
        
          

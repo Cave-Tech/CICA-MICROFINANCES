@@ -158,8 +158,8 @@ class DetailsLoanComponent extends Component
         $LoanToEditdoc = Loan::find($this->id); // $this->id provient de mount car $this->id = $loanId
             if ($LoanToEditdoc) {
                 // Mets à jour les attributs de l'opération à partir des propriétés du composant
-                $LoanToEditdoc->doc_files = $this->doc_files->store('loan_documents', 'public');
-                $LoanToEditdoc->doc_files_warrantor = $this->doc_files_warrantor->store('loan_documents', 'public');
+                $tof = $LoanToEditdoc->doc_files = $this->doc_files->store('loan_documents', 'public');
+                //$LoanToEditdoc->doc_files_warrantor = $this->doc_files_warrantor->store('loan_documents', 'public');
                 
                 // Enregistre les modifications dans la base de données
                 $LoanToEditdoc->update();
@@ -186,6 +186,12 @@ class DetailsLoanComponent extends Component
 
     public function render()
     {
-        return view('livewire.client.details-loan-component');
+
+    // Récupérez un prêt groupé spécifique (remplacez le 1 par l'id du prêt que vous souhaitez récupérer)
+    $loan = Loan::with('loanUserPams.user')->find($this->id);
+
+    // Récupérez les membres associés au prêt
+    $loanMembers = $loan->loanUserPams;
+        return view('livewire.client.details-loan-component', compact('loanMembers'));
     }
 }

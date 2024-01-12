@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\LoanType;
+use App\Models\LoanUserPams;
 
 class Loan extends Model
 {
@@ -70,6 +71,11 @@ class Loan extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'loan_user_pams');
+    }
+
+    public function loanUserPams()
+    {
+        return $this->hasMany(LoanUserPams::class);
     }
 
 }

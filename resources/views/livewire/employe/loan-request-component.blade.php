@@ -62,7 +62,9 @@
                             @if ($loan->loan_type_id == 1)
                                 <span class='badge bg-success'>pret automobile</span>
                             @elseif ($loan->loan_type_id == 2)
-                                <span class='badge bg-warning'>pret immobilier</span>
+                                <span class='badge bg-success'>pret immobilier</span>
+                            @elseif ($loan->loan_type_id == 3)
+                                <span class='badge bg-success'>pret groupé</span>
                             @endif
                             
                         </td>

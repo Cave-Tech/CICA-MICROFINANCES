@@ -2,6 +2,23 @@
 
 <main id="main" class="main">
 
+    <style>
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 0.9em;
+        }
+
+    </style>
+
     <!-- Message de succes ou d'erreur -->
     @if($message = Session::get('success'))
         <div id="success-alert" class="alertt alert-success">
@@ -113,181 +130,209 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                    @if($loan->applicant_type == 'pp')
-                        <h5 class="card-title">Informations sur le demandeur</h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-2 label "><strong>Nom et Prenom : </strong></div>
-                                    <div class="col-lg-3 col-md-4">{{ $loan->borrower->name }}</div>
-                                </div>
-                            </li>
-                            
-                                <li class="list-group-item">
+                            @if($loan->applicant_type == 'pp')
+                                
+                                <ul class="list-group list-group-flush">
+                                    <h5 class="card-title">Informations sur le demandeur</h5>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Nom et Prenom : </strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->name }}</div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Situation matrimonial :</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->marital_status }}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Profession:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->occupation}}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Personne a charge:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_of_dependents}}</div>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <!-- Section des membres associés au prêt groupé -->
+                                @if($loan->loan_type_id == 3)
                                     <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Situation matrimonial :</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->marital_status }}</div>
+                                        <div class="col-lg-12">
+                                            
+                                            <h5 class="card-title">Membres Associés au Prêt Groupé</h5>
+                                            <div class="row">
+                                                @foreach($loan->loanUserPams as $loanUserPam)
+                                                    <div class="col-md-4">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">{{ $loanUserPam->user->name }}</h5>
+                                                                <p class="card-text">
+                                                                    <strong>Adresse :</strong> {{ $loanUserPam->user->address }}<br>
+                                                                    <strong>Situation matrimoniale :</strong> {{ $loanUserPam->user->marital_status }}<br>
+                                                                    <strong>Profession :</strong> {{ $loanUserPam->user->occupation }}<br>
+                                                                    <strong>Personnes à charge :</strong> {{ $loanUserPam->user->number_of_dependents }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Profession:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->occupation}}</div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Personne a charge:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_of_dependents}}</div>
-                                    </div>
-                                </li>
-                            </ul>
+                                @endif
                             @elseif($loan->applicant_type == 'pm')
-                            <ul class="list-group list-group-flush">
-                            <h5 class="card-title">Informations sur le demandeur</h5>
-                            
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-2 label "><strong>Nom et Prenom : </strong></div>
-                                    <div class="col-lg-3 col-md-4">{{ $loan->borrower->name }}</div>
-                                </div>
-                            </li>
-                            
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-2 label "><strong>Situation matrimonial :</strong></div>
-                                    <div class="col-lg-3 col-md-4">{{ $loan->borrower->marital_status }}</div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-2 label "><strong>Profession:</strong></div>
-                                    <div class="col-lg-3 col-md-4">{{ $loan->borrower->occupation}}</div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-2 label "><strong>Personne a charge:</strong></div>
-                                    <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_of_dependents}}</div>
-                                </div>
-                            </li>
+                                <ul class="list-group list-group-flush">
+                                    <h5 class="card-title">Informations sur le demandeur</h5>
+                                    
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Nom et Prenom : </strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->name }}</div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Situation matrimonial :</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->marital_status }}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Profession:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->occupation}}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Personne a charge:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_of_dependents}}</div>
+                                        </div>
+                                    </li>
 
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-2 label "><strong>Nom et Prenom : </strong></div>
-                                    <div class="col-lg-3 col-md-4">{{ $loan->borrower->name }}</div>
-                                </div>
-                            </li>
-                            
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Situation matrimonial :</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->marital_status }}</div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Profession:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->occupation}}</div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Personne a charge:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_of_dependents}}</div>
-                                    </div>
-                                </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Nom et Prenom : </strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->name }}</div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Situation matrimonial :</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->marital_status }}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Profession:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->occupation}}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Personne a charge:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_of_dependents}}</div>
+                                        </div>
+                                    </li>
 
-                                <h5 class="card-title">Informations sur l'entreprise</h5>
+                                    <h5 class="card-title">Informations sur l'entreprise</h5>
 
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Numéro de téléphone de l'entreprise :</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->activity_sector}}</div>
-                                    </div>
-                                </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Numéro de téléphone de l'entreprise :</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->activity_sector}}</div>
+                                        </div>
+                                    </li>
 
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Nombre d'employé:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_employed}}</div>
-                                    </div>
-                                </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Nombre d'employé:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_employed}}</div>
+                                        </div>
+                                    </li>
 
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Mail de l'entreprise:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->mail_company}}</div>
-                                    </div>
-                                </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Mail de l'entreprise:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->mail_company}}</div>
+                                        </div>
+                                    </li>
 
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Capital de l'entreprise:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->capital}}</div>
-                                    </div>
-                                </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Capital de l'entreprise:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->capital}}</div>
+                                        </div>
+                                    </li>
 
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Revenu annuelle:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->annual_pension}}</div>
-                                    </div>
-                                </li>
-                            
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Date de creation de l'entreprise</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->date_create ? date('j F Y', strtotime($loan->date_create)) : 'Pas encore défini' }}</div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Adresse de l'entreprise:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->address_company}}</div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Secteur d'activite:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->activity_sector}}</div>
-                                    </div>
-                                </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Revenu annuelle:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->annual_pension}}</div>
+                                        </div>
+                                    </li>
+                                
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Date de creation de l'entreprise</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->date_create ? date('j F Y', strtotime($loan->date_create)) : 'Pas encore défini' }}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Adresse de l'entreprise:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->address_company}}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Secteur d'activite:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->activity_sector}}</div>
+                                        </div>
+                                    </li>
 
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Nombre d'employé:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_employed}} employés</div>
-                                    </div>
-                                </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Nombre d'employé:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_employed}} employés</div>
+                                        </div>
+                                    </li>
 
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Numéro de téléphone de l'entreprise</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->activity_sector}}</div>
-                                    </div>
-                                </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Numéro de téléphone de l'entreprise</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->activity_sector}}</div>
+                                        </div>
+                                    </li>
 
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Mail de l'entreprise:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->mail_company}}</div>
-                                    </div>
-                                </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Mail de l'entreprise:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->mail_company}}</div>
+                                        </div>
+                                    </li>
 
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Capital de l'entreprise:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->capital}} FCFA</div>
-                                    </div>
-                                </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Capital de l'entreprise:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->capital}} FCFA</div>
+                                        </div>
+                                    </li>
 
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Revenu annuelle:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->annual_pension}} FCFA</div>
-                                    </div>
-                                </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-2 label "><strong>Revenu annuelle:</strong></div>
+                                            <div class="col-lg-3 col-md-4">{{ $loan->borrower->annual_pension}} FCFA</div>
+                                        </div>
+                                    </li>
                                 </ul>
                             @endif
                             
@@ -297,108 +342,7 @@
             </div>
         @endif
 
-        @if($loan->applicant_type == 'pm')
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                            
-                                <h5 class="card-title">Informations sur l'entreprise</h5>
-
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Numéro de téléphone de l'entreprise</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->activity_sector}}</div>
-                                    </div>
-                                </li>
-                                
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Nombre d'employé:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_employed}}</div>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Mail de l'entreprise:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->mail_company}}</div>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Capital de l'entreprise:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->capital}}</div>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Revenu annuelle:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->annual_pension}}</div>
-                                    </div>
-                                </li>
-                            
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Date de creation de l'entreprise</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->date_create ? date('j F Y', strtotime($loan->date_create)) : 'Pas encore défini' }}</div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Adresse de l'entreprise:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->address_company}}</div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Secteur d'activite:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->activity_sector}}</div>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Nombre d'employé:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->number_employed}} employés</div>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Numéro de téléphone de l'entreprise</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->activity_sector}}</div>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Mail de l'entreprise:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->mail_company}}</div>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Capital de l'entreprise:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->capital}} FCFA</div>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-2 label "><strong>Revenu annuelle:</strong></div>
-                                        <div class="col-lg-3 col-md-4">{{ $loan->borrower->annual_pension}} FCFA</div>
-                                    </div>
-                                </li>
-                            
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        @endif
-
+        
         @if($loan->loan_type_id != 3)
         <div class="col-md-6">
             <div class="card">
@@ -499,90 +443,65 @@
         @endif
 
         @if($loan->loan_type_id == 3)
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Informations du Prêt</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-lg-7 col-md-4 label "><strong>Type de Prêt:</strong> </div>
-                                <div class="col-lg-5 col-md-6">{{ $loan->loan_type_id == 1 ? 'Prêt à court terme' : ($loan->loan_type_id == 2 ? 'Prêt à long terme' : 'Prêt groupé') }}</div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-lg-7 col-md-4 label "><strong>Montant:</strong></div>
-                                <div class="col-lg-5 col-md-6">{{ number_format($loan->loan_amount) }} FCFA</div>
-                            </div>
-                        </li>
-
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-lg-7 col-md-4 label"><strong>Taux d'interet:</strong></div>
-                                <div class="col-lg-5 col-md-6">{{ $loan->interest_rate }} %</div>
-                            </div>
-                        </li>
-
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-lg-7 col-md-4 label"><strong>Montant à payer:</strong></div>
-                                <div class="col-lg-5 col-md-6">
-                                    {{ number_format($loan->loan_amount * (1 + ($loan->interest_rate / 100))) }} FCFA
-                                </div>
-                            </div>
-                        </li>
-            
-                        <li class="list-group-item"> 
-
-                            <div class="row">
-                                <div class="col-lg-7 col-md-4 label "><strong>Status:</strong></div>
-                                <div class="col-lg-5 col-md-6">
-                                    @if ($loan->status === 'validated')
-                                        <span class="badge bg-success">Valider</span>
-                                    @elseif ($loan->status === 'pending')
-                                        <span class="badge bg-warning text-dark">En attente</span>
-                                    @elseif ($loan->status === 'in progress')
-                                        <span class="badge bg-info">En cours</span>
-                                    @elseif ($loan->status === 'completed')
-                                        <span class="badge bg-success">Terminé</span> 
-                                    @elseif ($loan->status === 'rejected')
-                                        <span class="badge bg-danger">Rejeté</span>
-                                    @elseif ($loan->status === 'in payment')
-                                        <span class="badge bg-success">En cours de paiement</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Membres associés au prêt</h5>
-                    <ul class="list-group list-group-flush">
-                        <!-- ... Autres éléments ... -->
-
-                        <!-- Liste des membres associés au prêt -->
-                        <li class="list-group-item">
-                            @foreach ($loan->loanUserPams as $loanUserPam)
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Informations du Prêt</h5>
+                        <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <div class="row">
-                                    <div class="col-lg-7 col-md-4 label"><strong>Nom, Prénom et adresse :</strong></div>
+                                    <div class="col-lg-7 col-md-4 label "><strong>Type de Prêt:</strong> </div>
+                                    <div class="col-lg-5 col-md-6">{{ $loan->loan_type_id == 1 ? 'Prêt à court terme' : ($loan->loan_type_id == 2 ? 'Prêt à long terme' : 'Prêt groupé') }}</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-lg-7 col-md-4 label "><strong>Montant:</strong></div>
+                                    <div class="col-lg-5 col-md-6">{{ number_format($loan->loan_amount) }} FCFA</div>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-lg-7 col-md-4 label"><strong>Taux d'interet:</strong></div>
+                                    <div class="col-lg-5 col-md-6">{{ $loan->interest_rate }} %</div>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-lg-7 col-md-4 label"><strong>Montant à payer:</strong></div>
                                     <div class="col-lg-5 col-md-6">
-                                    {{ $loanUserPam->user->name }} - {{ $loanUserPam->user->address }}
+                                        {{ number_format($loan->loan_amount * (1 + ($loan->interest_rate / 100))) }} FCFA
                                     </div>
                                 </div>
                             </li>
-                            @endforeach
-                        </li>
-                    </ul>
+                
+                            <li class="list-group-item"> 
+
+                                <div class="row">
+                                    <div class="col-lg-7 col-md-4 label "><strong>Status:</strong></div>
+                                    <div class="col-lg-5 col-md-6">
+                                        @if ($loan->status === 'validated')
+                                            <span class="badge bg-success">Valider</span>
+                                        @elseif ($loan->status === 'pending')
+                                            <span class="badge bg-warning text-dark">En attente</span>
+                                        @elseif ($loan->status === 'in progress')
+                                            <span class="badge bg-info">En cours</span>
+                                        @elseif ($loan->status === 'completed')
+                                            <span class="badge bg-success">Terminé</span> 
+                                        @elseif ($loan->status === 'rejected')
+                                            <span class="badge bg-danger">Rejeté</span>
+                                        @elseif ($loan->status === 'in payment')
+                                            <span class="badge bg-success">En cours de paiement</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-
         @endif
 
         @if($message = Session::get('success1'))
@@ -676,8 +595,8 @@
                         <h5 class="card-title">Document justificatif </h5>
                         <div class="row">
                            
-                            @if($loan->doc_files)
-                                <embed src="{{ Storage::url($loan->doc_files) }}" type="application/pdf" width="100%" height="600px" />
+                            @if($loan->loan_pieces)
+                                <embed src="{{ Storage::url($loan->loan_pieces) }}" type="application/pdf" width="100%" height="600px" />
                             @else
                                 <div class="col-lg-9 col-md-8">Aucun document</div>
                             @endif

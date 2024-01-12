@@ -235,6 +235,22 @@
                         @endforeach
                     </div>
 
+                    <div class="col-md-12">
+                        <h5 class="text-danger"><i class="bi bi-exclamation-triangle-fill text-danger"></i> Informations !</h5>
+                        <p>
+                            Les pieces doivent etre tous regrouper en un seul document format PDF de moins de 10 Mo.
+                        </p>
+                        <!-- <ul>
+                            <li>Atteststion de residence</li>
+                            <li>Piece d'identite</li>
+                            <li>Photo d'identite</li>
+                        </ul> -->
+
+                        <input type="file" id="loanPieces" class="form-control" wire:model="loanPieces" name="loanPieces" accept="application/pdf" required>
+                        @error('loanPieces') <span class="error">{{ $message }}</span> @enderror   
+                        
+                    </div>
+
 
                     <div class="text-center"><br>
                         <button type="submit" class="btn btn-primary">Enregistrer</button>

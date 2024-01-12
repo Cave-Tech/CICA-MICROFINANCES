@@ -88,7 +88,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/pret-groupe', function () {
         return view('employe.loan-bulk');
-    })->name('employe.pret-groupe')->middleware(['employe']);
+    })->name('employe.pret-groupe')->middleware(['agent_terrain']);
     
     Route::get('/customer-list', function () {
         return view('employe.customer-list');
@@ -124,12 +124,12 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/loan-request', function () {
         return view('employe.loan-request');
-    })->name('employe.loan-request')->middleware(['charge_clientele']);
+    })->name('employe.loan-request')->middleware(['agent_terrain']);
     
     
     Route::get('/create-loan-request', function () {
         return view('employe.create-loan-request');
-    })->name('employe.create-loan-request')->middleware(['charge_clientele']);
+    })->name('employe.create-loan-request')->middleware(['agent_terrain']);
     
     
     Route::get('/create-savings-account', function () {

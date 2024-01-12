@@ -1,8 +1,8 @@
 <main id="main" class="main">
 
-<div class="pagetitle">
-  <h1>DEMANDES DE PRET </h1>
-</div><!-- End Page Title -->
+    <div class="pagetitle">
+    <h1>LISTE DES DEMANDES DE PRET </h1>
+    </div><!-- End Page Title -->
 
     <!-- Message de succes ou d'erreur -->
     @if($message = Session::get('success'))
@@ -20,28 +20,28 @@
     @endif
     <!--Fin Message de succes ou d'erreur -->
 
-<div class="card">
-  <div class="card-body"><br>
+    <div class="left-align" style="margin-bottom: 20px;">
+        <a href="{{ url('/create-loan-request')}}" type="button" class="btn btn-primary" >
+            Enregistrer un nouveau prêt
+        </a>
+    </div>
+
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
 
             <div class="card">
                 <div class="card-body">
-                <h5 class="card-title">Les prets</h5>
+                <!-- <h5 class="card-title">Les prets</h5> -->
 
                 <!-- Before your table, add this search input -->
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <input type="text" class="form-control" placeholder="Rechercher" wire:model.live="search">
-                </div>
+                </div> -->
 
-                <div class="left-align">
-                      <a href="{{ url('/create-loan-request')}}" type="button" class="btn btn-primary" >
-                          Enregistrer un nouveau prêt
-                      </a>
-                </div>
                 
-                <table class="table ">
+                
+                <table class="table datatable">
                     <thead>
                     <tr>
                         <th scope="col">Nom et Prénom</th>
@@ -124,11 +124,6 @@
         </div>
       </div>
     </section>
-  </div>
-</div>
-
-
-
 
 
 </main>

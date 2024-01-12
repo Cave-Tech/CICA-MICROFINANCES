@@ -158,6 +158,31 @@
                 </li> -->
 
                 <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#pret-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-menu-button-wide"></i><span>Gestion des Prets</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="pret-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="{{ url('/create-loan-request')}}">
+                            <i class="bi bi-circle"></i><span>Enregistrer une demande de pret</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/pret-groupe')}}">
+                            <i class="bi bi-circle"></i><span>Enregistrer une demande de pret groupé</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/loan-request')}}">
+                            <i class="bi bi-circle"></i><span>Listes des demandes de pret</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#operation-nav" data-bs-toggle="collapse" href="#">
                         <i class="bi bi-menu-button-wide"></i><span>Gestion de paiements des prêts</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
@@ -228,30 +253,7 @@
                     
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-target="#pret-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-menu-button-wide"></i><span>Gestion des Prets</span><i class="bi bi-chevron-down ms-auto"></i>
-                    </a>
-                    <ul id="pret-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                        <li>
-                            <a href="{{ url('/create-loan-request')}}">
-                            <i class="bi bi-circle"></i><span>Enregistrer une demande de pret</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('/pret-groupe')}}">
-                            <i class="bi bi-circle"></i><span>Enregistrer une demande de pret groupé</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('/loan-request')}}">
-                            <i class="bi bi-circle"></i><span>Demandes de pret</span>
-                            </a>
-                        </li>
-                    </ul>
-
-                    
-                </li>
+                
 
             @endif
 

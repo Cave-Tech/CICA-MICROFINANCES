@@ -49,6 +49,7 @@ class LoanBulkComponent extends Component
     public $repaymentInterval; // Fréquence de paiement
 
     public $nameCompany = ''; // Nom de la société
+    public $loanPieces;
 
 
 
@@ -65,6 +66,7 @@ class LoanBulkComponent extends Component
         'applicantType' => 'required|in:pp,pm,pr',
         'loanReason' => 'required|string',
         'repaymentInterval' => 'required|in:daily,weekly,monthly',
+        'loanPieces' => 'required|file|mimes:pdf|max:10240',
 
     ];
 
@@ -274,6 +276,7 @@ class LoanBulkComponent extends Component
             'applicant_type' => $this->applicantType,
             'loan_reason' => $this->loanReason,
             'repayment_interval' => $this->repaymentInterval,
+            'loan_pieces' => $this->loanPieces->store('loan_pieces', 'public'),
         ]);
 
         foreach ($this->allMembers as $member) {
@@ -287,7 +290,7 @@ class LoanBulkComponent extends Component
             'name', 'filteredUsers', 'selectedUserId', 'amount', 'typeloan', 'typeWarranty',
             'valueWarranty', 'detailsWarranty', 'purposeWarranty', 'nameWarrantor',
             'numWarrantor', 'addressWarrantor', 'relationWarrantor',
-            'applicantType', 'loanReason', 'repaymentInterval', 'allMembers'
+            'applicantType', 'loanReason', 'repaymentInterval', 'allMembers', 'loanPieces',
         ]);
 
         session()->flash('success', 'La demande de prêt a été enregistrée avec succès.');

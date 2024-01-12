@@ -38,6 +38,8 @@ class Loan extends Model
         'tel_crew',
         'address_crew',
         'num_carte',
+        'loan_pieces',
+        'repayment_interval',
     ];
 
 

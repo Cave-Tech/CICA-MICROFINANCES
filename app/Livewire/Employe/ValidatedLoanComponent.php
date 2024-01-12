@@ -41,11 +41,13 @@ class ValidatedLoanComponent extends Component
 
     private function createPaymentSchedule(Loan $loan)
     {
+        
         $totalLoanAmount = $loan->loan_amount;
         $remainingAmount = $totalLoanAmount;
         $interestRate = $loan->interest_rate;
         $frequency = $loan->repayment_interval; // daily, weekly, monthly
         $loanDurationMonths = $loan->payment_frequency;
+        
         $numberOfPayments = $this->calculateNumberOfPayments($frequency, $loanDurationMonths, $loan->loan_date);
         $startDate = $loan->loan_date;
 
@@ -71,6 +73,7 @@ class ValidatedLoanComponent extends Component
 
     private function calculateNumberOfPayments($frequency, $loanDurationMonths, $startDate)
     {
+        
         if ($frequency == 'daily') {
             return $this->calculateTotalDays($startDate, $loanDurationMonths);
         } elseif ($frequency == 'weekly') {

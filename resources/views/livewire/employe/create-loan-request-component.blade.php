@@ -225,30 +225,21 @@
                         @error('relationWarrantor') <span class="text-danger">{{ $message }}</span>@enderror
                     </div><br>
 
-                    <!-- Informations sur le témoin -->
-                    <div class="form-group">
-                        <h3>Agent de terrain chargé du client</h3>
+                    <div class="col-md-12">
+                        <h5 class="text-danger"><i class="bi bi-exclamation-triangle-fill text-danger"></i> Informations !</h5>
+                        <p>
+                            Les pieces doivent etre tous regrouper en un seul document format PDF de moins de 10 Mo.
+                        </p>
+                        <!-- <ul>
+                            <li>Atteststion de residence</li>
+                            <li>Piece d'identite</li>
+                            <li>Photo d'identite</li>
+                        </ul> -->
+
+                        <input type="file" id="loanPieces" class="form-control" wire:model="loanPieces" name="loanPieces" accept="application/pdf" required>
+                        @error('loanPieces') <span class="error">{{ $message }}</span> @enderror   
+                        
                     </div>
-
-                    <div class="form-group">
-                        <input type="text" class="form-control" wire:model.live.debounce.500ms="agentTerrain" name="agentTerrain"
-                            placeholder="Rechercher un agent" autocomplete="off">
-                            <div>
-                                @if(!empty($agentTerrain) && !$agentSelected)
-                                    <div class="list-group">
-                                        @foreach($filteredAgents as $agent)
-                                            <a href="#" wire:click.prevent="selectAgent({{ $agent->id }})"
-                                            class="list-group-item list-group-item-action">
-                                                {{ $agent->name }}
-                                            </a>
-                                        @endforeach
-                                    </div>
-                                @endif
-                            </div>
-                        @error('agentTerrain') <span class="text-danger">{{ $message }}</span>@enderror
-                    </div>
-
-
 
                     <div class="text-center"><br>
                         <button type="submit" class="btn btn-primary">Enregistrer</button>

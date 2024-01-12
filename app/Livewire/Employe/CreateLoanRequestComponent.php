@@ -31,6 +31,7 @@ class CreateLoanRequestComponent extends Component
     public $interestRate = 2; 
     public $loanTerm;
     public $agentName = '';
+    public $loanPieces;
 
     public $agentTerrain = '';
 
@@ -65,6 +66,7 @@ class CreateLoanRequestComponent extends Component
         'loanReason' => 'required|string',
         'repaymentInterval' => 'required|in:daily,weekly,monthly',
         'nameCompany' => 'required_if:applicantType,morale|string',
+        'loanPieces' => 'required|file|mimes:pdf|max:10240',
 
     ];
 
@@ -139,7 +141,7 @@ class CreateLoanRequestComponent extends Component
         $this->validate();
 
         $existingLoan = Loan::where('borrower_id', $this->selectedUserId)
-            ->whereIn('status', ['in progress', 'pending', 'validated', 'rejected'])
+            ->whereIn('status', ['in progress', 'pending', 'validated'])
             ->first();
 
         if ($existingLoan) {
@@ -154,24 +156,26 @@ class CreateLoanRequestComponent extends Component
             return redirect()->route('employe.loan-request');
         }
 
-        // Vérifier si le solde du compte est >= 10% du montant du prêt
-        $requiredBalance = $this->amount * 0.1;
-        if ($account->balance < $requiredBalance) {
-            session()->flash('fail', 'Le solde du compte de l\'emprunteur est insuffisant pour le prêt demandé.');
-            return redirect()->route('employe.loan-request');
-        }
+        // // Vérifier si le solde du compte est >= 10% du montant du prêt
+        // $requiredBalance = $this->amount * 0.1;
+        // if ($account->balance < $requiredBalance) {
+        //     session()->flash('fail', 'Le solde du compte de l\'emprunteur est insuffisant pour le prêt demandé.');
+        //     return redirect()->route('employe.loan-request');
+        // }
 
         // Vérifier l'ancienneté du compte (au moins trois mois)
-        $threeMonthsAgo = now()->subMonths(3);
-        if (new \DateTime($account->opening_date) > $threeMonthsAgo) {
-            session()->flash('fail', 'Le compte de l\'emprunteur doit avoir au moins trois mois d\'ancienneté.');
-            return redirect()->route('employe.loan-request');
-        }
+        // $threeMonthsAgo = now()->subMonths(3);
+        // if (new \DateTime($account->opening_date) > $threeMonthsAgo) {
+        //     session()->flash('fail', 'Le compte de l\'emprunteur doit avoir au moins trois mois d\'ancienneté.');
+        //     return redirect()->route('employe.loan-request');
+        // }
+
+        
 
         Loan::create([
             'borrower_id' => $this->selectedUserId,
             'agent_id' => Auth::user()->id,
-            'agent_terain_id' => $this->selectedAgentId,
+            // 'agent_terain_id' => $this->selectedAgentId,
             'loan_amount' => $this->amount,
             'loan_type_id' => $this->typeloan,
             'type_warranty' => $this->typeWarranty,
@@ -188,13 +192,15 @@ class CreateLoanRequestComponent extends Component
             'applicant_type' => $this->applicantType,
             'loan_reason' => $this->loanReason,
             'repayment_interval' => $this->repaymentInterval,
+            'loan_pieces' => $this->loanPieces->store('loan_pieces', 'public'),
+            
         ]);
 
         $this->reset([
             'name', 'filteredUsers', 'selectedUserId', 'amount', 'typeloan', 'typeWarranty',
             'valueWarranty', 'detailsWarranty', 'purposeWarranty', 'nameWarrantor',
             'numWarrantor', 'addressWarrantor', 'relationWarrantor',
-            'applicantType', 'loanReason', 'repaymentInterval',
+            'applicantType', 'loanReason', 'repaymentInterval', 'loanTerm', 'loanPieces'
         ]);
 
         session()->flash('success', 'La demande de prêt a été enregistrée avec succès.');
@@ -204,12 +210,12 @@ class CreateLoanRequestComponent extends Component
 
     public function render()
     {
-        if (strlen($this->agentTerrain) > 1) {
-            $this->filteredAgents = User::where('name', 'like', '%' . $this->agentTerrain . '%')
-                ->where('employee_type_id', 3)->get();
-        } else {
-            $this->filteredAgents = [];
-        }
+        // if (strlen($this->agentTerrain) > 1) {
+        //     $this->filteredAgents = User::where('name', 'like', '%' . $this->agentTerrain . '%')
+        //         ->where('employee_type_id', 3)->get();
+        // } else {
+        //     $this->filteredAgents = [];
+        // }
 
         return view('livewire.employe.create-loan-request-component');
     }

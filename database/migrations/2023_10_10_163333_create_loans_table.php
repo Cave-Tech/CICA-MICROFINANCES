@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('applicant_type')->nullable();
             $table->string('loan_reason')->nullable();
             $table->string('repayment_interval')->nullable();
+            $table->string('loan_pieces');
             $table->timestamps();
 
             //Informations pour prêt groupé

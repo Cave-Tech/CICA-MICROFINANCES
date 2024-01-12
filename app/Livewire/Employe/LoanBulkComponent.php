@@ -245,9 +245,7 @@ class LoanBulkComponent extends Component
 
     public function createLoan()
     {
-       
-        
-        
+
         $this->validate();
 
         if (empty($this->allMembers)) {

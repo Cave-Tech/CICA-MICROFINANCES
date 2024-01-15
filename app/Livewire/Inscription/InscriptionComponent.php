@@ -63,6 +63,11 @@ class InscriptionComponent extends Component
             'emergency_contact_name' => 'required|string',
             'emergency_contact_relation' => 'required|string',
             'emergency_contact_phone' => 'required|string',
+        ], [
+            'name.required' => 'Le nom et prénom sont obligatoire.',
+            'email.required' => 'Le mail doit être unique.',
+            'nationality.required' => 'La nationalité est obligatoire.',
+            'gender.required' => 'Le genre est obligatoire.',
         ]);
 
         $user = Auth::user();

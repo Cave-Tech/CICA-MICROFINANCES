@@ -126,7 +126,7 @@
 
     <div class="row">
 
-        @if(auth()->user()->profile_id != 3)
+        @if(auth()->user())
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">

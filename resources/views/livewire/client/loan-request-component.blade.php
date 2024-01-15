@@ -69,35 +69,52 @@
 
      
 <div class="container">
-        
-
     @if ($user->loan->where('status', 'pending')->isNotEmpty() || $user->loan->where('status', 'in progress')->isNotEmpty()
     || $user->loan->where('status', 'validated')->isNotEmpty() || $user->loan->where('status', 'in payment')->isNotEmpty())
 
         @elseif (!$user->loan->where('status', 'pending')->isNotEmpty() && $this->user->account->count() != 0)
         <!-- Pas de demande de prêt en attente -->
-        <div class="left-align">
+        <!--<div class="left-align">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loanModal">
                 Nouveau Prêt
             </button>
-        </div><br>
-
+        </div><br>-->
         <div class="card border-danger">
             <div class="card-body">
-                <h5 class="card-title text-danger"><i class="bi bi-exclamation-triangle-fill text-danger"></i> Informations sur les taux d'intérêt !</h5>
-                <p>
-                    Nous proposons les taux d'intérêt suivants en fonction du montant de votre prêt :
-                </p>
-                <ul>
-                    <li>Entre 1000 Fcfa et 100000 Fcfa : <span class="text-danger">Taux d'intérêt de 5% </span> </li>
-                    <li>Entre 100000 Fcfa et 200000 Fcfa : <span class="text-danger">Taux d'intérêt de 10%</span></li>
-                    <li>Plus de 200000 Fcfa : <span class="text-danger">Taux d'intérêt de 15%</span></li>
-                </ul>
+            <h6 class="card-title text-center text-success">
+                <i class="bi bi-exclamation-triangle-fill text-success"></i>
+                Vous êtes éligible pour faire une demande de prêt, veuillez vous rapprocher de notre agence pour faire une demande de prêt !
+                Nous proposons les taux d'intérêt suivants en fonction du montant de votre prêt :
+            </h6>
+                
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Montant du Prêt</th>
+                            <th>Taux d'Intérêt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Entre 1000 Fcfa et 100000 Fcfa</td>
+                            <td><span class="text-danger">5%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Entre 100000 Fcfa et 200000 Fcfa</td>
+                            <td><span class="text-danger">10%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Plus de 200000 Fcfa</td>
+                            <td><span class="text-danger">15%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
                 <p>
                     Ces taux sont appliqués en fonction de la plage dans laquelle se situe le montant de votre prêt.
                 </p>
             </div>
         </div>
+
         @elseif($this->user->account->count() == 0)
         <div class="alert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>

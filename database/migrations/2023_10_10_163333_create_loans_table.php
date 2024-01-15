@@ -17,17 +17,17 @@ return new class extends Migration
             $table->unsignedBigInteger('agent_id');
             $table->unsignedBigInteger('agent_terain_id')->nullable();
             $table->unsignedBigInteger('loan_type_id');
-            $table->double('loan_amount');
-            $table->double('interest_rate');
-            $table->integer('payment_frequency');
-            $table->string('status');
+            $table->double('loan_amount')->nullable();
+            $table->double('interest_rate')->nullable();
+            $table->integer('payment_frequency')->nullable();
+            $table->string('status')->nullable();
             $table->string('reject_reason')->nullable();
-            $table->date('loan_date');
-            $table->date('due_date');    
+            $table->date('loan_date')->nullable();
+            $table->date('due_date')->nullable();   
             $table->string('applicant_type')->nullable();
             $table->string('loan_reason')->nullable();
             $table->string('repayment_interval')->nullable();
-            $table->string('loan_pieces');
+            $table->string('loan_pieces')->nullable();
             $table->timestamps();
 
             //Informations pour prêt groupé

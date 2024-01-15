@@ -18,12 +18,12 @@ return new class extends Migration
             $table->unsignedBigInteger('agent_id');
             $table->unsignedBigInteger('account_types_id');
             $table->string('account_number')->unique();
-            $table->double('balance');
+            $table->double('balance')->nullable();
             $table->double('interest_rate')->nullable();
-            $table->date('opening_date');
-            $table->string('status');
-            $table->string('account_pieces');
-            $table->string('client_type');
+            $table->date('opening_date')->nullable();
+            $table->string('status')->nullable();
+            $table->string('account_pieces')->nullable();
+            $table->string('client_type')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

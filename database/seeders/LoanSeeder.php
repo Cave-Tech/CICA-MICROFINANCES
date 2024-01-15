@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\Loan;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\LoanUserPam;
+use App\Models\LoanUserPams;
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class LoanSeeder extends Seeder
 {
@@ -15,31 +17,59 @@ class LoanSeeder extends Seeder
     public function run(): void
     {
         $clientUsers = User::where('profile_id', 3)->get();
-        $statuses = ['pending', 'validated', 'rejected'];
+        $loanStatuses = ['pending', 'validated', 'rejected'];
+        $repaymentIntervals = ['daily', 'weekly', 'monthly'];
+        $loanReasons = ['Personal Expenses', 'Business Investment', 'Education', 'Home Improvement'];
 
-        foreach ($clientUsers as $client) {
-            foreach (range(1, 20) as $index) {
-                $loanDate = now();  // Date actuelle
-                $paymentFrequency = rand(1, 12);  // Fréquence de paiement entre 1 et 12 mois
-                $dueDate = $loanDate->copy()->addMonths($paymentFrequency);  // Date d'échéance après les mois de fréquence de paiement
-
-                Loan::create([
-                    'borrower_id' => $client->id,
-                    'agent_id' => User::where('employee_type_id', 2)
-                                    ->orWhere('employee_type_id', 4)
-                                    ->inRandomOrder()
-                                    ->first()
-                                    ->id, 
-                    'loan_type_id' => rand(1, 3),  // Pour varier entre prêt automobile, prêt immobilier et prêt groupé
-                    'loan_amount' => rand(5000, 20000),  // Montant du prêt entre 5000 et 200000
-                    'interest_rate' => rand(3, 7) / 100,  // Taux d'intérêt entre 3% et 7%
-                    'payment_frequency' => $paymentFrequency,
-                    'loan_date' => $loanDate,
-                    'due_date' => $dueDate,
-                    'status' => $statuses[array_rand($statuses)]// Statut aléatoire parmi 'pending', 'validated', 'rejected'
-                ]);
-            }
-            
+        // Créer des prêts individuels
+        foreach ($clientUsers->where('type_client', 'pp')->take(5) as $client) {
+            $loanType = rand(1, 2);  // Type de prêt 1 ou 2
+            $this->createLoan($client, $loanType, $loanStatuses, $repaymentIntervals, $loanReasons);
         }
+
+        // Créer un prêt groupé pour les clients suivants de type 'pp'
+        $groupLoan = $this->createLoan($clientUsers->where('type_client', 'pp')->skip(5)->first(), 3, $loanStatuses, $repaymentIntervals, $loanReasons);
+
+        // Ajouter les autres clients 'pp' au prêt groupé
+        foreach ($clientUsers->where('type_client', 'pp')->skip(6) as $groupMember) {
+            LoanUserPams::create([
+                'loan_id' => $groupLoan->id,
+                'user_id' => $groupMember->id,
+            ]);
+        }
+    }
+
+    private function createLoan($client, $loanType, $loanStatuses, $repaymentIntervals, $loanReasons)
+    {
+        $monthsBefore = rand(6, 12); // Durée avant aujourd'hui en mois
+        $loanDate = Carbon::now()->subMonths($monthsBefore);
+
+        // Calcul de la fréquence de paiement pour couvrir jusqu'au mois en cours
+        $currentMonth = Carbon::now()->month;
+        $loanEndMonth = $loanDate->month;
+        $paymentFrequency = ($currentMonth - $loanEndMonth + 12) % 12;
+        $paymentFrequency = $paymentFrequency == 0 ? 12 : $paymentFrequency; // Assurez-vous que la fréquence n'est jamais 0
+        $paymentFrequency += $monthsBefore; // Ajoutez les mois depuis le début du prêt
+
+        $dueDate = $loanDate->copy()->addMonths($paymentFrequency);
+
+        return Loan::create([
+            'borrower_id' => $client->id,
+            'agent_id' => User::where('employee_type_id', 3)
+                              ->inRandomOrder()
+                              ->first()
+                              ->id,
+            'loan_type_id' => $loanType,
+            'loan_amount' => rand(5000, 20000),
+            'interest_rate' => rand(3, 7) / 100,
+            'payment_frequency' => $paymentFrequency,
+            'loan_date' => $loanDate,
+            'due_date' => $dueDate,
+            'status' => $loanStatuses[array_rand($loanStatuses)],
+            'applicant_type' => $client->type_client, // pp ou pm
+            'repayment_interval' => $repaymentIntervals[array_rand($repaymentIntervals)],
+            'loan_reason' => $loanReasons[array_rand($loanReasons)],
+            'loan_pieces' => 'loan_piece.jpg',
+        ]);
     }
 }

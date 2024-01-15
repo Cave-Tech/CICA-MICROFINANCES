@@ -86,6 +86,11 @@ Route::middleware(['auth'])->group(function () {
         return view('employe.list-payement-component');
     })->name('list-payement')->middleware(['employe']);
 
+    Route::get('/late-payment', function () {
+        return view('employe.late-payment');
+    })->name('late-payement')->middleware(['employe']);
+
+
     Route::get('/pret-groupe', function () {
         return view('employe.loan-bulk');
     })->name('employe.pret-groupe')->middleware(['agent_terrain']);

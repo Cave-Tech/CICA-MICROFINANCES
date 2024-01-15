@@ -40,11 +40,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($todayPayments as $payment)
+                                        @forelse ($latePayments as $payment)
                                             <tr>
                                                 <td><img src="{{ asset('storage/' . $payment->loan->borrower->profile_picture) }}" alt="Photo" width="50" height="50"></td>
                                                 <td>{{ $payment->loan->borrower->name }}</td>
-                                                <td>{{ number_format($payment->loan->loan_amount * (1 + ($payment->loan->interest_rate / 100)), 2) }} FCFA</td>
+                                                <td>{{ number_format($this->totalAmount($payment->loan), 2) }} FCFA</td>
                                                 <td>{{ number_format($this->remainingAmount($payment->loan), 2) }} FCFA</td>
                                                 <td>{{ number_format($payment->payment_amount, 2) }} FCFA</td>
                                                 <td>
@@ -58,7 +58,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="6" class="text-center">Aucun paiement prévu pour aujourd'hui.</td>
+                                                <td colspan="6" class="text-center">Aucun paiement en retard pour l'instant.</td>
                                             </tr>
                                         @endforelse
                                     </tbody>

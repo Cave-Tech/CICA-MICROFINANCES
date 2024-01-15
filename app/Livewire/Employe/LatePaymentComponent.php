@@ -1,22 +1,20 @@
 <?php
 
 namespace App\Livewire\Employe;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Operation;
+
 use App\Models\Loan;
 use App\Models\Payment;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Carbon\Carbon;
 
-class PayementComponent extends Component
+class LatePaymentComponent extends Component
 {
     public $search = '';
     public $loanInProgress;
 
     public $paymentAmount;
     public $loanAmount;
-    public $todayPayments; // Paiements du jour pour l'agent connecté
+    public $latePayments; // Paiements du jour pour l'agent connecté
 
     public function remainingAmount($loan)
     {
@@ -28,81 +26,22 @@ class PayementComponent extends Component
             ->whereIn('status', ['pending', 'late'])
             ->sum('payment_amount');
 
+            
+
         return $totalPaid;
     }
 
-
-    public function render()
+    public function totalAmount($loan)
     {
+        // $totalPaid = $loan->payment->sum('payment_amount');
+        // $totalAmount = $loan->loan_amount * (1 + ($loan->interest_rate / 100));
 
-        // Récupérez la date d'aujourd'hui
-        $today = Carbon::today()->toDateString(); 
- 
+        // Calculer le total des paiements qui ne sont ni validés ni annulés (c'est-à-dire en attente ou en retard)
+        $totalAmount = $loan->payment->sum('payment_amount');
 
-        // Récupérez les paiements du jour pour l'agent connecté
-        $this->todayPayments = Payment::with(['loan.borrower', 'loan.agent', 'loan.loanType'])
-            ->whereDate('expected_payment_date', $today)
-            ->where('status', '!=', 'validated')
-            ->where('user_id', '=', Auth::user()->id)
-            ->get();
-
-        return view('livewire.employe.payement-component', [
-            'todayPayments' => $this->todayPayments
-        ]);
-
-        // Récupérez les paiements de l'agent de terrain connecté
-        // $agentPayments = Payment::with(['loan.borrower', 'loan.agent', 'loan.loanType', 'loan'])
-        //                     ->where('user_id', auth()->user()->id)
-        //                     ->get();
-
-
-        // $this->loanInProgress = Loan::with(['borrower', 'agent', 'payment', 'loanType'])
-        //     ->where('status', 'in payment')
-        //     ->where(function($query) {
-        //         $query->where('loan_amount', 'like', '%' . $this->search . '%')
-        //               ->orWhere('interest_rate', 'like', '%' . $this->search . '%')
-        //               ->orWhere('payment_frequency', 'like', '%' . $this->search . '%')
-        //               ->orWhere('loan_date', 'like', '%' . $this->search . '%')
-        //               ->orWhere('due_date', 'like', '%' . $this->search . '%')
-                      
-        //               ->orWhereHas('borrower', function($subQuery) {
-        //                   $subQuery->where('name', 'like', '%' . $this->search . '%')
-        //                            ->orWhere('email', 'like', '%' . $this->search . '%');
-        //               })
-        //               ->orWhereHas('agent', function($subQuery) {
-        //                   $subQuery->where('name', 'like', '%' . $this->search . '%')
-        //                            ->orWhere('email', 'like', '%' . $this->search . '%');
-        //               })
-        //               ->orWhereHas('loanType', function($subQuery) {
-        //                   $subQuery->where('designation', 'like', '%' . $this->search . '%');
-        //               });
-        //     })
-        //     ->get();
-        // return view('livewire.employe.payement-component', [
-        //     'loansInProgress' => $this->loanInProgress
-        // ], ['agentPayments' => $agentPayments]);
+        return $totalAmount;
     }
-    
 
-    // public function remainingAmount($loan)
-    // {
-    //     // Vérifiez si la relation payments existe
-    //     if ($loan->payment) {
-    //         $totalPayments = $loan->payment->sum('payment_amount');
-    //         $loanAmountTopay = ($loan->loan_amount * (1 + ($loan->interest_rate / 100))) - $totalPayments;
-
-    //         $this->loanAmount = $loan->loan_amount * (1 + ($loan->interest_rate / 100));
-    //         // Formater le pourcentage avec deux chiffres après la virgule
-    //         $formattedRemainingAmount = number_format($loanAmountTopay);
-
-    //         return $formattedRemainingAmount;
-    //     }
-
-    //     return '0 %';
-    // }
-
-    // Assurez-vous d'avoir la propriété suivante dans votre composant Livewire
-    
     // public function makePayment($loanId)
     // {
     //     // Récupérez le prêt associé à l'ID du prêt
@@ -205,6 +144,22 @@ class PayementComponent extends Component
         $this->paymentAmounts[$paymentId] = null;
     }
 
-    
 
+
+
+    public function render()
+    {
+        
+        // Récupérez les paiements du jour pour l'agent connecté
+        $this->latePayments = Payment::with(['loan.borrower', 'loan.agent', 'loan.loanType'])
+            ->where('status', '=', 'late')
+            ->where('user_id', '=', Auth::user()->id)
+            
+            ->get();
+
+
+        return view('livewire.employe.late-payment-component', [
+            'latePayments' => $this->latePayments
+        ]);
+    }
 }

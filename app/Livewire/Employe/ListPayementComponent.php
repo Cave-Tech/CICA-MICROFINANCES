@@ -14,8 +14,8 @@ class ListPayementComponent extends Component
     public function render()
     {
         $agentPayments = Payment::with(['loan.borrower', 'loan.agent', 'loan.loanType', 'loan'])
-        ->where('user_id', auth()->user()->id)
-        ->get();
+            ->where('user_id', auth()->user()->id)
+            ->get();
         return view('livewire.employe.list-payement-component',['agentPayments' => $agentPayments]);
     }
 }

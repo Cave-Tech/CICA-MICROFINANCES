@@ -193,6 +193,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ url('/late-payment') }}">
+                            <i class="bi bi-circle"></i><span>Paiement en retard </span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ url('/list-payement') }}">
                             <i class="bi bi-circle"></i><span>Mes paiements</span>
                             </a>

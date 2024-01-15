@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Account;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class AccountSeeder extends Seeder
 {
@@ -15,24 +15,27 @@ class AccountSeeder extends Seeder
     public function run(): void
     {
         $clientUsers = User::where('profile_id', 3)->get();
-        $statuses = ['activated', 'blocked', 'pending'];
 
         foreach ($clientUsers as $client) {
             $accountNumber = $this->generateAccountNumber();
-            
+            $clientType = $client->type_client; // 'pp' ou 'pm'
+            $openingDate = Carbon::now()->subMonths(rand(3, 12)); // Date d'ouverture entre 3 et 12 mois dans le passé
+
             Account::create([
                 'user_id' => $client->id,
-                'agent_id'=> User::where('employee_type_id', 2)
-                                    ->orWhere('employee_type_id', 5)
-                                    ->inRandomOrder()
-                                    ->first()
-                                    ->id,
-                'account_types_id' => rand(1, 2), // Pour varier entre compte courant et épargne
-                'balance' => rand(1000, 10000),  // Solde entre 1000 et 10000
-                'interest_rate' => rand(1, 5),   // Taux d'intérêt entre 1% et 5%
-                'opening_date' => now(),
-                'status' => $statuses[array_rand($statuses)],
+                'agent_id' => User::where('employee_type_id', 2)
+                                  ->orWhere('employee_type_id', 5)
+                                  ->inRandomOrder()
+                                  ->first()
+                                  ->id,
+                'account_types_id' => 2, // ID pour compte épargne
+                'balance' => rand(1000, 10000),  // Solde aléatoire entre 1000 et 10000
+                'interest_rate' => rand(1, 5),   // Taux d'intérêt aléatoire entre 1% et 5%
+                'opening_date' => $openingDate,
+                'status' => 'activated', // Compte actif par défaut
                 'account_number' => $accountNumber,
+                'client_type' => $clientType,
+                'account_pieces' => 'rien'
             ]);
         }
     }

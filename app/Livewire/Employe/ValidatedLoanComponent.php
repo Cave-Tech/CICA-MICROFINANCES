@@ -41,20 +41,30 @@ class ValidatedLoanComponent extends Component
 
     private function createPaymentSchedule(Loan $loan)
     {
-        
         $totalLoanAmount = $loan->loan_amount;
-        $remainingAmount = $totalLoanAmount;
         $interestRate = $loan->interest_rate;
         $frequency = $loan->repayment_interval; // daily, weekly, monthly
         $loanDurationMonths = $loan->payment_frequency;
-        
+
         $numberOfPayments = $this->calculateNumberOfPayments($frequency, $loanDurationMonths, $loan->loan_date);
         $startDate = $loan->loan_date;
 
+        $totalInterest = $totalLoanAmount * ($interestRate / 100);
+        $totalAmountToPay = $totalLoanAmount + $totalInterest;
+        $totalPaid = 0;
+
         for ($i = 0; $i < $numberOfPayments; $i++) {
-            $interestForThisPeriod = $remainingAmount * ($interestRate / 100 / $numberOfPayments);
-            $principalForThisPeriod = ($totalLoanAmount / $numberOfPayments);
-            $paymentAmount = $interestForThisPeriod + $principalForThisPeriod;
+            if ($i == $numberOfPayments - 1) {
+                // Pour le dernier paiement, ajustez pour correspondre au montant total
+                $paymentAmount = $totalAmountToPay - $totalPaid;
+            } else {
+                $interestForThisPeriod = $totalInterest / $numberOfPayments;
+                $principalForThisPeriod = $totalLoanAmount / $numberOfPayments;
+                $paymentAmount = $interestForThisPeriod + $principalForThisPeriod;
+
+                // Arrondissez chaque paiement pour éviter les centimes
+                $paymentAmount = round($paymentAmount, 0);
+            }
 
             $expectedPaymentDate = $this->calculateNextPaymentDate($startDate, $i, $frequency);
 
@@ -67,9 +77,10 @@ class ValidatedLoanComponent extends Component
                 // Autres champs nécessaires...
             ]);
 
-            $remainingAmount -= $principalForThisPeriod;
+            $totalPaid += $paymentAmount;
         }
     }
+
 
     private function calculateNumberOfPayments($frequency, $loanDurationMonths, $startDate)
     {

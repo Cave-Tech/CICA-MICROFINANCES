@@ -19,16 +19,22 @@
                   </tr>
                   </thead>
                   <tbody>
-                  @foreach ($agentPayments->sortByDesc('payment_date') as $agentPayment)
-                  <tr>
-                      <td><img src="{{ asset('storage/' . $agentPayment->loan->borrower->profile_picture) }}" alt="Photo de profil" width="80" height="80"></td>
-                      <!--<th scope="row">{{ $agentPayment->id }}</th>-->
-                      <td>{{ $agentPayment->loan->borrower->name }}</td>
-                      <td>{{ $agentPayment->loan->borrower->phone }}</td>
-                      <td>{{ $agentPayment->payment_amount }} FCFA</td>
-                      <td>{{ strftime('%d %B %Y', strtotime($agentPayment->payment_date)) }}</td>
-                  </tr>
-                @endforeach
+                  @forelse ($agentPayments->sortByDesc('payment_date') as $agentPayment)
+                    <tr>
+                        <td><img src="{{ asset('storage/' . $agentPayment->loan->borrower->profile_picture) }}" alt="Photo de profil" width="80" height="80"></td>
+                        <!--<th scope="row">{{ $agentPayment->id }}</th>-->
+                        <td>{{ $agentPayment->loan->borrower->name }}</td>
+                        <td>{{ $agentPayment->loan->borrower->phone }}</td>
+                        <td>{{ $agentPayment->payment_amount }} FCFA</td>
+                        <td>{{ strftime('%d %B %Y', strtotime($agentPayment->payment_date)) }}</td>
+                    </tr>
+                  
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center">Aucun paiement effectuer pour l'instant.</td>
+                        </tr>
+                    @endforelse
+
                   </tbody>
               </table>
               <!-- End Table with stripped rows -->

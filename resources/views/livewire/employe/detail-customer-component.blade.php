@@ -133,7 +133,13 @@
   
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Nombre d'employé:</div>
-                      <div class="col-lg-9 col-md-8">{{ $customer->number_employed }}</div>
+                      @if($customer->number_employed == "15")
+                      <div class="col-lg-9 col-md-8">1 à 5</div>
+                      @elseif($customer->number_employed == "510")
+                      <div class="col-lg-9 col-md-8">5 à 10</div>
+                      @elseif($customer->number_employed == "10000")
+                      <div class="col-lg-9 col-md-8"> Plus de 10</div>
+                      @endif
                     </div>
   
                     <div class="row">

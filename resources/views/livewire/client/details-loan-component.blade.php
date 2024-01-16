@@ -373,7 +373,7 @@
                             <div class="row">
                                 <div class="col-lg-7 col-md-4 label"><strong>Montant à payer:</strong></div>
                                 <div class="col-lg-5 col-md-6">
-                                    {{ number_format($loan->loan_amount * (1 + ($loan->interest_rate / 100))) }} FCFA
+                                    {{ $totalDue }} FCFA
                                 </div>
                             </div>
                         </li>
@@ -551,20 +551,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                @if($loan->repayment_interval == 'daily')
-                                    <div class="col-lg-5 col-md-2 label "><strong>Montant a payer par jour:</strong></div>
-                                    <div class="col-lg-3 col-md-4">{{ number_format(($loan->loan_amount * (1 + ($loan->interest_rate / 100))) / ($loan->payment_frequency * 30), 2, ',', ' ') }} FCFA</div>
-                                @elseif($loan->repayment_interval == 'weekly')
-                                    <div class="col-lg-5 col-md-2 label "><strong>Montant a payer par semaine:</strong></div>
-                                    <div class="col-lg-3 col-md-4">{{ number_format(($loan->loan_amount * (1 + ($loan->interest_rate / 100))) / ($loan->payment_frequency * 4), 2, ',', ' ') }} FCFA</div>
-                                @elseif($loan->repayment_interval == 'monthly')
-                                    <div class="col-lg-5 col-md-2 label "><strong>Montant a payer par mois:</strong></div>
-                                    <div class="col-lg-3 col-md-4">{{ number_format(($loan->loan_amount * (1 + ($loan->interest_rate / 100))) / $loan->payment_frequency, 2, ',', ' ') }} FCFA</div>
-                                @endif
-                            </div>
-                        </li>
+                        
 
                         
                     </ul>

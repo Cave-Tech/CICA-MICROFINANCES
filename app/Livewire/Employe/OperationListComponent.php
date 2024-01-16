@@ -27,6 +27,13 @@ class OperationListComponent extends Component
 
         // Récupérer le compte de l'utilisateur
         $userAccount = Account::where('user_id', $operation->user_id)->first();
+
+        // Vérifier si le statut du compte est bloqué
+        if ($userAccount->status == 'blocked') {
+            session()->flash('fail', "Opération impossible. Le compte est bloqué.");
+            return;
+        }
+
         $typeOperation = $operation->operation_type_id;
         $montant = $operation->withdrawal_amount;
 

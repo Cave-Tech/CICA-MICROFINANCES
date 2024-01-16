@@ -106,7 +106,7 @@ class User extends Authenticatable
     ];
 
     public function account(){
-        return $this->hasMany(Account::class, 'user_id');
+        return $this->hasOne(Account::class, 'user_id');
     }
 
     public function operation(){

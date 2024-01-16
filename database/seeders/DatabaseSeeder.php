@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        AccountType::create(['designation' => 'courant', 'description' => 'compte courant']);
+        
         AccountType::create(['designation' => 'epargne', 'description' => 'compte epargne']);
 
         Profile::create(['designation' => 'superadmin']);

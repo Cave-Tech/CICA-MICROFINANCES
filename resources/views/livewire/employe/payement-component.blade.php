@@ -33,8 +33,9 @@
                                         <tr>
                                             <th scope="col">Photo</th>
                                             <th scope="col">Nom et Prénom</th>
-                                            <th scope="col">Montant Total</th>
-                                            <th scope="col">Reste à Payer</th>
+                                             <!-- <th scope="col">Montant Total</th>
+                                            <th scope="col">Reste à Payer</th> -->
+                                            <th scope="col">Date attendu</th>
                                             <th scope="col">Montant Attendu</th>
                                             <th scope="col">Action</th>
                                         </tr>
@@ -44,13 +45,14 @@
                                             <tr>
                                                 <td><img src="{{ asset('storage/' . $payment->loan->borrower->profile_picture) }}" alt="Photo" width="50" height="50"></td>
                                                 <td>{{ $payment->loan->borrower->name }}</td>
-                                                <td>{{ number_format($payment->loan->loan_amount * (1 + ($payment->loan->interest_rate / 100)), 2) }} FCFA</td>
-                                                <td>{{ number_format($this->remainingAmount($payment->loan), 2) }} FCFA</td>
+                                                <td>{{ $payment->expected_payment_date }}</td>
+                                                <!-- <td>{{ number_format($this->totalAmount($payment->loan), 2) }} FCFA</td>
+                                                <td>{{ number_format($this->remainingAmount($payment->loan), 2) }} FCFA</td> -->
                                                 <td>{{ number_format($payment->payment_amount, 2) }} FCFA</td>
                                                 <td>
                                                     <form wire:submit.prevent="makePayment('{{ $payment->id }}')" class="d-flex align-items-center">
                                                         <div class="input-group">
-                                                            <input type="number" wire:model="paymentAmounts.{{ $payment->id }}" class="form-control" placeholder="Montant" required>
+                                                            <!-- <input type="number" wire:model="paymentAmounts.{{ $payment->id }}" class="form-control" placeholder="Montant" required> -->
                                                             <button type="submit" class="btn btn-primary">Payer</button>
                                                         </div>
                                                     </form>

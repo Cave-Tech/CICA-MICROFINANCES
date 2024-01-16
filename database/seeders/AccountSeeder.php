@@ -28,7 +28,7 @@ class AccountSeeder extends Seeder
                                   ->inRandomOrder()
                                   ->first()
                                   ->id,
-                'account_types_id' => 2, // ID pour compte épargne
+                'account_types_id' => 1, // ID pour compte épargne
                 'balance' => rand(1000, 10000),  // Solde aléatoire entre 1000 et 10000
                 'interest_rate' => rand(1, 5),   // Taux d'intérêt aléatoire entre 1% et 5%
                 'opening_date' => $openingDate,

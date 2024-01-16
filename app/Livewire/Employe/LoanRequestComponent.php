@@ -59,6 +59,7 @@ class LoanRequestComponent extends Component
                       $subQuery->where('designation', 'like', '%' . $this->search . '%');
                   });
         })
+        ->orderByDesc('created_at')
         ->get();
 
         return view('livewire.employe.loan-request-component', [

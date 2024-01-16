@@ -156,19 +156,25 @@ class CreateLoanRequestComponent extends Component
             return redirect()->route('employe.loan-request');
         }
 
-        // // Vérifier si le solde du compte est >= 10% du montant du prêt
-        // $requiredBalance = $this->amount * 0.1;
-        // if ($account->balance < $requiredBalance) {
-        //     session()->flash('fail', 'Le solde du compte de l\'emprunteur est insuffisant pour le prêt demandé.');
-        //     return redirect()->route('employe.loan-request');
-        // }
+        // Vérifier si le statut du compte est bloqué
+        if ($account->status == 'blocked') {
+            session()->flash('fail', "Opération impossible. Le compte est bloqué.");
+            return;
+        }
+
+        // Vérifier si le solde du compte est >= 10% du montant du prêt
+        $requiredBalance = $this->amount * 0.1;
+        if ($account->balance < $requiredBalance) {
+            session()->flash('fail', 'Le solde du compte de l\'emprunteur est insuffisant pour le prêt demandé.');
+            return redirect()->route('employe.loan-request');
+        }
 
         // Vérifier l'ancienneté du compte (au moins trois mois)
-        // $threeMonthsAgo = now()->subMonths(3);
-        // if (new \DateTime($account->opening_date) > $threeMonthsAgo) {
-        //     session()->flash('fail', 'Le compte de l\'emprunteur doit avoir au moins trois mois d\'ancienneté.');
-        //     return redirect()->route('employe.loan-request');
-        // }
+        $threeMonthsAgo = now()->subMonths(3);
+        if (new \DateTime($account->opening_date) > $threeMonthsAgo) {
+            session()->flash('fail', 'Le compte de l\'emprunteur doit avoir au moins trois mois d\'ancienneté.');
+            return redirect()->route('employe.loan-request');
+        }
 
         
 

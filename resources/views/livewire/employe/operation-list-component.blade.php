@@ -41,7 +41,7 @@
                         <tr>
                             <th scope="col">#Code unique</th>
                             <th scope="col">Nom et Prénom</th>
-                            <th scope="col">Email</th>
+                            <!-- <th scope="col">Email</th> -->
                             <th scope="col">Montant</th>
                             <th scope="col">Type d'opération</th>
                             <th scope="col">Status</th>
@@ -54,7 +54,7 @@
                         <tr>
                         <th scope="row">{{ $operation->transaction_key }}</th>
                             <td>{{ $operation->user->name }}</td>
-                            <td>{{ $operation->user->email }}</td>
+                            <!-- <td>{{ $operation->user->email }}</td> -->
                             <td>{{ $operation->withdrawal_amount }}</td>
                             <td>{{ $operation->operationType->designation }}</td>
 

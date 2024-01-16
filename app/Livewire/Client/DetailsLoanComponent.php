@@ -29,6 +29,7 @@ class DetailsLoanComponent extends Component
     public $name = '';
     public $filteredUsers = [];
     public $selectedAgent;
+    public $totalDue;
 
 
     protected $rules = [
@@ -60,14 +61,16 @@ class DetailsLoanComponent extends Component
         ->find($loanId);
         $this->id = $loanId;
         //dd($this->loan->agent->name);
+
+        $this->totalDue =  $this->loan->payment->sum('payment_amount');
     }
 
     public function remainingAmount($loan)
     {
         // Vérifiez si la relation payments existe
         if ($loan->payment) {
-            $totalPayments = $loan->payment->sum('payment_amount');
-            $loanAmount = $loan->loan_amount * (1 + ($loan->interest_rate / 100));
+            $totalPayments = $loan->payment->where('status', 'validated')->sum('payment_amount');
+            $loanAmount = $loan->payment->sum('payment_amount');
 
             // Calculer le pourcentage restant
             $remainingAmount = ($totalPayments / $loanAmount) * 100;

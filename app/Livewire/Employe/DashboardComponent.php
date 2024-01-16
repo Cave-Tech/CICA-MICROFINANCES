@@ -27,8 +27,8 @@ class DashboardComponent extends Component
 
         $totalSavings = Account::where('account_types_id', 1)->count();
         $totalSavingsAmount = Account::where('account_types_id', 1)->sum('balance');
-        $totalCurrents = Account::where('account_types_id', 2)->count();
-        $totalCurrentAmount = Account::where('account_types_id', 2)->sum('balance');
+        // $totalCurrents = Account::where('account_types_id', 2)->count();
+        // $totalCurrentAmount = Account::where('account_types_id', 2)->sum('balance');
 
         $totalLoans = Loan::count();
         $totalLoanAmount = Loan::sum('loan_amount');
@@ -54,8 +54,8 @@ class DashboardComponent extends Component
             'totalVirementAmount' => $totalVirementAmount,
             'totalSavings' => $totalSavings,
             'totalSavingsAmount' => $totalSavingsAmount,
-            'totalCurrents' => $totalCurrents,
-            'totalCurrentAmount' => $totalCurrentAmount,
+            // 'totalCurrents' => $totalCurrents,
+            // 'totalCurrentAmount' => $totalCurrentAmount,
 
         ]);
 

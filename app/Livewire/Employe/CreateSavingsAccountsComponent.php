@@ -75,7 +75,7 @@ class CreateSavingsAccountsComponent extends Component
             // 'ifu' => $this->ifu,
             'agent_id' => auth()->user()->id,
             'account_number' => $this->generateAccountNumber(),
-            'account_types_id' => 2,
+            'account_types_id' => 1,
             'interest_rate' => 0,
             'opening_date' => now(),
             'status' => 'activated',

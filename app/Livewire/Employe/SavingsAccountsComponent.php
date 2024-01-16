@@ -85,7 +85,7 @@ class SavingsAccountsComponent extends Component
     public function render()
     {
         $this->savingsAccounts = Account::with(['user', 'agent'])
-            ->where('account_types_id', 2)
+            ->where('account_types_id', 1)
             ->where(function($query) {
                 $query->where('account_number', 'like', '%' . $this->search . '%')
                     ->orWhereHas('user', function($nestedQuery) {

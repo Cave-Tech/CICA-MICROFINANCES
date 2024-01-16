@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Employe;
 
+use App\Models\Account;
 use Livewire\Component;
 use App\Models\Loan;
 use App\Models\User;
@@ -263,6 +264,19 @@ class LoanBulkComponent extends Component
         if ($existingLoan) {
             session()->flash('fail', 'Cet utilisateur a déjà un prêt en cours ou en attente.');
             return redirect()->route('employe.loan-request');
+        }
+
+        // Vérifier si l'emprunteur a un compte
+        $account = Account::where('user_id', $this->selectedUserId)->first();
+        if (!$account) {
+            session()->flash('fail', 'L\'emprunteur doit avoir au moins un compte.');
+            return redirect()->route('employe.loan-request');
+        }
+
+        // Vérifier si le statut du compte est bloqué
+        if ($account->status == 'blocked') {
+            session()->flash('fail', "Opération impossible. Le compte est bloqué.");
+            return;
         }
 
         $newLoan = Loan::create([

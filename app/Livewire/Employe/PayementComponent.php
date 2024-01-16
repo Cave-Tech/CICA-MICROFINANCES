@@ -160,33 +160,33 @@ class PayementComponent extends Component
     public function makePayment($paymentId)
     {
         // Assurez-vous qu'un montant de paiement a été saisi pour ce paiement spécifique
-        if (!isset($this->paymentAmounts[$paymentId]) || $this->paymentAmounts[$paymentId] < 1) {
-            session()->flash('fail', 'Montant du paiement invalide.');
-            return;
-        }
+        // if (!isset($this->paymentAmounts[$paymentId]) || $this->paymentAmounts[$paymentId] < 1) {
+        //     session()->flash('fail', 'Montant du paiement invalide.');
+        //     return;
+        // }
 
-        $paymentAmount = $this->paymentAmounts[$paymentId];
+        // $paymentAmount = $this->paymentAmounts[$paymentId];
 
         // Récupérez le paiement et le prêt associé
         $payment = Payment::find($paymentId);
         $loan = $payment->loan;
 
         // Calculer le montant restant avant le paiement
-        $remainingAmountBeforePayment = $loan->loan_amount * (1 + ($loan->interest_rate / 100)) 
-                                        - $loan->payment->where('status', 'validated')->sum('payment_amount');
+        // $remainingAmountBeforePayment = $loan->loan_amount * (1 + ($loan->interest_rate / 100)) 
+        //                                 - $loan->payment->where('status', 'validated')->sum('payment_amount');
 
         // Vérifier si le montant du paiement est valide
-        if ($paymentAmount <= $remainingAmountBeforePayment) {
+        // if ($paymentAmount <= $remainingAmountBeforePayment) {
             // Mettre à jour le paiement dans votre base de données
             $payment->update([
                 'status' => 'validated',
                 'payment_date' => now(),
-                'payment_amount' => $paymentAmount,
+                // 'payment_amount' => $paymentAmount,
             ]);
 
             // Recalculer le montant total payé après le paiement
             $totalPaidAfterPayment = $loan->payment->where('status', 'validated')->sum('payment_amount');
-            $totalAmount = $loan->loan_amount * (1 + ($loan->interest_rate / 100));
+            $totalAmount = $loan->payment->sum('payment_amount');
 
             // Vérifier si tous les paiements ont été effectués
             if ($totalPaidAfterPayment >= $totalAmount) {
@@ -196,14 +196,15 @@ class PayementComponent extends Component
 
             // Émettre un message de réussite
             session()->flash('success', 'Paiement effectué avec succès !');
-        } else {
-            // Le montant du paiement est incorrect
-            session()->flash('fail', 'Montant du paiement incorrect.');
-        }
+        // } else {
+        //     // Le montant du paiement est incorrect
+        //     session()->flash('fail', 'Montant du paiement incorrect.');
+        // }
 
         // Effacer le champ du montant du paiement après l'enregistrement
-        $this->paymentAmounts[$paymentId] = null;
+        // $this->paymentAmounts[$paymentId] = null;
     }
+
 
     
 

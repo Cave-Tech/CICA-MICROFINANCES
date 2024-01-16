@@ -41,7 +41,7 @@ class CheckLoanPayments extends Command
             // Assurez-vous que le paiement a un prêt associé et que le prêt a un emprunteur
             if ($payment->loan && $payment->loan->borrower) {
                 $borrower = $payment->loan->borrower;
-                $borrower->notify(new LoanPaymentReminder($payment));
+                // $borrower->notify(new LoanPaymentReminder($payment));
             }
         }
 
@@ -64,7 +64,7 @@ class CheckLoanPayments extends Command
             // Envoyer une notification de retard
             if ($payment->loan && $payment->loan->borrower) {
                 $borrower = $payment->loan->borrower;
-                $borrower->notify(new LoanPaymentOverdue($payment));
+                // $borrower->notify(new LoanPaymentOverdue($payment));
             }
         }
     }

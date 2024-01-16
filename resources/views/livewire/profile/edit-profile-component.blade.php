@@ -137,8 +137,14 @@
               </div>
 
               <div class="row">
-                <div class="col-lg-3 col-md-4 label">Personne en charge :</div>
-                <div class="col-lg-9 col-md-8">{{ $profile->number_of_dependents }}</div>
+                <div class="col-lg-3 col-md-4 label">Nombre d'employé:</div>
+                @if($profile->number_of_dependents == "15")
+                <div class="col-lg-9 col-md-8">1 à 5</div>
+                @elseif($profile->number_of_dependents == "510")
+                <div class="col-lg-9 col-md-8">5 à 10</div>
+                @elseif($profile->number_of_dependents == "10000")
+                <div class="col-lg-9 col-md-8"> Plus de 10</div>
+                @endif
               </div>
 
               <div class="row">
@@ -205,7 +211,13 @@
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Nombre d'employé:</div>
-                <div class="col-lg-9 col-md-8">{{ $profile->number_employed }}</div>
+                @if($profile->number_employed == "15")
+                <div class="col-lg-9 col-md-8">1 à 5</div>
+                @elseif($profile->number_employed == "510")
+                <div class="col-lg-9 col-md-8">5 à 10</div>
+                @elseif($profile->number_employed == "10000")
+                <div class="col-lg-9 col-md-8"> Plus de 10</div>
+                @endif
               </div>
 
               <div class="row">

@@ -98,7 +98,7 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <p class="small mb-0">Vous n'avez pas un compte ? <a href="{{ url ('/register')}}">Créer un compte</a></p>
+                                    <!--<p class="small mb-0">Vous n'avez pas un compte ? <a href="{{ url ('/register')}}">Créer un compte</a></p>-->
                                 </div>
                                 <div class="col-12">
                                     <p class="small mb-0">Mot de passe oublié ? <a href="{{ url ('/forgot-password')}}">Récupérer le mot de passe </a></p>

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('status');
             $table->string('transaction_channel');
             $table->date('payment_date')->nullable();
-            $table->date('expected_payment_date');
+            $table->date('expected_payment_date')->nullable();
             $table->timestamps();
 
             $table->foreign('loan_id')->references('id')->on('loans')->onDelete('cascade');

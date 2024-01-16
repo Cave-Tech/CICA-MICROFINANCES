@@ -29,6 +29,12 @@
                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Informations personnelles</button>
                 </li>
 
+                @if($customer->type_client == "pm")
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Information d'entreprise</button>
+                </li>
+                @endif
+
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#other-profile-overview">Autres Informations</button>
                 </li>
@@ -36,15 +42,13 @@
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Pret</button>
                 </li>
-
-
               </ul>
               <div class="tab-content pt-2">
 
            
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
                   <div class="pagetitle">
-                    <h1>Information sur le client</h1>
+                    <!--<h3>Information sur le client</h3>-->
                   </div>
                   
 
@@ -97,9 +101,77 @@
                   </div>
                 </div>
 
+                <div class="tab-pane fade show profile-overview"  id="profile-settings">
+                    <div class="pagetitle">
+                      <!--<h3 class="card-title">Les informations sur l'entreprise</h3>-->
+                    </div>
+  
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Nom de l'entreprise:</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->name_company }}</div>
+                    </div>
+  
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Nom de l'entreprise:</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->date_create }}</div>
+                    </div>
+  
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">IFU de l'entreprise:</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->ifu_company }}</div>
+                    </div>
+  
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Adresse de l'entreprise:</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->address_company }}</div>
+                    </div>
+  
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Secteur d'activitée:</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->activity_sector }}</div>
+                    </div>
+  
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Nombre d'employé:</div>
+                      @if($customer->number_employed == "15")
+                      <div class="col-lg-9 col-md-8">1 à 5</div>
+                      @elseif($customer->number_employed == "510")
+                      <div class="col-lg-9 col-md-8">5 à 10</div>
+                      @elseif($customer->number_employed == "10000")
+                      <div class="col-lg-9 col-md-8"> Plus de 10</div>
+                      @endif
+                    </div>
+  
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Numéro de téléphone:</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->tel_company }}</div>
+                    </div>
+  
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">E-mail de l'entreprise:</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->mail_company }}</div>
+                    </div>
+  
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Capital de l'entreprise:</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->capital }}</div>
+                    </div>
+  
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Revenu annuel de l'entreprise:</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->annual_pension }}</div>
+                    </div>
+  
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Autre détails sur l'entreprise:</div>
+                      <div class="col-lg-9 col-md-8">{{ $customer->detail }}</div>
+                    </div>
+  
+                  </div>
+
                 <div class="tab-pane fade show  profile-overview" id="other-profile-overview">
                   <div class="pagetitle">
-                    <h1>Autres Informations</h1>
+                    <!--<h1>Autres Informations</h1>-->
                   </div>
                   
 
@@ -190,16 +262,14 @@
                       </div>
                   </div> -->
 
-                  
-
-
                 </div>
 
-                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
+
+                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                  
                   <div class="pagetitle">
-                    <h1>Historique des prets</h1>
+                    <!--<h1>Historique des prets</h1>-->
                   </div>
 
                   <section class="section">
@@ -262,8 +332,6 @@
                     </div>
                   </section>
                 </div>
-
-              
 
               </div>
 

@@ -10,7 +10,8 @@ class PaiementListComponent extends Component
 
     public  $paiementLists;
     public function mount(){
-        $this->paiementLists = Payment::with('profile')->where('load_id', 4)->get();
+        //Trier par ordre décroissant
+        $this->paiementLists = Payment::with('profile')->orderBy('id', 'desc')->where('load_id', 4)->get();
     }
 
     public function render()

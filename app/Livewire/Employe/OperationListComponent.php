@@ -110,7 +110,7 @@ class OperationListComponent extends Component
 
     public function mount()
     {
-        $this->operations = Operation::with(['user', 'agent', 'operationType'])->latest()->get();
+        $this->operations = Operation::with(['user', 'agent', 'operationType'])->orderBy('id', 'desc')->latest()->get();
     }
 
 
@@ -122,6 +122,8 @@ class OperationListComponent extends Component
                                 $query->where('name', 'like', '%' . $this->search . '%')
                                       ->orWhere('email', 'like', '%' . $this->search . '%');
                             })
+                            //Trier par ordre decroissant
+                            ->orderBy('id', 'desc')
                             ->latest()
                             ->get();
      

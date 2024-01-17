@@ -15,6 +15,8 @@ class ListPayementComponent extends Component
     {
         $agentPayments = Payment::with(['loan.borrower', 'loan.agent', 'loan.loanType', 'loan'])
             ->where('user_id', auth()->user()->id)
+            //trier en ordre decroissant
+            ->orderBy('id', 'desc')
             ->get();
         return view('livewire.employe.list-payement-component',['agentPayments' => $agentPayments]);
     }

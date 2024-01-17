@@ -173,9 +173,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/validated-loan', function () {
         return view('employe.validated-loan');
     })->name('employe.validated-loan')->middleware(['agent_caisse']);
+
+    Route::get('/mes-clients', function () {
+        return view('employe.liste-create-client');
+    })->name('employe.mes-clients')->middleware(['employe']);
     
     
-    Route::get('/customer/{customerId}', DetailCustomerComponent::class)->name('customer.detail')->middleware(['directeur']);
+    Route::get('/customer/{customerId}', DetailCustomerComponent::class)->name('customer.detail')->middleware(['employe']);
     Route::get('/employe/{employeId}', DetailEmployeComponent::class)->name('employe.detail')->middleware(['directeur']);
     
 

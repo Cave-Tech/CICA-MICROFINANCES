@@ -206,12 +206,22 @@
                 </li><!-- End Components Nav -->
 
                 <li class="nav-item">
-                    <!-- Lien ou sous-menu pour les Agents de Terrain -->
-                    <a class="nav-link" href="{{ url('/create-client')}}">
-                        <i class="bi bi-person"></i>
-                        <span>Créer un clients</span>
+                    <a class="nav-link collapsed" data-bs-target="#operation2-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-menu-button-wide"></i><span>Gestion mes clients</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
-                </li>
+                    <ul id="operation2-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="{{ url('/create-client') }}">
+                            <i class="bi bi-circle"></i><span>Créer un client </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/mes-clients') }}">
+                            <i class="bi bi-circle"></i><span>Mes clients</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li><!-- End Components Nav -->
             @endif
 
             <!-- Section pour les Comptables -->

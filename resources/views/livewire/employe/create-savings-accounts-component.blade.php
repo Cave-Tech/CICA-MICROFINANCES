@@ -53,7 +53,7 @@
                                         @foreach($filteredUsers as $user)
                                         <a href="#" wire:click.prevent="selectUser({{ $user->id }})"
                                             class="list-group-item list-group-item-action">
-                                            {{ $clientType === 'pm' ? $user->name_company : $user->name }}
+                                            {{ $clientType === 'pm' ? $user->name_company : $user->name }} - Tel:{{ $clientType === 'pm' ? $user->tel_company : $user->phone }}
                                         </a>
                                         @endforeach
                                     </div>

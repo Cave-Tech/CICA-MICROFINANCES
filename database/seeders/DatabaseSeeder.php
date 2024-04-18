@@ -544,10 +544,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(UserSeeder::class);
-        $this->call(AccountSeeder::class);
-        $this->call(OperationSeeder::class);
-        $this->call(LoanSeeder::class);
-        $this->call(PaymentSeeder::class);
+        // $this->call(AccountSeeder::class);
+        // $this->call(OperationSeeder::class);
+        // $this->call(LoanSeeder::class);
+        // $this->call(PaymentSeeder::class);
 
        
          

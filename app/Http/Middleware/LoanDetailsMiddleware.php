@@ -20,7 +20,7 @@ class LoanDetailsMiddleware
             return redirect('/login');
         }
 
-        if(auth()->user()->profile->designation === 'client' || auth()->user()->employee_type_id == 4 || auth()->user()->employee_type_id == 5) {
+        if(auth()->user()->profile->designation === 'client' || auth()->user()->employee_type_id == 4 || auth()->user()->employee_type_id == 3) {
             return $next($request);
         }else{
             session()->flash('fail', 'Vous n\'etes pas autoriser à acceder à cette page');

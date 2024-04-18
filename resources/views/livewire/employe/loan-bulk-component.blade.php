@@ -146,7 +146,8 @@
                                 @foreach($filteredUsers as $user)
                                 <a href="#" wire:click.prevent="selectUser({{ $user->id }})"
                                     class="list-group-item list-group-item-action">
-                                    {{ $applicantType === 'pm' ? $user->name_company : $user->name }}
+                                    
+                                    {{ $applicantType === 'pm' ? $user->name_company : $user->name }} - Tel:{{ $applicantType === 'pm' ? $user->tel_company : $user->phone }}
                                 </a>
                                 @endforeach
                             </div>
@@ -200,7 +201,7 @@
                                     <ul class="list-group mt-2">
                                         @foreach($filteredMembers as $member)
                                         <li class="list-group-item list-group-item-action" wire:click="selectMember({{ $member->id }})">
-                                            {{ $member->name }}
+                                            {{ $member->name }} - Tel:{{ $member->phone }}
                                         </li>
                                         @endforeach
                                     </ul>

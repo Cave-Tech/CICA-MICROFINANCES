@@ -37,26 +37,25 @@
 
         <div class="col-xxl-4 col-md-6">
           <div class="card info-card revenue-card">
-            <div class="card-body">
-          
-              <h5 class="card-title">Compte <span>| Epagne</span></h5>
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-wallet-fill"></i>
-                </div>
-                <div class="ps-3">
-                <h6>{{ $user->account->balance }}</h6>
-                  <span class="text-success small pt-1 fw-bold">Solde</span> <span class="text-muted small pt-2 ps-1"></span>
-                </div>
+              <div class="card-body">
+                  <h5 class="card-title">Compte <span>| Epagne</span></h5>
+                  <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                          <i class="bi bi-wallet-fill"></i>
+                      </div>
+                      <div class="ps-3">
+                          @if(isset($user->account->balance))
+                              <h6>{{ $user->account->balance }}</h6>
+                              <span class="text-success small pt-1 fw-bold">Solde</span> 
+                              <span class="text-muted small pt-2 ps-1"></span>
+                          @else
+                              <p>Vous n'avez pas encore de compte épargne.</p>
+                          @endif
+                      </div>
+                  </div>
               </div>
-
-            
-            </div>
           </div>
-        </div>
-
-       
-
+        </div><!-- End Revenue Card -->
 
         <!-- Customers Card -->
         <div class="col-xxl-4 col-xl-12">

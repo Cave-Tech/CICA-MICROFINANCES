@@ -72,7 +72,7 @@
     @if ($user->loan->where('status', 'pending')->isNotEmpty() || $user->loan->where('status', 'in progress')->isNotEmpty()
     || $user->loan->where('status', 'validated')->isNotEmpty() || $user->loan->where('status', 'in payment')->isNotEmpty())
 
-        @elseif (!$user->loan->where('status', 'pending')->isNotEmpty() && $this->user->account->count() != 0)
+        @elseif (!$user->loan->where('status', 'pending')->isNotEmpty() && $this->user->account != NULL)
         <!-- Pas de demande de prêt en attente -->
         <!--<div class="left-align">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loanModal">
@@ -115,7 +115,7 @@
             </div>
         </div>
 
-        @elseif($this->user->account->count() == 0)
+        @elseif($this->user->account == NULL)
         <div class="alert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             Vous n'avez pas un compte ! Veuillez vous rapprocher de notre agence afin de créer un compte courant et/ou épagne pour avoir

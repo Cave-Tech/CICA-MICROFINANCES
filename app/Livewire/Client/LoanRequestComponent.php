@@ -17,6 +17,7 @@ class LoanRequestComponent extends Component
     {
         $userid = Auth::user()->id;
         $this->user = User::with('account', 'operation', 'loan')->find($userid);
+        
         $userAccountCount = User::with('account')->find($userid);
         //dd($this->user->account->count());
         return view('livewire.client.loan-request-component');

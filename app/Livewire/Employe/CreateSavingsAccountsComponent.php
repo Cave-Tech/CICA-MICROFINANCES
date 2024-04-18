@@ -59,13 +59,13 @@ class CreateSavingsAccountsComponent extends Component
      public function createSavingsAccount()
     {
         $existingAccount = Account::where('user_id', $this->selectedUserId)
-        ->where('account_types_id', 2)
+        ->where('account_types_id', 1)
         ->first();
 
         // Si un compte courant existe déjà, afficher un message d'erreur
         if ($existingAccount) {
             session()->flash('fail', 'Cet utilisateur a déjà un compte epargne.');
-            return redirect()->route('employe.current-accounts');
+            return redirect()->back();
         }
 
         // Enregistrement du compte courant
